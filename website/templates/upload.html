@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{%block title%} Home | Hamdard Library {% endblock %}
+<link rel="stylesheet" href="../static/style.css">
+{%block content%}
+
+<main>
+    <form method="POST">
+        <label for="File">
+            <input type="file" name="file" id="file">
+        </label><br>
+
+        File Title: <label for="Title">
+            <input type="text" name="title" id="title" placeholder="File Title">
+        </label><br>
+        <label for="department">
+            <select name="dept" id="dept" required>
+                <option value="SEST">SEST</option>
+                <option value="HIMSER">HIMSER</option>
+                <option value="SUMER">SUMER</option>
+            </select>
+        </label><br>
+    </form>
+</main>
+
+{%endblock%}
