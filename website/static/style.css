@@ -1,0 +1,49 @@
+/* Reset some basic elements */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar styling */
+.navbar {
+    background-color: #00910c;
+    padding: 10px 20px;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Navbar links styling */
+.navbar-links {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar-links li {
+    display: inline;
+}
+
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.navbar-links a:hover {
+    background-color: #575757;
+    border-radius: 5px;
+}
+
+/* Logo styling */
+.navbar-logo img {
+    height: 40px;
+}
