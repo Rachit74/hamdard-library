@@ -11,7 +11,7 @@ body {
 
 /* Navbar styling */
 .navbar {
-    background-color: #333;
+    background-color: #cacaca;
     padding: 10px 20px;
 }
 
@@ -33,13 +33,14 @@ body {
 }
 
 .navbar-links a {
-    color: white;
+    color: rgb(0, 0, 0);
     text-decoration: none;
     padding: 10px;
 }
 
 .navbar-links a:hover {
-    background-color: #575757;
+    background-color: #008616;
+    color: white;
     border-radius: 5px;
 }
 
@@ -51,8 +52,8 @@ body {
 /* Dropdown button styling */
 .navbar-toggle {
     display: none;
-    background-color: #333;
-    color: white;
+    background-color: #cacaca;
+    color: #008616;
     border: none;
     font-size: 24px;
     cursor: pointer;
