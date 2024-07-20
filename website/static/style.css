@@ -11,7 +11,7 @@ body {
 
 /* Navbar styling */
 .navbar {
-    background-color: #00910c;
+    background-color: #333;
     padding: 10px 20px;
 }
 
@@ -46,4 +46,45 @@ body {
 /* Logo styling */
 .navbar-logo img {
     height: 40px;
+}
+
+/* Dropdown button styling */
+.navbar-toggle {
+    display: none;
+    background-color: #333;
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+    .navbar-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-links {
+        flex-direction: column;
+        display: none;
+        width: 100%;
+    }
+
+    .navbar-links.show {
+        display: flex;
+    }
+
+    .navbar-links li {
+        width: 100%;
+        text-align: left;
+    }
+
+    .navbar-toggle {
+        display: block;
+    }
+
+    .navbar-logo {
+        display: none;
+    }
 }
