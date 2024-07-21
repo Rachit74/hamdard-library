@@ -5,22 +5,32 @@
 {%block content%}
 
 <main>
-    <form method="POST">
-        <label for="File">
-            <input type="file" name="file" id="file">
-        </label><br>
-
-        File Title: <label for="Title">
-            <input type="text" name="title" id="title" placeholder="File Title">
-        </label><br>
-        <label for="department">
-            <select name="dept" id="dept" required>
-                <option value="SEST">SEST</option>
-                <option value="HIMSER">HIMSER</option>
-                <option value="SUMER">SUMER</option>
-            </select>
-        </label><br>
-    </form>
+    <br>
+    <div class="form-container">
+        <form method="POST">
+            <label for="file">File:
+                <input type="file" name="file" id="file">
+            </label>
+            <label for="title">File Title:
+                <input type="text" name="title" id="title" placeholder="File Title">
+            </label>
+            <label for="dept">Department:
+                <select name="dept" id="dept" required>
+                    <option value="SEST">SEST</option>
+                    <option value="HIMSER">HIMSER</option>
+                    <option value="SUMER">SUMER</option>
+                    <option value="SCLS">SCLS</option>
+                    <option value="SPER">SPER</option>
+                    <option value="SNSAH">SNSAH</option>
+                    <option value="SIST">SIST</option>
+                    <option value="SMBS">SMBS</option>
+                    <option value="SHSS">SHSS</option>
+                    <option value="LAW">School of Law</option>
+                </select>
+            </label>
+            <button type="submit">Upload</button>
+        </form>
+    </div>
 </main>
 
 {%endblock%}
