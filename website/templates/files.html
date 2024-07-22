@@ -5,8 +5,12 @@
 {%block content%}
 
 <div class="container">
-    <h1>Uploaded Files for {{ department.upper() }}</h1>
+    <div class="intro-div">
+        <h1>Uploaded Files for {{ department.upper() }}</h1>
+    </div>
+    <br>
     <div class="card-container">
+        {% if files %}
         {% for file in files %}
         <div class="card">
             <h2>{{ file.file_name }}</h2>
@@ -14,6 +18,9 @@
             <a href="{{ url_for('static', filename='uploads/' ~ file.file_path) }}" download>Download</a>
         </div>
         {% endfor %}
+        {% else %}
+        <h3>NO FILE</h3>
+        {% endif %}
 </div>
 
 {%endblock%}
