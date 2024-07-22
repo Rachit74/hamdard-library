@@ -1,10 +1,13 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from os import path
+from os import path,makedirs
+import os
+from os.path import join, dirname, realpath
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
-UPLOAD_FOLDER = './static/uploads'
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+UPLOAD_FOLDER = join(dirname(realpath(__file__)), 'static/uploads')
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 def create_app():
@@ -14,6 +17,14 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{DB_NAME}"
     db.init_app(app)
 
+
+    '''
+    checks if the /static/upload folder exists, if not then creates one
+    solved my issue of "file not found" when uploading
+    '''
+    if not path.exists(UPLOAD_FOLDER):
+        makedirs(UPLOAD_FOLDER)
+    
     from .views import views
 
     app.register_blueprint(views, url_prefix='/')
