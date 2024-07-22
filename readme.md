@@ -6,3 +6,7 @@ Anyone can contribute to the project, the goal is to keep the website as simple 
 
 ### Future Works
 User authentication system and search file system will be added in future.
+
+### Running on local computer
+Before you run on your local computer create `uploads` folder in `/website/static/`
+also download flask, flask_sqlalchemy before running `main.py`
