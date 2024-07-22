@@ -130,7 +130,7 @@ body {
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 480px) {
+/* @media (max-width: 480px) {
     .lnks {
         padding: 10px;
     }
@@ -139,7 +139,7 @@ body {
         padding: 8px 12px;
         font-size: 14px;
     }
-}
+} */
 
 .form-container {
     background-color: #fff;
@@ -307,4 +307,28 @@ body, html {
     .card {
         width: 90%;
     }
+}
+
+.lnks-simple {
+    list-style-type: none;
+    margin: auto;
+    width: 50%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.lnks-simple li {
+    display: block;
+}
+
+.lnks-simple a {
+    color: #008616; /* Green color for the links */
+    text-decoration: none;
+}
+
+.lnks-simple a:hover {
+    text-decoration: underline; /* Underline on hover for better visibility */
 }

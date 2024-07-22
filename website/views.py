@@ -32,5 +32,9 @@ def upload():
 
 @views.route('/departments')
 def departments():
-    files = File.query.all()
-    return render_template('departments.html', files=files)
+    return render_template('departments.html')
+
+@views.route('/departments/<department>')
+def department(department):
+    files = File.query.filter_by(dept=department.upper()).all()
+    return render_template('files.html', files=files, department=department)
