@@ -22,6 +22,18 @@
             </div>
         </div>
     </nav>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+                <div class="flash-message" id="flashMessage">
+                    <span class="close-btn" onclick="closeFlashMessage()">&times;</span>
+                    {{ message }}
+                </div>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 
     {%block content%} {%endblock%}
 

@@ -191,3 +191,77 @@ body {
 .form-container button:hover {
     background-color: #45a049;
 }
+
+/* Style for the flash message */
+.flash-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #17f717; /* Red background color */
+    color: rgb(0, 0, 0);
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+}
+
+/* Style for the close button */
+.close-btn {
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 15px;
+    color: white;
+    border: none;
+    background: none;
+}
+
+.close-btn:hover {
+    color: #ccc; /* Change color on hover */
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+}
+
+.card h2 {
+    margin: 0 0 10px;
+    font-size: 1.2em;
+}
+
+.card p {
+    margin: 0 0 10px;
+}
+
+.card a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.card a:hover {
+    background-color: #0056b3;
+}
+
+.container {
+    padding: 20px;
+}

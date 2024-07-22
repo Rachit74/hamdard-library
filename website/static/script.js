@@ -6,3 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
         navbarLinks.classList.toggle('show');
     });
 });
+
+function closeFlashMessage() {
+    var flashMessage = document.getElementById('flashMessage');
+    flashMessage.style.display = 'none';
+}

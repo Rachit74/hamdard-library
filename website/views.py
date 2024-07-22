@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, send_from_directory, redirect, url_for
+from flask import Blueprint, render_template, request, send_from_directory, redirect, url_for, flash
 from werkzeug.utils import secure_filename
 import os
 from . import UPLOAD_FOLDER
@@ -26,5 +26,11 @@ def upload():
             new_file = File(file_name=title, file_path=filename, dept=dept)
             db.session.add(new_file)
             db.session.commit()
+            flash("File Uploaded!")
             return redirect(url_for('views.home'))  # Changed 'index' to 'views.home'
     return render_template('upload.html')
+
+@views.route('/departments')
+def departments():
+    files = File.query.all()
+    return render_template('departments.html', files=files)
