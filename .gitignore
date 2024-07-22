@@ -1,3 +1,4 @@
 cred.json
 /website/__pycache__
 /instance
+/website/static/uploads
