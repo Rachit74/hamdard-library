@@ -88,7 +88,7 @@ def file_approve(file_id):
     else:
         flash("File Not Found")
     
-    return redirect(url_for('admin.file_requests'))
+    return redirect(url_for('admin_.file_requests'))
 
 @login_required
 @admin_.route('/logout')

@@ -34,10 +34,11 @@
         {% if messages %}
             <ul class=flashes>
             {% for message in messages %}
-                <div class="flash-message" id="flashMessage">
-                    <span class="close-btn" onclick="closeFlashMessage()">&times;</span>
-                    {{ message }}
-                </div>
+                <div class="flash-messages">
+                        <div class="flash-message">
+                            <span class="close-btn" onclick="closeFlashMessage(this)">&times;</span>
+                            {{ message }}
+                        </div>
             {% endfor %}
             </ul>
         {% endif %}
