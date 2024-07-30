@@ -4,6 +4,7 @@ from os import path,makedirs
 import os
 from os.path import join, dirname, realpath
 from .key import key
+from flask_login import LoginManager
 
 # from flask_migrate import Migrate
 
@@ -30,10 +31,21 @@ def create_app():
         makedirs(UPLOAD_FOLDER)
     
     from .views import views
+    from .views import admin_
 
     app.register_blueprint(views, url_prefix='/')
+    app.register_blueprint(admin_, url_prefix='/admin/')
 
     create_database(app)
+
+    login_manager = LoginManager()
+    login_manager.login_view = "admin_.login"
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(id):
+        from .models import User
+        return User.query.get(int(id))
 
     return app
 

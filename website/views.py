@@ -3,9 +3,11 @@ from werkzeug.utils import secure_filename
 import os
 from . import UPLOAD_FOLDER
 from . import db
-from .models import File
+from .models import File, User
+from flask_login import login_required,login_user,current_user,logout_user,login_manager
 
 views = Blueprint('views', __name__)
+admin_ = Blueprint('admin_', __name__)
 
 @views.route('/')
 def home():
@@ -39,12 +41,41 @@ def department(department):
     files = File.query.filter_by(dept=department.upper()).all()
     return render_template('files.html', files=files, department=department)
 
-@views.route('/requests')
+
+
+#admin routes
+
+@admin_.route('/login', methods=["POST","GET"])
+def login():
+    if request.method == "POST":
+        email = request.form['email']
+        password = request.form['password']
+
+        user = User.query.filter_by(email=email).first()
+
+        if user.password == password:
+            login_user(user,remember=True)
+            flash("Logged in!")
+            return redirect(url_for('admin_.file_requests'))
+        else:
+            flash("Wrong Password")
+
+    return render_template('login.html')
+
+@login_required
+@admin_.route('/')
+def admin():
+        return redirect(url_for('admin_.file_requests'))
+
+# file request functions
+@login_required
+@admin_.route('/requests')
 def file_requests():
     files=File.query.all()
     return render_template('request.html', files=files)
 
-@views.route('/file_approve/<int:file_id>')
+@login_required
+@admin_.route('/file_approve/<int:file_id>')
 def file_approve(file_id):
     file = File.query.get(file_id)
 
@@ -56,4 +87,11 @@ def file_approve(file_id):
     else:
         flash("File Not Found")
     
-    return redirect(url_for('views.file_requests'))
+    return redirect(url_for('admin.file_requests'))
+
+@login_required
+@admin_.route('/logout')
+def logout():
+    login_user(current_user)
+    flash("Admin Logged Out!")
+    return redirect(url_for('admin_.login'))

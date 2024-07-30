@@ -4,7 +4,21 @@ class User(db.Model):
     id = db.Column(db.Integer(),primary_key=True)
     username = db.Column(db.String(100))
     password = db.Column(db.String(50))
+    email = db.Column(db.String(200))
     user_admin = db.Column(db.Boolean(), default=False)
+
+        # Flask-Login requires these methods
+    def get_id(self):
+        return str(self.id)
+
+    def is_active(self):
+        return True  # Change this as needed based on your user status
+
+    def is_authenticated(self):
+        return True
+
+    def is_anonymous(self):
+        return False
 
 class File(db.Model):
     id = db.Column(db.Integer(),primary_key=True)
