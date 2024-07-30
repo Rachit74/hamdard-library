@@ -5,6 +5,8 @@ import os
 from os.path import join, dirname, realpath
 from .key import key
 
+# from flask_migrate import Migrate
+
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
