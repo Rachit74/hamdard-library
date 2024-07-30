@@ -43,9 +43,10 @@ def department(department):
     return render_template('files.html', files=files, department=department)
 
 
+                       #   ADMIN ROUTES   #
+# --------------------------------------------------------------------------------------------#
 
-#admin routes
-
+# login route
 @admin_.route('/login', methods=["POST","GET"])
 def login():
     if request.method == "POST":
@@ -63,33 +64,7 @@ def login():
 
     return render_template('login.html')
 
-@login_required
-@admin_.route('/')
-def admin():
-        return redirect(url_for('admin_.file_requests'))
-
-# file request functions
-@login_required
-@admin_.route('/requests')
-def file_requests():
-    files=File.query.all()
-    return render_template('request.html', files=files)
-
-@login_required
-@admin_.route('/file_approve/<int:file_id>')
-def file_approve(file_id):
-    file = File.query.get(file_id)
-
-    if file:
-        file.file_status = True
-
-        db.session.commit()
-        flash("File Approved")
-    else:
-        flash("File Not Found")
-    
-    return redirect(url_for('admin_.file_requests'))
-
+# admin logout route
 @login_required
 @admin_.route('/logout')
 def logout():
@@ -97,6 +72,14 @@ def logout():
     flash("Admin Logged Out!")
     return redirect(url_for('views.home'))
 
+# basic admin route which just redirects to files approval requests (later will add admin dashboard)
+@login_required
+@admin_.route('/')
+def admin():
+        return redirect(url_for('admin_.file_requests'))
+
+#admin signup route (used to create more admins)
+# Only a currently logged in admin can create more admins
 @login_required
 @admin_.route('/signup', methods=["POST","GET"])
 def signup():
@@ -129,15 +112,43 @@ def signup():
 
     return render_template("signup.html")
 
-#admin dashbaord
+# file request functions
 @login_required
-@admin_.route('/admin_dashboard')
-def admin_dashboard():
-    if not current_user.user_admin:
-        flash("You do not have access")
-    
-    return render_template("dashboard.html")
+@admin_.route('/requests')
+def file_requests():
+    files=File.query.all()
+    return render_template('request.html', files=files)
 
+#file approve route (file id is passed into the route from the template)
+# changes the status of the file to approved
+@login_required
+@admin_.route('/file_approve/<int:file_id>')
+def file_approve(file_id):
+    file = File.query.get(file_id)
+
+    if file:
+        file.file_status = True
+
+        db.session.commit()
+        flash("File Approved")
+    else:
+        flash("File Not Found")
+    
+    return redirect(url_for('admin_.file_requests'))
+
+#admin dashbaord
+# @login_required
+# @admin_.route('/admin_dashboard')
+# def admin_dashboard():
+#     if not current_user.user_admin:
+#         flash("You do not have access")
+    
+#     return render_template("dashboard.html")
+
+#Admin dashboard might be implemented in future
+
+
+#delete file functions (gets the file id as form html template)
 @login_required
 @admin_.route('/delete_file/<int:file_id>')
 def delete_file(file_id):
