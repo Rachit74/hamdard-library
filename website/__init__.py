@@ -1,10 +1,11 @@
-from flask import Flask
+from flask import Flask, redirect,url_for
 from flask_sqlalchemy import SQLAlchemy
 from os import path,makedirs
 import os
 from os.path import join, dirname, realpath
 from .key import key
-from flask_login import LoginManager
+from flask_login import LoginManager,current_user,login_manager
+from functools import wraps
 
 # from flask_migrate import Migrate
 

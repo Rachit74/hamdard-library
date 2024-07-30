@@ -42,7 +42,6 @@ def department(department):
     files = File.query.filter_by(dept=department.upper()).all()
     return render_template('files.html', files=files, department=department)
 
-
                        #   ADMIN ROUTES   #
 # --------------------------------------------------------------------------------------------#
 
@@ -76,6 +75,9 @@ def logout():
 @login_required
 @admin_.route('/')
 def admin():
+        if not current_user.is_authenticated:
+            flash("You do not have the permissions!")
+            return redirect(url_for('views.home'))
         return redirect(url_for('admin_.file_requests'))
 
 #admin signup route (used to create more admins)
@@ -83,7 +85,7 @@ def admin():
 @login_required
 @admin_.route('/signup', methods=["POST","GET"])
 def signup():
-    if not current_user.user_admin:
+    if not current_user.is_authenticated:
             flash("You do not have the permissions!")
             return redirect(url_for('views.home'))
 
@@ -116,6 +118,9 @@ def signup():
 @login_required
 @admin_.route('/requests')
 def file_requests():
+    if not current_user.is_authenticated:
+            flash("You do not have the permissions!")
+            return redirect(url_for('views.home'))
     files=File.query.all()
     return render_template('request.html', files=files)
 
@@ -124,6 +129,9 @@ def file_requests():
 @login_required
 @admin_.route('/file_approve/<int:file_id>')
 def file_approve(file_id):
+    if not current_user.is_authenticated:
+            flash("You do not have the permissions!")
+            return redirect(url_for('views.home'))
     file = File.query.get(file_id)
 
     if file:
@@ -152,6 +160,9 @@ def file_approve(file_id):
 @login_required
 @admin_.route('/delete_file/<int:file_id>')
 def delete_file(file_id):
+    if not current_user.is_authenticated:
+            flash("You do not have the permissions!")
+            return redirect(url_for('views.home'))
     file = File.query.get(file_id)
 
     if file:
