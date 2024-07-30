@@ -12,19 +12,23 @@
     <br>
     <div class="card-container">
         {% if files %}
-        {% for file in files %}
-        {% if file.file_status == False %}
-        <div class="card">
-            <h2>{{ file.file_name }}</h2>
-            <p>Department: {{ file.dept }}</p>
-            <a href="{{ url_for('static', filename='uploads/' ~ file.file_path) }}" download>Download</a><br>
-            <a href="/file_approve/{{ file.id }}">Approve</a>
-        </div>
-        {% endif %}
-        {% endfor %}
+            {% for file in files %}
+                {% if file.file_status == False %}
+                    <div class="file-container">
+                        <div class="file-details">
+                            <span>{{ file.id }}. {{ file.file_name }}, Department: {{ file.dept }}</span>
+                            <div>
+                                <a href="{{ url_for('static', filename='uploads/' ~ file.file_path) }}" download class="download-link">Download</a>
+                                <a href="{{ url_for('admin_.file_approve', file_id=file.id) }}" class="approve-link">Approve</a>
+                                <a href="#" class="delete-link">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
         {% else %}
-        <br>
-        <h3>No file uploaded, <a href="/upload">upload something</a>!</h3>
+            <br>
+            <h3>No file uploaded, <a href="/upload">upload something</a>!</h3>
         {% endif %}
 </div>
 

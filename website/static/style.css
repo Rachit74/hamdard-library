@@ -332,3 +332,36 @@ body, html {
 .lnks-simple a:hover {
     text-decoration: underline; /* Underline on hover for better visibility */
 }
+
+.file-container {
+    margin-bottom: 20px; /* Space between file entries */
+}
+
+/* Style the file details container */
+.file-details {
+    display: flex;
+    align-items: center; /* Vertically center items */
+    justify-content: space-between; /* Distribute space between items */
+    border-bottom: 1px solid #ddd; /* Light gray border for separation */
+    padding: 10px 0; /* Padding around the file details */
+}
+
+/* Style for the Approve link */
+.approve-link {
+    color: green; /* Green color for the Approve link */
+    text-decoration: none; /* Remove underline */
+    margin-left: 10px; /* Space between file details and link */
+}
+
+/* Style for the Delete link */
+.delete-link {
+    color: red; /* Red color for the Delete link */
+    text-decoration: none; /* Remove underline */
+    margin-left: 10px; /* Space between file details and link */
+}
+
+.download-link {
+    color: rgb(0, 125, 209);
+    text-decoration: none;
+    margin-left: 10px;
+}

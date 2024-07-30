@@ -128,3 +128,12 @@ def signup():
         return redirect(url_for('admin_.file_requests'))
 
     return render_template("signup.html")
+
+#admin dashbaord
+@login_required
+@admin_.route('/admin_dashboard')
+def admin_dashboard():
+    if not current_user.user_admin:
+        flash("You do not have access")
+    
+    return render_template("dashboard.html")
