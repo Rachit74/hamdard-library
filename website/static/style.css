@@ -320,6 +320,12 @@ body, html {
 .card a:hover {
     background-color: #008616;
 }
+.card .delete-btn{
+    background-color: rgb(201, 0, 0);
+}
+.card .delete-btn:hover {
+    background-color: rgb(161, 0, 0);
+}
 
 /* Responsive design for smaller screens */
 @media (max-width: 768px) {

@@ -20,7 +20,7 @@
                             <div>
                                 <a href="{{ url_for('static', filename='uploads/' ~ file.file_path) }}" download class="download-link">Download</a>
                                 <a href="{{ url_for('admin_.file_approve', file_id=file.id) }}" class="approve-link">Approve</a>
-                                <a href="#" class="delete-link">Delete</a>
+                                <a href="{{ url_for('admin_.delete_file', file_id=file.id) }}" class="delete-link">Delete</a>
                             </div>
                         </div>
                     </div>

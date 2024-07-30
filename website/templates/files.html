@@ -17,6 +17,9 @@
             <h2>{{ file.file_name }}</h2>
             <p>Department: {{ file.dept }}</p>
             <a href="{{ url_for('static', filename='uploads/' ~ file.file_path) }}" download>Download</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('admin_.delete_file', file_id=file.id) }}" class="delete-btn">Delete</a>
+            {% endif %}
         </div>
         {% endif %}
         {% endfor %}

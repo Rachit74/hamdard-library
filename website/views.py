@@ -137,3 +137,26 @@ def admin_dashboard():
         flash("You do not have access")
     
     return render_template("dashboard.html")
+
+@login_required
+@admin_.route('/delete_file/<int:file_id>')
+def delete_file(file_id):
+    file = File.query.get(file_id)
+
+    if file:
+        # Construct the file path
+        file_path = os.path.join(UPLOAD_FOLDER, file.file_path)
+
+        # Delete the file record from the database
+        db.session.delete(file)
+        db.session.commit()
+
+    # Remove the file from the file system
+    if os.path.isfile(file_path):
+        os.remove(file_path)
+
+        flash("File successfully deleted!")
+    else:
+        flash("File not found!")
+
+    return redirect(url_for('admin_.file_requests'))
