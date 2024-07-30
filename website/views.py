@@ -38,3 +38,22 @@ def departments():
 def department(department):
     files = File.query.filter_by(dept=department.upper()).all()
     return render_template('files.html', files=files, department=department)
+
+@views.route('/requests')
+def file_requests():
+    files=File.query.all()
+    return render_template('request.html', files=files)
+
+@views.route('/file_approve/<int:file_id>')
+def file_approve(file_id):
+    file = File.query.get(file_id)
+
+    if file:
+        file.file_status = True
+
+        db.session.commit()
+        flash("File Approved")
+    else:
+        flash("File Not Found")
+    
+    return redirect(url_for('views.file_requests'))
