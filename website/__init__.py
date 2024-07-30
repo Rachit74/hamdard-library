@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path,makedirs
 import os
 from os.path import join, dirname, realpath
+from .key import key
+
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
@@ -12,7 +14,7 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'qwe123'
+    app.config['SECRET_KEY'] = key
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{DB_NAME}"
     db.init_app(app)

@@ -3,3 +3,4 @@ cred.json
 /instance
 /website/static/uploads
 /venv
+website/key.txt
