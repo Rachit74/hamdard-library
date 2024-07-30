@@ -14,4 +14,4 @@ Search File System and Individual Users Accounts
 ### Running on local computer
 Before you run on your local computer create `uploads` folder in `/website/static/`
 Create `key.txt` file in `/website` folder and store your secret key there in "strings"
-also download flask, flask_sqlalchemy before running `main.py`
+also download flask, flask_sqlalchemy, flask_login, flask_migrate before running `main.py`
