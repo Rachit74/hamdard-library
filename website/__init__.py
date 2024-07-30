@@ -34,7 +34,7 @@ def create_app():
     from .views import admin_
 
     app.register_blueprint(views, url_prefix='/')
-    app.register_blueprint(admin_, url_prefix='/admin/')
+    app.register_blueprint(admin_, url_prefix='/admin')
 
     create_database(app)
 

@@ -5,6 +5,7 @@ from . import UPLOAD_FOLDER
 from . import db
 from .models import File, User
 from flask_login import login_required,login_user,current_user,logout_user,login_manager
+from werkzeug.security import generate_password_hash
 
 views = Blueprint('views', __name__)
 admin_ = Blueprint('admin_', __name__)
@@ -92,6 +93,38 @@ def file_approve(file_id):
 @login_required
 @admin_.route('/logout')
 def logout():
-    login_user(current_user)
+    logout_user()
     flash("Admin Logged Out!")
-    return redirect(url_for('admin_.login'))
+    return redirect(url_for('views.home'))
+
+@login_required
+@admin_.route('/signup', methods=["POST","GET"])
+def signup():
+    if not current_user.user_admin:
+            flash("You do not have the permissions!")
+            return redirect(url_for('views.home'))
+
+    if request.method == "POST":
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        if not username or not email or not password:
+            flash("All fields are required.")
+            return redirect(url_for('admin_.signup'))
+
+        # Check if the user already exists
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            flash("User with this email already exists.")
+            return redirect(url_for('admin_.signup'))
+
+        # Create and add new admin user
+        password_hash = generate_password_hash(password)
+        user = User(username=username, email=email, password=password_hash, user_admin=True)
+        db.session.add(user)
+        db.session.commit()
+        flash("New Admin Account Created!")
+        return redirect(url_for('admin_.file_requests'))
+
+    return render_template("signup.html")
