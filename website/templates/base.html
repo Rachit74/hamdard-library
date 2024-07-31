@@ -32,6 +32,7 @@
     </nav>
     {% with messages = get_flashed_messages() %}
         {% if messages %}
+        {% for message in messages %}
         <div class="flash-message">
             <span class="close-btn" onclick="closeFlashMessage(this)">&times;</span>
             {{ message }}
