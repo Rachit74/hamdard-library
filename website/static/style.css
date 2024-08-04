@@ -420,3 +420,72 @@ body, html {
     font-size: 18px;
     font-weight: 500;
 }
+
+/* Container for the profile card */
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+
+/* Profile card styling */
+.profile-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+/* Profile details styling */
+.profile-details {
+    text-align: center;
+}
+
+/* Username styling */
+.profile-username {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* ID and email styling */
+.profile-id, .profile-email {
+    font-size: 16px;
+    margin: 5px 0;
+    color: #555;
+}
+
+/* Actions (links) styling */
+.profile-actions {
+    margin-top: 15px;
+}
+
+/* Profile links styling */
+.profile-link {
+    display: block;
+    color: #007bff;
+    text-decoration: none;
+    margin: 5px 0;
+    transition: color 0.3s;
+}
+
+/* Hover effect for links */
+.profile-link:hover {
+    color: #0056b3;
+}
+
+/* Styling for the delete link */
+.delete-link {
+    color: #ff4d4d;
+}
+
+.delete-link:hover {
+    color: #ff1a1a;
+}
+
+/* No admin found message styling */
+.no-admin {
+    text-align: center;
+}

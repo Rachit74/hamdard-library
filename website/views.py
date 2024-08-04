@@ -145,16 +145,43 @@ def file_approve(file_id):
     return redirect(url_for('admin_.file_requests'))
 
 #admin dashbaord
-# @login_required
-# @admin_.route('/admin_dashboard')
-# def admin_dashboard():
-#     if not current_user.user_admin:
-#         flash("You do not have access")
+@login_required
+@admin_.route('/admin_dashboard')
+def admin_dashboard():
+    if not current_user.is_authenticated:
+        flash("You do not have access")
+        return redirect(url_for('views.home'))
     
-#     return render_template("dashboard.html")
+    admin = User.query.get(current_user.get_id())
+    return render_template("dashboard.html", admin=admin)
 
-#Admin dashboard might be implemented in future
+#view for all admins page
+#can only be accessed by super admin (to be added soon)
+@admin_.route('/admons')
+def admons():
+     if not current_user.is_authenticated:
+          flash("You do not have access!")
+          return redirect(url_for('views.home'))
+     admins = User.query.all()
+     return render_template("admons.html", admins=admins)
 
+#delete admin route
+@admin_.route("/delete_admin/<int:aid>")
+def delete_admin(aid):
+    if not current_user.is_authenticated:
+        flash("You do not have access!")
+        return redirect(url_for('views.home'))
+    admin = User.query.get(aid)
+    db.session.delete(admin)
+    db.session.commit()
+
+    if current_user.get_id() == aid:
+         logout_user
+         flash("Admin Deleted")
+         return redirect(url_for('views.home'))
+    
+    flash("Admin was deleted")
+    return redirect(url_for('admin_.admin_dashboard'))
 
 #delete file functions (gets the file id as form html template)
 @login_required

@@ -21,6 +21,7 @@
                 <li><a href="{{ url_for('admin_.logout') }}">Logout</a></li>
                 <li><a href="{{ url_for('admin_.signup') }}">Add Admin</a></li>
                 <li><a href="{{ url_for('admin_.file_requests') }}">Approval Requests</a></li>
+                <li><a href="{{ url_for('admin_.admin_dashboard') }}">Admin Dashboard</a></li>
                 {% else %}
                 <li><a href="/admin/login">Admin Login</a></li>
                 {% endif %}

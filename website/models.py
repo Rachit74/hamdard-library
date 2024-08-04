@@ -19,6 +19,9 @@ class User(db.Model):
 
     def is_anonymous(self):
         return False
+    
+    def is_admin(self):
+        return bool(self.user_admin)
 
 class File(db.Model):
     id = db.Column(db.Integer(),primary_key=True)

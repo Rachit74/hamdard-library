@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{%block title%} admin dashboard {% endblock %}
+<link rel="stylesheet" href="../static/style.css">
+{%block content%}
+
+<div class="profile-container">
+    <div class="profile-card">
+        {% if admin %}
+        <div class="profile-details">
+            <h2 class="profile-username">{{ admin.username }}</h2>
+            <p class="profile-id">ID: {{ admin.id }}</p>
+            <p class="profile-email">Email: {{ admin.email }}</p>
+            <div class="profile-actions">
+                <a href="{{ url_for('admin_.admons') }}" class="profile-link">View All Admins</a>
+                <a href="{{ url_for('admin_.delete_admin', aid=admin.id) }}" class="profile-link delete-link">Delete Account</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="no-admin">
+            <h3>Admin Not Found</h3>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+
+{%endblock%}
