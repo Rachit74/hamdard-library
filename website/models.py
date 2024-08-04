@@ -6,6 +6,7 @@ class User(db.Model):
     password = db.Column(db.String(50))
     email = db.Column(db.String(200))
     user_admin = db.Column(db.Boolean(), default=False)
+    user_super_admin = db.Column(db.Boolean(), default=False)
 
         # Flask-Login requires these methods
     def get_id(self):
@@ -22,6 +23,9 @@ class User(db.Model):
     
     def is_admin(self):
         return bool(self.user_admin)
+    
+    def is_super_admin(self):
+        return bool(self.user_super_admin)
 
 class File(db.Model):
     id = db.Column(db.Integer(),primary_key=True)

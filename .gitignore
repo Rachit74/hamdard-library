@@ -4,3 +4,4 @@ website/key.txt
 __pycache__/
 /env
 .vercel
+database.db/

@@ -13,7 +13,11 @@
             <p class="profile-email">Email: {{ admin.email }}</p>
             <div class="profile-actions">
                 <a href="{{ url_for('admin_.admons') }}" class="profile-link">View All Admins</a>
+                {% if current_user.is_super_admin() %}
                 <a href="{{ url_for('admin_.delete_admin', aid=admin.id) }}" class="profile-link delete-link">Delete Account</a>
+                <hr>
+                <p>Super Admin</p>
+                {% endif %}
             </div>
         </div>
         {% else %}

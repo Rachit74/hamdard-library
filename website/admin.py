@@ -72,8 +72,7 @@ def signup():
             return redirect(url_for('admin_.signup'))
 
         # Create and add new admin user
-        password_hash = generate_password_hash(password)
-        user = User(username=username, email=email, password=password_hash, user_admin=True)
+        user = User(username=username, email=email, password=password, user_admin=True)
         db.session.add(user)
         db.session.commit()
         flash("New Admin Account Created!")
@@ -138,7 +137,12 @@ def delete_admin(aid):
     if not current_user.is_authenticated:
         flash("You do not have access!")
         return redirect(url_for('views.home'))
+    if not current_user.is_super_admin():
+         flash("You cannot delete other admins! [IS NOT SUPER ADMIN]")
+         return redirect(url_for('admin_.admons'))
+         
     admin = User.query.get(aid)
+    print(current_user.is_super_admin())
     db.session.delete(admin)
     db.session.commit()
 
