@@ -32,7 +32,7 @@ def create_app():
         makedirs(UPLOAD_FOLDER)
     
     from .views import views
-    from .views import admin_
+    from .admin import admin_
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(admin_, url_prefix='/admin')
