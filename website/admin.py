@@ -7,11 +7,12 @@ from .models import File, User
 from flask_login import login_required,login_user,current_user,logout_user,login_manager
 from werkzeug.security import generate_password_hash
 import firebase_admin
-from firebase_admin import storage
+from firebase_admin import storage, credentials, firestore
 
 
 admin_ = Blueprint('admin_', __name__)
 
+db = firestore.client()
 bucket = storage.bucket()
 
 
@@ -93,27 +94,45 @@ def file_requests():
     if not current_user.is_authenticated:
             flash("You do not have the permissions!")
             return redirect(url_for('views.home'))
-    files=File.query.all()
+    
+    file_ref = db.collection('file_metadata')
+    docs = file_ref.stream()
+
+    files = []
+    for doc in docs:
+        file_metadata = doc.to_dict()
+        file_name = file_metadata.get('file_name')
+        file_path = file_metadata.get('file_path')
+        file_status = file_metadata.get('file_status')
+        file_department = file_metadata.get('file_department')
+        
+        # Generate public URL for each file
+        blob = bucket.blob(file_path)
+        file_url = blob.public_url
+
+        files.append({
+            'file_name': file_name,
+            'file_path': file_path,
+            'file_url': file_url,
+            'file_status': file_status,
+            'file_department': file_department,
+            'department': file_metadata.get('file_department'),
+            'id': doc.id,
+        })
     return render_template('request.html', files=files)
 
 #file approve route (file id is passed into the route from the template)
 # changes the status of the file to approved
 @login_required
-@admin_.route('/file_approve/<int:file_id>')
+@admin_.route('/file_approve/<file_id>')
 def file_approve(file_id):
     if not current_user.is_authenticated:
         flash("You do not have the permissions!")
         return redirect(url_for('views.home'))
     
-    file = File.query.get(file_id)
-
-    if file:
-        file.file_status = True
-        db.session.commit()
-        flash("File Approved")
-    else:
-        flash("File Not Found")
-    
+    file_ref = db.collection('file_metadata').document(file_id)
+    file_ref.update({'file_status': 'true'})
+    flash("File approved!")
     return redirect(url_for('admin_.file_requests'))
 
 
@@ -163,31 +182,27 @@ def delete_admin(aid):
 
 #delete file functions (gets the file id as form html template)
 @login_required
-@admin_.route('/delete_file/<int:file_id>')
+@admin_.route('/delete_file/<file_id>')
 def delete_file(file_id):
     if not current_user.is_authenticated:
         flash("You do not have the permissions!")
         return redirect(url_for('views.home'))
     
-    # Fetch the file record from the database
-    file = File.query.get(file_id)
+    file_ref = db.collection('file_metadata').document(file_id)
+    file_metadata = file_ref.get().to_dict()
 
-    if file:
-        # Construct the file path in Firebase Storage
-        file_path = file.file_path
-
-        # Remove the file from Firebase Storage
+    if file_metadata:
+        file_path = file_metadata.get('file_path')
+        
+        # Delete the blob from Firebase Storage
         blob = bucket.blob(file_path)
-        try:
-            blob.delete()
-            flash("File successfully deleted from Firebase Storage!")
-        except Exception as e:
-            flash(f"Error deleting file from Firebase Storage: {str(e)}")
+        blob.delete()
 
-        # Delete the file record from the database
-        db.session.delete(file)
-        db.session.commit()
+        # Delete the document from Firestore
+        file_ref.delete()
+        
+        flash("File deleted successfully from both Firestore and Storage!")
     else:
-        flash("File not found in database!")
+        flash("File not found!")
 
     return redirect(url_for('admin_.file_requests'))

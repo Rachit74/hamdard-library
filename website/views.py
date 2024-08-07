@@ -8,11 +8,14 @@ from .models import File, User
 from flask_login import login_required,login_user,current_user,logout_user,login_manager
 from werkzeug.security import generate_password_hash
 import firebase_admin
-from firebase_admin import storage
+from firebase_admin import storage, credentials, firestore
+import uuid
+
 
 
 views = Blueprint('views', __name__)
 
+db = firestore.client()
 bucket = storage.bucket()
 
 @views.route('/')
@@ -31,11 +34,19 @@ def upload():
             blob = bucket.blob(filename)
             blob.upload_from_file(file)
             blob.make_public()  # Make the file publicly accessible
-            
-            # Store metadata in the local database
-            new_file = File(file_name=title, file_path=filename, dept=dept)
-            db.session.add(new_file)
-            db.session.commit()
+
+            doc_id = str(uuid.uuid4())
+
+            file_metadata = {
+                'file_name': filename,
+                'file_title': title,
+                'file_department': dept,
+                'file_status': "false",
+                'url': blob.public_url,
+                'file_path': filename  # Ensure this is stored for generating URLs later
+            }
+            db.collection('file_metadata').document(doc_id).set(file_metadata)
+
             flash("File Uploaded!")
             return redirect(url_for('views.home'))
     return render_template('upload.html')
@@ -46,20 +57,28 @@ def departments():
 
 @views.route('/departments/<department>')
 def department(department):
-    # Fetch files metadata from local database
-    files = File.query.filter_by(dept=department.upper()).all()
+    # Fetch files metadata from Firestore
+    files_ref = db.collection('file_metadata').where('file_department', '==', department.upper())
+    docs = files_ref.stream()
 
-    # Generate public URLs for each file stored in Firebase Storage
     files_with_urls = []
-    for file in files:
-        blob = bucket.blob(file.file_path)
+    for doc in docs:
+        file_metadata = doc.to_dict()
+        file_name = file_metadata.get('file_name')
+        file_path = file_metadata.get('file_path')
+        file_status = file_metadata.get('file_status')
+        
+        # Generate public URL for each file
+        blob = bucket.blob(file_path)
         file_url = blob.public_url
+
         files_with_urls.append({
-            'file_name': file.file_name,
-            'file_path': file.file_path,
+            'file_name': file_name,
+            'file_path': file_path,
             'file_url': file_url,
-            'department': file.dept,
-            'id': file.id,
+            'file_status': file_status,
+            'department': file_metadata.get('file_department'),
+            'id': doc.id,
         })
 
     return render_template('files.html', files=files_with_urls, department=department)

@@ -13,7 +13,7 @@ from firebase_admin import credentials, storage
 # Initialize Firebase Admin SDK
 cred = credentials.Certificate('./cred.json')
 firebase_admin.initialize_app(cred, {
-    'storageBucket': 'hamdard-library.appspot.com'
+    'storageBucket': 'hamdardlibrarydb.appspot.com'
 })
 
 db = SQLAlchemy()

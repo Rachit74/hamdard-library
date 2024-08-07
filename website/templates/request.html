@@ -13,10 +13,10 @@
     <div class="card-container">
         {% if files %}
             {% for file in files %}
-                {% if file.file_status == False %}
+                {% if file.file_status == "false" %}
                     <div class="file-container">
                         <div class="file-details">
-                            <span>{{ file.id }}. {{ file.file_name }}, Department: {{ file.dept }}</span>
+                            <span>File Name: {{ file.file_name }}, Department: {{ file.file_department }}</span>
                             <div>
                                 <a href="{{ url_for('static', filename='uploads/' ~ file.file_path) }}" download class="download-link">Download</a>
                                 <a href="{{ url_for('admin_.file_approve', file_id=file.id) }}" class="approve-link">Approve</a>
