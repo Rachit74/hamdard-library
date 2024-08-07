@@ -6,8 +6,14 @@ from . import db
 from .models import File, User
 from flask_login import login_required,login_user,current_user,logout_user,login_manager
 from werkzeug.security import generate_password_hash
+import firebase_admin
+from firebase_admin import storage
+
 
 admin_ = Blueprint('admin_', __name__)
+
+bucket = storage.bucket()
+
 
                        #   ADMIN ROUTES   #
 # --------------------------------------------------------------------------------------------#
@@ -96,19 +102,20 @@ def file_requests():
 @admin_.route('/file_approve/<int:file_id>')
 def file_approve(file_id):
     if not current_user.is_authenticated:
-            flash("You do not have the permissions!")
-            return redirect(url_for('views.home'))
+        flash("You do not have the permissions!")
+        return redirect(url_for('views.home'))
+    
     file = File.query.get(file_id)
 
     if file:
         file.file_status = True
-
         db.session.commit()
         flash("File Approved")
     else:
         flash("File Not Found")
     
     return redirect(url_for('admin_.file_requests'))
+
 
 #admin dashbaord
 @login_required
@@ -159,24 +166,28 @@ def delete_admin(aid):
 @admin_.route('/delete_file/<int:file_id>')
 def delete_file(file_id):
     if not current_user.is_authenticated:
-            flash("You do not have the permissions!")
-            return redirect(url_for('views.home'))
+        flash("You do not have the permissions!")
+        return redirect(url_for('views.home'))
+    
+    # Fetch the file record from the database
     file = File.query.get(file_id)
 
     if file:
-        # Construct the file path
-        file_path = os.path.join(UPLOAD_FOLDER, file.file_path)
+        # Construct the file path in Firebase Storage
+        file_path = file.file_path
+
+        # Remove the file from Firebase Storage
+        blob = bucket.blob(file_path)
+        try:
+            blob.delete()
+            flash("File successfully deleted from Firebase Storage!")
+        except Exception as e:
+            flash(f"Error deleting file from Firebase Storage: {str(e)}")
 
         # Delete the file record from the database
         db.session.delete(file)
         db.session.commit()
-
-    # Remove the file from the file system
-    if os.path.isfile(file_path):
-        os.remove(file_path)
-
-        flash("File successfully deleted!")
     else:
-        flash("File not found!")
+        flash("File not found in database!")
 
     return redirect(url_for('admin_.file_requests'))

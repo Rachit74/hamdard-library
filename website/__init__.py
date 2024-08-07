@@ -6,9 +6,15 @@ from os.path import join, dirname, realpath
 from .key import key
 from flask_login import LoginManager,current_user,login_manager
 from functools import wraps
+import firebase_admin
+from firebase_admin import credentials, storage
 
-# from flask_migrate import Migrate
-
+# fire base creds
+# Initialize Firebase Admin SDK
+cred = credentials.Certificate('./cred.json')
+firebase_admin.initialize_app(cred, {
+    'storageBucket': 'hamdard-library.appspot.com'
+})
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
