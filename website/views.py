@@ -1,10 +1,9 @@
 from flask import Blueprint, render_template, request, send_from_directory, redirect, url_for, flash
 from werkzeug.utils import secure_filename
 import os
-from . import UPLOAD_FOLDER
 from . import db
 from .admin import admin_
-from .models import File, User
+from .models import User
 from flask_login import login_required,login_user,current_user,logout_user,login_manager
 from werkzeug.security import generate_password_hash
 import firebase_admin

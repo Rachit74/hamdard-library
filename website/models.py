@@ -1,41 +1,25 @@
-from . import db
+from flask_login import UserMixin
+from firebase_admin import firestore
 
-class User(db.Model):
-    id = db.Column(db.Integer(),primary_key=True)
-    username = db.Column(db.String(100))
-    password = db.Column(db.String(50))
-    email = db.Column(db.String(200))
-    user_admin = db.Column(db.Boolean(), default=False)
-    user_super_admin = db.Column(db.Boolean(), default=False)
+db = firestore.client()
 
-        # Flask-Login requires these methods
-    def get_id(self):
-        return str(self.id)
+class User(UserMixin):
+    def __init__(self, uid: str, username: str, email: str, password: str, is_admin: bool, is_super_admin: bool):
+        self.id = uid
+        self.username = username
+        self.email = email
+        self.password = password
+        self.is_admin = is_admin
+        self.is_super_admin = is_super_admin
 
-    def is_active(self):
-        return True  # Change this as needed based on your user status
-
-    def is_authenticated(self):
-        return True
-
-    def is_anonymous(self):
-        return False
-    
-    def is_admin(self):
-        return bool(self.user_admin)
+    @staticmethod
+    def get_user(user_id: str):
+        ref = db.collection('users').document(user_id)
+        ref_ = ref.get()
+        if ref_.exists:
+            data = ref_.to_dict()
+            return User(user_id, data['username'], data['email'], data['password'], data['is_admin'], data['is_super_admin'])
+        return None
     
     def is_super_admin(self):
-        return bool(self.user_super_admin)
-
-class File(db.Model):
-    id = db.Column(db.Integer(),primary_key=True)
-    file_name = db.Column(db.String(200))
-    file_path = db.Column(db.String(50))
-    dept = db.Column(db.String(100))
-    file_status = db.Column(db.Boolean(), default=False)
-
-    #foreign key realtion to user model
-    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
-    user = db.relationship('User', back_populates='files')
-
-User.files = db.relationship('File', back_populates='user')
+        return self.is_super_admin

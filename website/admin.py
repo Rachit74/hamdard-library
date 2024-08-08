@@ -1,13 +1,13 @@
 from flask import Blueprint, render_template, request, send_from_directory, redirect, url_for, flash
 from werkzeug.utils import secure_filename
 import os
-from . import UPLOAD_FOLDER
 from . import db
-from .models import File, User
+from .models import User
 from flask_login import login_required,login_user,current_user,logout_user,login_manager
 from werkzeug.security import generate_password_hash
 import firebase_admin
 from firebase_admin import storage, credentials, firestore
+import uuid
 
 
 admin_ = Blueprint('admin_', __name__)
@@ -19,33 +19,54 @@ bucket = storage.bucket()
                        #   ADMIN ROUTES   #
 # --------------------------------------------------------------------------------------------#
 
-# login route
-@admin_.route('/login', methods=["POST","GET"])
-def login():
-    if request.method == "POST":
+@admin_.route('/register', methods=['GET', 'POST'])
+def register():
+    if not current_user.is_authenticated:
+        flash("You do not have permissions")
+        return redirect(url_for('views.home'))
+    if request.method == 'POST':
+        username = request.form['username']
         email = request.form['email']
         password = request.form['password']
+        is_admin = False
+        is_super_admin = False
 
-        user = User.query.filter_by(email=email).first()
+        user_id = str(uuid.uuid4())
+        user_data = {
+            'username': username,
+            'email': email,
+            'password': password,
+            'is_admin': is_admin,
+            'is_super_admin': is_super_admin,
+        }
+        db.collection('users').document(user_id).set(user_data)
+        flash('Registration successful!')
+        return redirect(url_for('admin_.login'))
 
-        if user.password == password:
-            login_user(user,remember=True)
-            flash("Logged in!")
-            return redirect(url_for('admin_.file_requests'))
-        else:
-            flash("Wrong Password")
+    return render_template('signup.html')
 
+@admin_.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        users_ref = db.collection('users').where('email', '==', email).limit(1).stream()
+        for doc in users_ref:
+            user_data = doc.to_dict()
+            user = User(doc.id, user_data['username'], user_data['email'], user_data['password'], user_data['is_admin'], user_data['is_super_admin'])
+            login_user(user)
+            flash('Login successful!')
+            return redirect(url_for('views.home'))
+        flash('Invalid email or password')
     return render_template('login.html')
 
-# admin logout route
-@login_required
 @admin_.route('/logout')
+@login_required
 def logout():
     logout_user()
-    flash("Admin Logged Out!")
-    return redirect(url_for('views.home'))
+    flash('You have been logged out.')
+    return redirect(url_for('login'))
 
-# basic admin route which just redirects to files approval requests (later will add admin dashboard)
 @login_required
 @admin_.route('/')
 def admin():
@@ -53,39 +74,6 @@ def admin():
             flash("You do not have the permissions!")
             return redirect(url_for('views.home'))
         return redirect(url_for('admin_.file_requests'))
-
-#admin signup route (used to create more admins)
-# Only a currently logged in admin can create more admins
-@login_required
-@admin_.route('/signup', methods=["POST","GET"])
-def signup():
-    if not current_user.is_authenticated:
-            flash("You do not have the permissions!")
-            return redirect(url_for('views.home'))
-
-    if request.method == "POST":
-        username = request.form.get('username')
-        email = request.form.get('email')
-        password = request.form.get('password')
-
-        if not username or not email or not password:
-            flash("All fields are required.")
-            return redirect(url_for('admin_.signup'))
-
-        # Check if the user already exists
-        existing_user = User.query.filter_by(email=email).first()
-        if existing_user:
-            flash("User with this email already exists.")
-            return redirect(url_for('admin_.signup'))
-
-        # Create and add new admin user
-        user = User(username=username, email=email, password=password, user_admin=True)
-        db.session.add(user)
-        db.session.commit()
-        flash("New Admin Account Created!")
-        return redirect(url_for('admin_.file_requests'))
-
-    return render_template("signup.html")
 
 # file request functions
 @login_required

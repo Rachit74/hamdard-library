@@ -19,7 +19,7 @@
                 <li><a href="/upload">Upload</a></li>
                 {% if current_user.is_authenticated %}
                 <li><a href="{{ url_for('admin_.logout') }}">Logout</a></li>
-                <li><a href="{{ url_for('admin_.signup') }}">Add Admin</a></li>
+                <li><a href="{{ url_for('admin_.register') }}">Add Admin</a></li>
                 <li><a href="{{ url_for('admin_.file_requests') }}">Approval Requests</a></li>
                 <li><a href="{{ url_for('admin_.admin_dashboard') }}">Admin Dashboard</a></li>
                 {% else %}
