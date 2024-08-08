@@ -28,7 +28,7 @@ def register():
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
-        is_admin = False
+        is_admin = True
         is_super_admin = False
 
         user_id = str(uuid.uuid4())
@@ -65,7 +65,7 @@ def login():
 def logout():
     logout_user()
     flash('You have been logged out.')
-    return redirect(url_for('login'))
+    return redirect(url_for('admin_.login'))
 
 @login_required
 @admin_.route('/')
@@ -132,21 +132,56 @@ def admin_dashboard():
         flash("You do not have access")
         return redirect(url_for('views.home'))
     
-    admin = User.query.get(current_user.get_id())
-    return render_template("dashboard.html", admin=admin)
+    admin = db.collection('users').document(current_user.get_id())
+    doc = admin.get()
+
+    # if not doc.exists():
+    #     flash("Admin not found")
+    #     return redirect(url_for('views.home'))
+
+    admin_data = doc.to_dict()
+
+    admin_details = {
+        'id': doc.id,
+        'username': admin_data.get('username'),
+        'email': admin_data.get('email'),
+        'is_super_admin': admin_data.get('is_super_admin'),
+        'is_admin': admin_data.get('is_admin'),
+    }
+
+
+    return render_template("dashboard.html", admin=admin_details)
 
 #view for all admins page
 #can only be accessed by super admin (to be added soon)
 @admin_.route('/admons')
+@login_required
 def admons():
-     if not current_user.is_authenticated:
-          flash("You do not have access!")
-          return redirect(url_for('views.home'))
-     admins = User.query.all()
-     return render_template("admons.html", admins=admins)
+    if not current_user.is_authenticated:
+        flash("You do not have the permissions!")
+        return redirect(url_for('views.home'))
+    if not current_user.is_super_admin:
+        flash("You do not have the permissions!")
+        return redirect(url_for('views.home'))
+
+    # Fetch all users who are admins
+    admins_ref = db.collection('users').where('is_admin', '==', True)
+    admins_docs = admins_ref.stream()
+    
+    admins = []
+    for doc in admins_docs:
+        admin_data = doc.to_dict()
+        admins.append({
+            'id': doc.id,
+            'username': admin_data['username'],
+            'email': admin_data['email'],
+            'is_super_admin': admin_data['is_super_admin']
+        })
+
+    return render_template('admons.html', admins=admins)
 
 #delete admin route
-@admin_.route("/delete_admin/<int:aid>")
+@admin_.route("/delete_admin/<aid>")
 def delete_admin(aid):
     if not current_user.is_authenticated:
         flash("You do not have access!")
@@ -155,10 +190,8 @@ def delete_admin(aid):
          flash("You cannot delete other admins! [IS NOT SUPER ADMIN]")
          return redirect(url_for('admin_.admons'))
          
-    admin = User.query.get(aid)
-    print(current_user.is_super_admin())
-    db.session.delete(admin)
-    db.session.commit()
+    _admin = db.collection('users').document(aid)
+    _admin.delete()
 
     if current_user.get_id() == aid:
          logout_user

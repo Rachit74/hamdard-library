@@ -9,8 +9,8 @@ class User(UserMixin):
         self.username = username
         self.email = email
         self.password = password
-        self.is_admin = is_admin
-        self.is_super_admin = is_super_admin
+        self._is_admin = is_admin
+        self._is_super_admin = is_super_admin
 
     @staticmethod
     def get_user(user_id: str):
@@ -22,4 +22,10 @@ class User(UserMixin):
         return None
     
     def is_super_admin(self):
-        return self.is_super_admin
+            return self._is_super_admin
+    
+    def is_admin(self):
+         return self._is_admin
+    
+    def get_id(self):
+         return self.id
