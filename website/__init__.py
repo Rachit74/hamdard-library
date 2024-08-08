@@ -21,7 +21,7 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg',}
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__,static_folder='website/static', template_folder='website/templates')
     app.config['SECRET_KEY'] = key
 
     
