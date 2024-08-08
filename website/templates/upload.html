@@ -7,12 +7,12 @@
 <main>
     <br>
     <div class="form-container">
-        <form method="POST" enctype="multipart/form-data">
+        <form id="uploadForm" method="POST" enctype="multipart/form-data">
             <label for="file">File:
-                <input type="file" name="file" id="file">
+                <input type="file" name="file" id="file" accept="application/pdf">
             </label>
             <label for="title">File Title:
-                <input type="text" name="title" id="title" placeholder="File Title">
+                <input type="text" name="title" id="title" placeholder="File Title" required>
             </label>
             <label for="dept">Department:
                 <select name="dept" id="dept" required>
