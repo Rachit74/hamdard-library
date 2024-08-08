@@ -10,14 +10,14 @@
       }
     ],
     "routes": [
-        {
-          "src": "/(.*)",
-          "dest": "main.py"
-        },
-        {
-          "src": "/static/(.*)",
-          "dest": "/website/static/$1"
-        }
-      ]
+      {
+        "src": "/static/(.*)",
+        "dest": "/website/static/$1"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "main.py"
+      }
+    ]
   }
   
