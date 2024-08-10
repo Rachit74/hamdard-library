@@ -9,6 +9,8 @@ from werkzeug.security import generate_password_hash
 import firebase_admin
 from firebase_admin import storage, credentials, firestore
 import uuid
+import io
+import fitz
 
 
 
@@ -16,6 +18,18 @@ views = Blueprint('views', __name__)
 
 db = firestore.client()
 bucket = storage.bucket()
+
+# file compress
+def compress_pdf(pdf_document):
+    # Create an in-memory bytes buffer for the compressed PDF
+    compressed_file_in_memory = io.BytesIO()
+
+    # Save the document to the buffer with compression
+    pdf_document.save(compressed_file_in_memory, garbage=4, deflate=True)
+    compressed_file_in_memory.seek(0)
+
+    return compressed_file_in_memory
+
 
 @views.route('/')
 def home():
@@ -30,9 +44,21 @@ def upload():
 
         if file and title and dept:
             filename = secure_filename(file.filename)
-            blob = bucket.blob(filename)
-            blob.upload_from_file(file)
+
+            # Read the file in memory
+            file_in_memory = io.BytesIO(file.read())
+
+            # Open the PDF file
+            pdf_document = fitz.open(stream=file_in_memory, filetype='pdf')
+
+            # Compress the PDF
+            compressed_file_in_memory = compress_pdf(pdf_document)
+
+            # Upload the compressed file to Firebase
+            blob = bucket.blob(f"compressed_{filename}")
+            blob.upload_from_file(compressed_file_in_memory, content_type='application/pdf')
             blob.make_public()  # Make the file publicly accessible
+
 
             doc_id = str(uuid.uuid4())
 
