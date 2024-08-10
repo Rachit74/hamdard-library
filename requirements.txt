@@ -16,3 +16,4 @@ SQLAlchemy==2.0.31
 typing_extensions==4.12.2
 Werkzeug==3.0.3
 firebase-admin==6.1.0
+PyMuPDF==1.22.4
