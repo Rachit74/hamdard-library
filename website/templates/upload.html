@@ -1,36 +1,44 @@
 {% extends "base.html" %}
 
-{%block title%} Upload | Hamdard Library {% endblock %}
-<link rel="stylesheet" href="../static/style.css">
-{%block content%}
+{% block title %} Upload | Hamdard Library {% endblock %}
+{% block content %}
 
-<main>
-    <br>
-    <div class="form-container">
-        <form id="uploadForm" method="POST" enctype="multipart/form-data">
-            <label for="file">File:
-                <input type="file" name="file" id="file" accept="application/pdf">
-            </label>
-            <label for="title">File Title:
-                <input type="text" name="title" id="title" placeholder="File Title" required>
-            </label>
-            <label for="dept">Department:
-                <select name="dept" id="dept" required>
-                    <option value="SEST">SEST</option>
-                    <option value="HIMSER">HIMSER</option>
-                    <option value="SUMER">SUMER</option>
-                    <option value="SCLS">SCLS</option>
-                    <option value="SPER">SPER</option>
-                    <option value="SNSAH">SNSAH</option>
-                    <option value="SIST">SIST</option>
-                    <option value="SMBS">SMBS</option>
-                    <option value="SHSS">SHSS</option>
-                    <option value="LAW">School of Law</option>
-                </select>
-            </label>
-            <button type="submit">Upload</button>
-        </form>
+<main class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card p-4 shadow-sm">
+                <h2 class="card-title text-center mb-4">Upload File</h2>
+                <form id="uploadForm" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">File:</label>
+                        <input type="file" name="file" id="file" accept="application/pdf" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">File Title:</label>
+                        <input type="text" name="title" id="title" placeholder="File Title" class="form-control" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="dept" class="form-label">Department:</label>
+                        <select name="dept" id="dept" class="form-select" required>
+                            <option value="SEST">SEST</option>
+                            <option value="HIMSER">HIMSER</option>
+                            <option value="SUMER">SUMER</option>
+                            <option value="SCLS">SCLS</option>
+                            <option value="SPER">SPER</option>
+                            <option value="SNSAH">SNSAH</option>
+                            <option value="SIST">SIST</option>
+                            <option value="SMBS">SMBS</option>
+                            <option value="SHSS">SHSS</option>
+                            <option value="LAW">School of Law</option>
+                        </select>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </main>
 
-{%endblock%}
+{% endblock %}

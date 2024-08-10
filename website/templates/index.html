@@ -1,24 +1,24 @@
 {% extends "base.html" %}
 
 {%block title%} Home | Hamdard Library {% endblock %}
-<link rel="stylesheet" href="../static/style.css">
+
 {%block content%}
 
 <main class="main">
     <div class="intro-div">
-        <h1>Welcome to Hamdard Library</h1> 
-        <p>Hamdard Library is an online library made by and for the students of Jamia Hamdard University to share resources with each other in an simple way</p>
-        <p>Share Notes, Lab files, syllabus and more with other students</p>
-        <p>You can upload and download files according to your Departments</p>
+        <h1>Hamdard Library</h1> 
+        <hr>
+        <p>Hamdard Library is an online library made by and for the students of Jamia Hamdard University to share resources with each other.</p>
+        <p>Share Notes, Lab files, syllabus and more with other students.</p>
+        <p>You can upload and download files according to your Departments.</p>
     </div>
     <div class="lnks">
-        <ul>
-            <li><a href="/departments">Find your department</a></li>
-            <li><a href="/upload">upload something</a></li>
-        </ul>
+        <li><a href="{{ url_for('views.departments') }}">Find your department</a></li>
+        <li><a href="{{ url_for('views.upload') }}">upload something</a></li>
     </div>
-    <div class="imp-note">
-        <h3>file will be uploaded once it is approved by the admins.</h3>
+
+    <div class="alert alert-info" role="alert">
+        File will be uploaded once it is approved by the admins.
     </div>
 </main>
 

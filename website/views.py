@@ -20,15 +20,15 @@ db = firestore.client()
 bucket = storage.bucket()
 
 # file compress
-def compress_pdf(pdf_document):
-    # Create an in-memory bytes buffer for the compressed PDF
-    compressed_file_in_memory = io.BytesIO()
+# def compress_pdf(pdf_document):
+#     # Create an in-memory bytes buffer for the compressed PDF
+#     compressed_file_in_memory = io.BytesIO()
 
-    # Save the document to the buffer with compression
-    pdf_document.save(compressed_file_in_memory, garbage=4, deflate=True)
-    compressed_file_in_memory.seek(0)
+#     # Save the document to the buffer with compression
+#     pdf_document.save(compressed_file_in_memory, garbage=4, deflate=True)
+#     compressed_file_in_memory.seek(0)
 
-    return compressed_file_in_memory
+#     return compressed_file_in_memory
 
 
 @views.route('/')
@@ -42,38 +42,28 @@ def upload():
         title = request.form['title']
         dept = request.form['dept']
 
+
         if file and title and dept:
-            filename = secure_filename(file.filename)
+                filename = title
+                blob = bucket.blob(filename)
+                blob.upload_from_file(file)
+                blob.make_public()  # Make the file publicly accessible
 
-            # Read the file in memory
-            file_in_memory = io.BytesIO(file.read())
+                doc_id = str(uuid.uuid4())
 
-            # Open the PDF file
-            pdf_document = fitz.open(stream=file_in_memory, filetype='pdf')
+                file_metadata = {
+                    'file_name': filename,
+                    'file_title': title,
+                    'file_department': dept,
+                    'file_status': "false",
+                    'url': blob.public_url,
+                    'file_path': filename  # Ensure this is stored for generating URLs later
+                }
+                db.collection('file_metadata').document(doc_id).set(file_metadata)
 
-            # Compress the PDF
-            compressed_file_in_memory = compress_pdf(pdf_document)
-
-            # Upload the compressed file to Firebase
-            blob = bucket.blob(f"compressed_{filename}")
-            blob.upload_from_file(compressed_file_in_memory, content_type='application/pdf')
-            blob.make_public()  # Make the file publicly accessible
-
-
-            doc_id = str(uuid.uuid4())
-
-            file_metadata = {
-                'file_name': filename,
-                'file_title': title,
-                'file_department': dept,
-                'file_status': "false",
-                'url': blob.public_url,
-                'file_path': filename  # Ensure this is stored for generating URLs later
-            }
-            db.collection('file_metadata').document(doc_id).set(file_metadata)
-
-            flash("File Uploaded!")
-            return redirect(url_for('views.home'))
+                flash("File Uploaded!")
+                return redirect(url_for('views.home'))
+        
     return render_template('upload.html')
 
 @views.route('/departments')
@@ -86,24 +76,26 @@ def department(department):
     files_ref = db.collection('file_metadata').where('file_department', '==', department.upper())
     docs = files_ref.stream()
 
-    files_with_urls = []
+    files = []
     for doc in docs:
         file_metadata = doc.to_dict()
         file_name = file_metadata.get('file_name')
         file_path = file_metadata.get('file_path')
         file_status = file_metadata.get('file_status')
+        file_department = file_metadata.get('file_department')
         
         # Generate public URL for each file
         blob = bucket.blob(file_path)
         file_url = blob.public_url
 
-        files_with_urls.append({
+        files.append({
             'file_name': file_name,
             'file_path': file_path,
             'file_url': file_url,
             'file_status': file_status,
+            'file_department': file_department,
             'department': file_metadata.get('file_department'),
             'id': doc.id,
         })
 
-    return render_template('files.html', files=files_with_urls, department=department)
+    return render_template('files.html', files=files, department=department)

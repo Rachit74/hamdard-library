@@ -1,35 +1,38 @@
-<!-- page where all the requested files for upload are shown to the admin -->
 {% extends "base.html" %}
 
 {%block title%} File Requests Admin {% endblock %}
-<link rel="stylesheet" href="../static/style.css">
 {%block content%}
 
-<div class="container">
-    <div class="intro-div">
+<div class="container my-5">
+    <div class="text-center">
         <h1>Requested Files for Upload</h1>
     </div>
     <br>
-    <div class="card-container">
+    <div class="row">
         {% if files %}
             {% for file in files %}
                 {% if file.file_status == "false" %}
-                    <div class="file-container">
-                        <div class="file-details">
-                            <span>File Name: {{ file.file_name }}, Department: {{ file.file_department }}</span>
-                            <div>
-                                <a href="{{ url_for('static', filename='uploads/' ~ file.file_path) }}" download class="download-link">Download</a>
-                                <a href="{{ url_for('admin_.file_approve', file_id=file.id) }}" class="approve-link">Approve</a>
-                                <a href="{{ url_for('admin_.delete_file', file_id=file.id) }}" class="delete-link">Delete</a>
+                    <div class="col-md-6">
+                        <div class="card mb-3 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ file.file_name }}</h5>
+                                <p class="card-text"><strong>Department:</strong> {{ file.file_department }}</p>
+                                <div class="d-flex justify-content-between">
+                                    <a href="{{ url_for('static', filename='uploads/' ~ file.file_path) }}" download class="btn btn-success">Download</a>
+                                    <a href="{{ url_for('admin_.file_approve', file_id=file.id) }}" class="btn btn-primary">Approve</a>
+                                    <a href="{{ url_for('admin_.delete_file', file_id=file.id) }}" class="btn btn-danger">Delete</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 {% endif %}
             {% endfor %}
         {% else %}
-            <br>
-            <h3>No file uploaded, <a href="/upload">upload something</a>!</h3>
+            <div class="col-12">
+                <h3 class="text-center">No files requested, <a href="/upload">upload something</a>!</h3>
+            </div>
         {% endif %}
+    </div>
 </div>
 
 {%endblock%}
