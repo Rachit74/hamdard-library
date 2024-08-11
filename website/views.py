@@ -6,6 +6,7 @@ from .models import User
 import firebase_admin
 from firebase_admin import storage, firestore
 import uuid
+from werkzeug.utils import secure_filename
 
 
 
@@ -39,7 +40,7 @@ def upload():
 
 
         if file and title and dept:
-                filename = title
+                filename = secure_filename(file.filename)
                 blob = bucket.blob(filename)
                 blob.upload_from_file(file)
                 blob.make_public()  # Make the file publicly accessible
@@ -78,10 +79,13 @@ def department(department):
         file_path = file_metadata.get('file_path')
         file_status = file_metadata.get('file_status')
         file_department = file_metadata.get('file_department')
+        file_title = file_metadata.get('file_title')
         
         # Generate public URL for each file
         blob = bucket.blob(file_path)
         file_url = blob.public_url
+
+        # print(file_url)
 
         files.append({
             'file_name': file_name,
@@ -91,6 +95,7 @@ def department(department):
             'file_department': file_department,
             'department': file_metadata.get('file_department'),
             'id': doc.id,
+            'file_title': file_title,
         })
 
     return render_template('files.html', files=files, department=department)

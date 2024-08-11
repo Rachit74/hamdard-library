@@ -222,7 +222,7 @@ def delete_file(file_id):
         # Delete the document from Firestore
         file_ref.delete()
         
-        flash("File deleted successfully from both Firestore and Storage!")
+        flash("File deleted successfully!")
     else:
         flash("File not found!")
 
