@@ -1,0 +1,22 @@
+{% extends "library/base.html" %}
+
+{%block title%} {{ user.username }} | profile {% endblock %}
+{%block content%}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-center">{{ user.username }}</h2>
+                    <p class="card-text"><strong>ID:</strong> {{ user.id }}</p>
+                    <div class="d-grid gap-2">
+                        <a href="#" class="btn btn-danger">Delete Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}
