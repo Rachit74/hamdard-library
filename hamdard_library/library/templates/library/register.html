@@ -6,7 +6,7 @@
 <div class="container d-flex justify-content-center align-items-center">
     <div class="card p-4 shadow-lg" style="width: 100%; max-width: 400px;">
         <h2 class="text-center mb-4">Register</h2>
-        <form method="post">
+        <form method="POST" action="{% url 'library_register_user' %}">
             {% csrf_token %}
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
