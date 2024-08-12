@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from .models import User, File
 from .forms import FileUploadForm, UserLoginForm, RegistartionForm
 from django.contrib import messages
@@ -32,3 +32,29 @@ def upload_file(request):
         form = FileUploadForm()
     
     return render(request, 'library/upload_file.html', {'form': form})
+
+#file approval page
+
+@login_required
+def file_approve_requests(request):
+    user = request.user
+    if not user.is_staff:
+        messages.info(request, "You do not have access!")
+        return redirect('library_home')
+    
+    unapproved_files = File.objects.filter(file_status=False)
+    return render(request, 'library/requests.html', {'unapproved_files': unapproved_files})
+
+@login_required
+def approve_file(request, file_id):
+    user = request.user
+    if not user.is_staff:
+        messages.info(request, "You do not have access!")
+        return redirect('library_home')
+    
+    file = File.objects.filter(id=file_id).first()
+    if file:
+        file.file_status = True
+        file.save()
+        messages.success(request, "File Approved!")
+        return redirect('library_approve_requests')
