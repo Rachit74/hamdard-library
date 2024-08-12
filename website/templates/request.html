@@ -18,7 +18,7 @@
                                 <h5 class="card-title">{{ file.file_name }}</h5>
                                 <p class="card-text"><strong>Department:</strong> {{ file.file_department }}</p>
                                 <div class="d-flex justify-content-between">
-                                    <a href="{{ url_for('static', filename='uploads/' ~ file.file_path) }}" download class="btn btn-success">Download</a>
+                                    <a href="{{ file.file_url }}" download class="btn btn-success">Download</a>
                                     <a href="{{ url_for('admin_.file_approve', file_id=file.id) }}" class="btn btn-primary">Approve</a>
                                     <a href="{{ url_for('admin_.delete_file', file_id=file.id) }}" class="btn btn-danger">Delete</a>
                                 </div>
