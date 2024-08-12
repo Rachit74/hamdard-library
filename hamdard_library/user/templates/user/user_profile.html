@@ -1,0 +1,59 @@
+{% extends "user/base.html" %}
+
+{%block title%} {{ user.username }} | profile {% endblock %}
+{%block content%}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-center">{{ user.username }}</h2>
+                    <p class="card-text"><strong>ID:</strong> {{ user.id }}</p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'library_delete_account' %}" class="btn btn-danger">Delete Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Files Uploaded by the User Section -->
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">Uploaded Files</h3>
+
+                    {% if user_files %}
+                        <ul class="list-group">
+                            {% for file in user_files %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>{{ file.file_name }}</strong><br>
+                                        <small class="text-muted">Department: {{ file.file_department }}</small><br>
+                                        <small class="text-muted">Uploaded on: {{ file.uploaded_at|date:"Y-m-d H:i" }}</small>
+                                    </div>
+                                    <div>
+                                        {% if file.file_status %}
+                                            <span class="badge bg-success">Approved</span>
+                                        {% else %}
+                                            <span class="badge bg-warning text-dark">Pending Approval</span>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-center">You haven't uploaded any files yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{%endblock%}

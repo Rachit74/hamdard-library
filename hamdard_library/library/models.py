@@ -14,6 +14,9 @@ class File(models.Model):
         
         # File path field (auto-handled by Django's FileField)
         file_path = models.FileField(upload_to='uploads/')
+
+        #file approve status
+        file_status = models.BooleanField(default=False)
         
         # ForeignKey linking to the User who uploaded the file
         uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)

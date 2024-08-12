@@ -27,19 +27,19 @@
             <li class="nav-item active">
               <a class="nav-link" href="{% url 'library_departments' %}">Departments <span class="sr-only"></span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
               <a class="nav-link" href="{% url 'library_upload_file' %}">Upload</a>
             </li>
             {% if user.is_authenticated %}
-            <li class="nav-item">
-                <a class="nav-link disabled" href="{% url 'library_user_profile' %}">Profile</a>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'library_user_profile' %}">Profile</a>
               </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="{% url 'library_logout_user' %}">Logout</a>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'library_logout_user' %}">Logout</a>
               </li>
               {% else %}
-              <li class="nav-item">
-                <a class="nav-link disabled" href="{% url 'library_login_user' %}">Login</a>
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'library_login_user' %}">Login</a>
               </li>
               {% endif %}
           </ul>

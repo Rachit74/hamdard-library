@@ -1,16 +1,42 @@
 {% extends "library/base.html" %}
 
-{% block title %} Upload File | Library {% endblock %}
-
+{% block title %} Upload | Library {% endblock %}
 {% block content %}
+
 <main class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card p-4 shadow-sm">
                 <h2 class="card-title text-center mb-4">Upload File</h2>
-                <form method="POST" enctype="multipart/form-data">
+                <form id="uploadForm" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ form.as_p }}
+
+                    <div class="mb-3">
+                        <label for="id_file_name" class="form-label">File Title:</label>
+                        <input type="text" name="file_name" id="id_file_name" class="form-control" value="{{ form.file_name.value|stringformat:"s" }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_file_department" class="form-label">Department:</label>
+                        <select name="file_department" id="id_file_department" class="form-select" required>
+                            <option value="SEST" {% if form.file_department.value == "SEST" %}selected{% endif %}>SEST</option>
+                            <option value="HIMSER" {% if form.file_department.value == "HIMSER" %}selected{% endif %}>HIMSER</option>
+                            <option value="SUMER" {% if form.file_department.value == "SUMER" %}selected{% endif %}>SUMER</option>
+                            <option value="SCLS" {% if form.file_department.value == "SCLS" %}selected{% endif %}>SCLS</option>
+                            <option value="SPER" {% if form.file_department.value == "SPER" %}selected{% endif %}>SPER</option>
+                            <option value="SNSAH" {% if form.file_department.value == "SNSAH" %}selected{% endif %}>SNSAH</option>
+                            <option value="SIST" {% if form.file_department.value == "SIST" %}selected{% endif %}>SIST</option>
+                            <option value="SMBS" {% if form.file_department.value == "SMBS" %}selected{% endif %}>SMBS</option>
+                            <option value="SHSS" {% if form.file_department.value == "SHSS" %}selected{% endif %}>SHSS</option>
+                            <option value="LAW" {% if form.file_department.value == "LAW" %}selected{% endif %}>School of Law</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_file_path" class="form-label">File:</label>
+                        <input type="file" name="file_path" id="id_file_path" accept="application/pdf" class="form-control" required>
+                    </div>
+
                     <div class="d-grid">
                         <button type="submit" class="btn btn-success">Upload</button>
                     </div>
@@ -19,4 +45,5 @@
         </div>
     </div>
 </main>
+
 {% endblock %}
