@@ -1,31 +1,12 @@
 {% extends "library/base.html" %}
 
-{% block title %}Register{% endblock %}
+{% block title %} Register | Library {% endblock %}
 
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center">
-    <div class="card p-4 shadow-lg" style="width: 100%; max-width: 400px;">
-        <h2 class="text-center mb-4">Register</h2>
-        <form method="POST" action="{% url 'library_register_user' %}">
-            {% csrf_token %}
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" id="username" name="username" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="password1" class="form-label">Password</label>
-                <input type="password" id="password1" name="password1" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="password2" class="form-label">Confirm Password</label>
-                <input type="password" id="password2" name="password2" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-dark btn-block w-100">Register</button>
-        </form>
-        <div class="mt-3 text-center">
-            <a href="/admin" class="btn btn-link">Admin Login</a> | 
-            <a href="{% url 'library_login_user' %}" class="btn btn-link text-primary">Login</a>
-        </div>
-    </div>
-</div>
+<h2>Register</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+</form>
 {% endblock %}

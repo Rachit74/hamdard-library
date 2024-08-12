@@ -11,7 +11,7 @@
                     <h2 class="card-title text-center">{{ user.username }}</h2>
                     <p class="card-text"><strong>ID:</strong> {{ user.id }}</p>
                     <div class="d-grid gap-2">
-                        <a href="#" class="btn btn-danger">Delete Account</a>
+                        <a href="{% url 'library_delete_account' %}" class="btn btn-danger">Delete Account</a>
                     </div>
                 </div>
             </div>
