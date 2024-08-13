@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import os
 from django.conf import settings
+from django.urls import reverse
 
 # Create your views here.
 
@@ -29,7 +30,8 @@ def upload_file(request):
             # Now commit the form to the database
             new_file.save()
             messages.success(request, "File Uploaded!")
-            return render(request, 'library/home.html')
+            return redirect(reverse('library_department', args=[new_file.file_department]))
+
     else:
         form = FileUploadForm()
     
