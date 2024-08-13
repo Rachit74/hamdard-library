@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
-from .models import User, File
-from .forms import FileUploadForm, UserLoginForm, RegistartionForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import File
+from .forms import FileUploadForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+import os
+from django.conf import settings
 
 # Create your views here.
 
@@ -73,3 +75,25 @@ def department(request,department_):
 
 
     return render(request, 'library/department.html', {'files':files, 'department': department_})
+
+#delete file
+def delete_file(request, file_id):
+# Retrieve the file object
+    file = get_object_or_404(File, id=file_id)
+    user = request.user
+
+    # Correct permission check
+    if not user.is_staff and not user.is_superuser and file.uploaded_by != user:
+        messages.warning(request, "You cannot delete this file!")
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+    # Remove file from physical storage
+    file_path = os.path.join(settings.MEDIA_ROOT, str(file.file_path))
+    if os.path.exists(file_path):
+        os.remove(file_path)
+
+    # Delete the file record from the database
+    file.delete()
+
+    messages.success(request, "File Deleted!")
+    return redirect(request.META.get('HTTP_REFERER', '/'))

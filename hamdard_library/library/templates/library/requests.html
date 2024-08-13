@@ -14,11 +14,12 @@
                     <div>
                         <strong>{{ file.file_name }}</strong><br>
                         <small class="text-muted">Department: {{ file.file_department }}</small><br>
+                        <small class="text-muted">Uploaded By: {{ file.uploaded_by }}</small><br>
                         <small class="text-muted">Uploaded on: {{ file.uploaded_at|date:"Y-m-d H:i" }}</small>
                     </div>
                     <div>
                         <a href="{{ file.file_path.url }}" class="btn btn-primary btn-sm me-2">View</a>
-                        <a href="#" class="btn btn-danger btn-sm me-2">Delete</a>
+                        <a href="{% url 'library_delete_file' file.id %}" class="btn btn-danger btn-sm me-2">Delete</a>
                         <a href="{% url 'library_approve_file' file.id %}" class="btn btn-success btn-sm">Approve</a>
                     </div>
                 </li>
