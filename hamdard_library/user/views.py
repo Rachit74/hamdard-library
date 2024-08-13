@@ -54,9 +54,17 @@ def logout_user(request):
 def user_profile(request):
     current_user = request.user
     user = current_user
+    filter_option = request.GET.get('filter', 'all')
+
+    if filter_option == 'approved':
+        user_files = File.objects.filter(uploaded_by=current_user, file_status=True)
+    elif filter_option == 'unapproved':
+        user_files = File.objects.filter(uploaded_by=current_user, file_status=False)
+    else:
+        user_files = File.objects.filter(uploaded_by=current_user)
 
     #filter the user files
-    user_files = File.objects.filter(uploaded_by=user)
+    # user_files = File.objects.filter(uploaded_by=user)
     return render(request, 'user/user_profile.html', {"user" : user, "user_files": user_files})
 
 @login_required

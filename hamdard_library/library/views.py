@@ -58,3 +58,18 @@ def approve_file(request, file_id):
         file.save()
         messages.success(request, "File Approved!")
         return redirect('library_approve_requests')
+    
+# departments/<department> page
+
+def department(request,department_):
+    filter_status = request.GET.get('filter', 'all')
+    
+    if filter_status == 'approved':
+        files = File.objects.filter(file_department=department_, file_status=True)
+    elif filter_status == 'unapproved':
+        files = File.objects.filter(file_department=department_, file_status=False)
+    else:
+        files = File.objects.filter(file_department=department_)
+
+
+    return render(request, 'library/department.html', {'files':files, 'department': department_})

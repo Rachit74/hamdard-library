@@ -35,6 +35,19 @@
                 <div class="card-body">
                     <h3 class="card-title">Uploaded Files</h3>
 
+                    <!-- Filter Buttons -->
+                    <div class="mb-3">
+                        <a href="?filter=all" class="btn btn-primary btn-sm {% if not request.GET.filter or request.GET.filter == 'all' %}active{% endif %}">
+                            All Files
+                        </a>
+                        <a href="?filter=approved" class="btn btn-success btn-sm {% if request.GET.filter == 'approved' %}active{% endif %}">
+                            Approved Files
+                        </a>
+                        <a href="?filter=unapproved" class="btn btn-warning btn-sm {% if request.GET.filter == 'unapproved' %}active{% endif %}">
+                            Unapproved Files
+                        </a>
+                    </div>
+
                     {% if user_files %}
                         <ul class="list-group">
                             {% for file in user_files %}
@@ -62,6 +75,7 @@
         </div>
     </div>
 </div>
+
 
 
 {%endblock%}

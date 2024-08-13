@@ -1,0 +1,62 @@
+{% extends "library/base.html" %}
+
+{% block title %} {{ department }} Files {% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center">{{ department }} Files</h2>
+
+    <!-- Filter Buttons -->
+    <div class="mb-3 text-center">
+        <a href="?filter=all" class="btn btn-primary btn-sm {% if not request.GET.filter or request.GET.filter == 'all' %}active{% endif %}">
+            All Files
+        </a>
+        <a href="?filter=approved" class="btn btn-success btn-sm {% if request.GET.filter == 'approved' %}active{% endif %}">
+            Approved Files
+        </a>
+        <a href="?filter=unapproved" class="btn btn-warning btn-sm {% if request.GET.filter == 'unapproved' %}active{% endif %}">
+            Unapproved Files
+        </a>
+    </div>
+
+    {% if files %}
+        <ul class="list-group">
+            {% for file in files %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ file.file_name }}</strong><br>
+                        <small class="text-muted">Uploaded on: {{ file.uploaded_at|date:"Y-m-d H:i" }}</small>
+                    </div>
+                    <div>
+                        {% if file.file_status %}
+                            <!-- Show links for approved files -->
+                            <a href="{{ file.file_path.url }}" class="btn btn-outline-primary btn-sm">Open</a>
+                            <a href="#" class="btn btn-outline-secondary btn-sm" onclick="copyLink('{{ file.file_path.url }}')">Copy Link</a>
+                        {% else %}
+                            <!-- Show badge for unapproved files -->
+                            <span class="badge badge-warning">Pending Approval</span>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-center">No files found for this department.</p>
+    {% endif %}
+</div>
+
+<script>
+    // Define the base URL
+    const baseUrl = "{{ request.scheme }}://{{ request.get_host }}";
+
+    function copyLink(filePath) {
+        const fullUrl = baseUrl + filePath;
+        navigator.clipboard.writeText(fullUrl).then(function() {
+            alert('Link copied to clipboard!');
+        }, function(err) {
+            alert('Could not copy link: ', err);
+        });
+    }
+</script>
+
+{% endblock %}
