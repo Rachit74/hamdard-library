@@ -6,18 +6,19 @@
 <div class="container my-5">
     <h2 class="text-center">{{ department }} Files</h2>
 
-    <!-- Filter Buttons -->
-    <div class="mb-3 text-center">
-        <a href="?filter=all" class="btn btn-primary btn-sm {% if not request.GET.filter or request.GET.filter == 'all' %}active{% endif %}">
-            All Files
-        </a>
-        <a href="?filter=approved" class="btn btn-success btn-sm {% if request.GET.filter == 'approved' %}active{% endif %}">
-            Approved Files
-        </a>
-        <a href="?filter=unapproved" class="btn btn-warning btn-sm {% if request.GET.filter == 'unapproved' %}active{% endif %}">
-            Unapproved Files
-        </a>
+    <hr>
+
+    <div class="btn-group">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Filter
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="?filter=all">All Files</a>
+            <a class="dropdown-item" href="?filter=approved">Approved Files</a>
+            <a class="dropdown-item" href="?filter=unapproved">Unapproved Files</a>
+        </div>
     </div>
+    <p></p>
 
     {% if files %}
         <ul class="list-group">
