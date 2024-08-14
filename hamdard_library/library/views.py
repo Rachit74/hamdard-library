@@ -66,6 +66,7 @@ def approve_file(request, file_id):
 # departments/<department> page
 
 def department(request,department_):
+    search_query = request.GET.get('search', '')
     filter_status = request.GET.get('filter', 'all')
     
     if filter_status == 'approved':
@@ -75,8 +76,11 @@ def department(request,department_):
     else:
         files = File.objects.filter(file_department=department_)
 
+    if search_query:
+        files = files.filter(file_name__icontains=search_query)
 
-    return render(request, 'library/department.html', {'files':files, 'department': department_})
+
+    return render(request, 'library/department.html', {'files':files, 'department': department_, 'search_query':search_query})
 
 #delete file
 def delete_file(request, file_id):
