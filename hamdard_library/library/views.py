@@ -85,7 +85,7 @@ def department(request,department_):
     if search_query:
         files = files.filter(file_name__icontains=search_query).order_by('-upvotes')
 
-    paginator = Paginator(files, 4)
+    paginator = Paginator(files, 6)
     page_number = request.GET.get('page')
     page_object = paginator.get_page(page_number)
 
@@ -127,6 +127,10 @@ def upvote(request, file_id):
     user = request.user
     file = get_object_or_404(File, id=file_id)
 
+    if not file.file_status:
+        messages.success(request, "File must be approved to perform operations")
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+    
     """
     checks if the combination of user and file exists in the Upvote model
     if not then allows the user to upvote the file and saved the combination

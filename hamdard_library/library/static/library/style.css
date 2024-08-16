@@ -20,12 +20,16 @@
 
 .alert {
     background: #0C4B33;
-    opacity: 0.8;
     color: white;
 }
 
 .lnks a{
     color: #0C4B33;
+    text-decoration: underline;
+}
+
+.lnks a:hover{
+    text-decoration: none;
 }
 
 .navbar-toggler-icon {
@@ -77,3 +81,34 @@
   .card-footer a:hover {
     text-decoration: underline;
   }
+
+ .btn-custom {
+    background-color: #085d40; /* Custom background color */
+    color: #fff; /* Text color */
+    border: none; /* Remove border */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Custom border radius */
+    padding: 5px 10px; /* Smaller padding for a smaller button */
+    font-size: 14px; /* Smaller font size */
+
+}
+
+.btn-custom:hover {
+    background-color: #0C4B33; /* Darker background on hover */
+    color: #fff; /* Ensure text color stays white */
+}
+
+.search-bar {
+    border-radius: 10px;
+}
+
+.search-bar:focus {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 2px 2px #085d40; /* Custom focus glow color */
+}
+
+
+.csb {
+    background-color: #085d40;
+    color: #fff;
+}

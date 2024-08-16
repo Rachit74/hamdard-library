@@ -6,16 +6,16 @@
 <div class="container my-5">
     <h2 class="text-center">{{ department }} Files</h2>
     <hr>
+      
 
     <!-- search -->
-    <form class="form-inline" method="GET" action="{% url 'library_department' department %}">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ request.GET.search }}">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <form class="form-inline mb-4" method="GET" action="{% url 'library_department' department %}">
+        <input class="form-control mr-sm-2 search-bar" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ request.GET.search }}">
+        <button class="btn btn-outline-success my-2 my-sm-0 btn-custom" type="submit">Search</button>
     </form>
-    <p></p>
 
     <!-- files filter -->
-    <div class="btn-group">
+    <div class="btn-group mb-4">
         <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Filter
         </button>
@@ -25,42 +25,43 @@
             <a class="dropdown-item" href="?filter=unapproved">Unapproved Files</a>
         </div>
     </div>
-    <p></p>
 
     {% if page_object %}
-        <ul class="list-group">
+        <div class="row">
             {% for file in page_object %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <strong>{{ file.file_name }}</strong><br>
-                        {% if file.uploaded_by %}
-                            <small class="text-muted">Uploaded By: {{ file.uploaded_by }}</small><br>
-                        {% else %}
-                            <small class="text-muted">Uploaded By: Deleted User</small><br>
-                        {% endif %}
-                        <small class="text-muted">Uploaded on: {{ file.uploaded_at|date:"Y-m-d H:i" }}</small>
-                    </div>
-                    <div>
-                        {% if file.file_status %}
-                        <!-- Show links for approved files -->
-                        <a href="{{ file.file_path.url }}" class="btn btn-outline-primary btn-sm">Open</a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm" onclick="copyLink('{{ file.file_path.url }}')">Copy Link</a>
-                
-                        <!-- Upvotes display and button -->
-                        <div class="d-flex align-items-center">
-                            <span class="badge badge-info mr-2">Upvotes: {{ file.upvotes }}</span>
-                            <div class="lnks">
-                            <a href="{% url 'library_upvote_file' file.id %}">Upvote</a>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ file.file_name }}</h5>
+                            <p class="card-text">
+                                {% if file.uploaded_by %}
+                                    Uploaded By: {{ file.uploaded_by }}<br>
+                                {% else %}
+                                    Uploaded By: Deleted User<br>
+                                {% endif %}
+                                Uploaded on: {{ file.uploaded_at|date:"Y-m-d H:i" }}
+                            </p>
+                            <div class="d-flex justify-content-between">
+                                {% if file.file_status %}
+                                    <a href="{{ file.file_path.url }}" class="btn btn-outline-primary btn-sm">Open</a>
+                                    <a href="#" class="btn btn-outline-secondary btn-sm" onclick="copyLink('{{ file.file_path.url }}')">Copy Link</a>
+                                {% else %}
+                                    <span class="badge badge-warning">Pending Approval</span>
+                                {% endif %}
                             </div>
                         </div>
-                        {% else %}
-                        <!-- Show badge for unapproved files -->
-                        <span class="badge badge-warning">Pending Approval</span>
-                        {% endif %}
+                        <div class="card-footer d-flex justify-content-between align-items-center">
+                            <span class="badge csb">Upvotes: {{ file.upvotes }}</span>
+                            {% if file.file_status %}
+                            <div class="lnks">
+                                <a href="{% url 'library_upvote_file' file.id %}" class="">Upvote</a>
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
-                </li>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
 
         <!-- Pagination -->
         <nav aria-label="Page navigation example">
