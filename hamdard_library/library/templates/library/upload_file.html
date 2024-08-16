@@ -1,23 +1,23 @@
 {% extends "library/base.html" %}
 
-{% block title %} Upload | Library {% endblock %}
-{% block content %}
+{% block title %}Upload | Library{% endblock %}
 
+{% block content %}
 <main class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card p-4 shadow-sm">
-                <h2 class="card-title text-center mb-4">Upload File</h2>
-                <form id="uploadForm" method="POST" enctype="multipart/form-data">
+            <div class="card p-4 shadow-lg" style="border-radius: 10px;">
+                <h2 class="card-title text-center mb-4" style="font-family: 'Merriweather', serif; color: #0C4B33;">Upload File</h2>
+                <form id="uploadForm" method="POST" enctype="multipart/form-data" style="font-family: 'IBM Plex Sans', sans-serif;">
                     {% csrf_token %}
-
+                    
                     <div class="mb-3">
-                        <label for="id_file_name" class="form-label">File Title:</label>
+                        <label for="id_file_name" class="form-label" style="font-family: 'IBM Plex Sans', sans-serif;">File Title:</label>
                         <input type="text" name="file_name" id="id_file_name" class="form-control" value="{{ form.file_name.value|stringformat:"s" }}" required>
                     </div>
                     
                     <div class="mb-3">
-                        <label for="id_file_department" class="form-label">Department:</label>
+                        <label for="id_file_department" class="form-label" style="font-family: 'IBM Plex Sans', sans-serif;">Department:</label>
                         <select name="file_department" id="id_file_department" class="form-select" required>
                             <option value="SEST" {% if form.file_department.value == "SEST" %}selected{% endif %}>SEST</option>
                             <option value="HIMSER" {% if form.file_department.value == "HIMSER" %}selected{% endif %}>HIMSER</option>
@@ -33,17 +33,16 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label for="id_file_path" class="form-label">File:</label>
+                        <label for="id_file_path" class="form-label" style="font-family: 'IBM Plex Sans', sans-serif;">File:</label>
                         <input type="file" name="file_path" id="id_file_path" accept="application/pdf" class="form-control" required>
                     </div>
 
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-success">Upload</button>
+                        <button type="submit" class="btn btn-success" style="border-radius: 25px; font-family: 'IBM Plex Sans', sans-serif;">Upload</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </main>
-
 {% endblock %}

@@ -137,6 +137,13 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 LOGIN_URL = 'library_login_user'
 
+# URL to use when referring to static files
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
+# If your static files are in app/static/app, you might not need STATICFILES_DIRS
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'library/static/library'),
+]
+
+# Directory where static files will be collected for deployment
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

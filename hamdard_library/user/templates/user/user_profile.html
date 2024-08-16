@@ -1,45 +1,20 @@
 {% extends "library/base.html" %}
 
-{%block title%} {{ user.username }} | profile {% endblock %}
-{%block content%}
+{% block title %} {{ user.username }} | Profile {% endblock %}
 
+{% block content %}
 <div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h2 class="card-title text-center">{{ user.username }}</h2>
-                    <p class="card-text"><strong>ID:</strong> {{ user.id }}</p>
-                    <div class="d-grid gap-2">
-                        <a href="{% url 'library_delete_account' %}" class="btn btn-danger">Delete Account</a>
-                        {% if user.is_staff %}
-                        <a href="{% url 'library_approve_requests' %}" class="btn btn-primary">Approval Requests</a>
-                        <hr>
-                        Account Status: Admin
-                        {% else %}
-                        <hr>
-                        <p>Account Status: Normal</p>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Files Uploaded by the User Section -->
-<div class="container my-5">
-    <div class="row justify-content-center">
+    <div class="row">
+        <!-- Uploaded Files Section -->
         <div class="col-md-8">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h3 class="card-title">Uploaded Files</h3>
 
                     <!-- Filter Buttons -->
-
                     <div class="btn-group">
                         <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Filter
+                            Filter
                         </button>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="?filter=all">All Files</a>
@@ -74,9 +49,27 @@
                 </div>
             </div>
         </div>
+
+        <!-- User Profile Section -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-center">{{ user.username }}</h2>
+                    <p class="card-text"><strong>ID:</strong> {{ user.id }}</p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'library_delete_account' %}" class="btn btn-danger">Delete Account</a>
+                        {% if user.is_staff %}
+                        <a href="{% url 'library_approve_requests' %}" class="btn btn-primary">Approval Requests</a>
+                        <hr>
+                        <p class="text-center">Account Status: Admin</p>
+                        {% else %}
+                        <hr>
+                        <p class="text-center">Account Status: Normal</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-
-
-{%endblock%}
+{% endblock %}

@@ -1,28 +1,49 @@
 {% extends "library/base.html" %}
 
-{%block title%} Departments | Library {% endblock %}
-{%block content%}
+{% block title %} Departments | Library {% endblock %}
 
-<main class="main">
-    <div class="mb-4">
-        <h1>Departments</h1> 
-        <hr>
-        <div class="lnks">
-            <ul>
-                <li><a href="{% url 'library_department' 'SEST' %}">School of Engineering Sciences & Technology</a></li>
-                <li><a href="{% url 'library_department' 'HIMSER' %}">School of Medical Sciences and Research</a></li>
-                <li><a href="{% url 'library_department' 'SUMER' %}">School of Unani Medical Education & Research</a></li>
-                <li><a href="{% url 'library_department' 'SCLS' %}">School of Chemical and Life Sciences</a></li>
-                <li><a href="{% url 'library_department' 'SPER' %}">School of Pharmaceutical Education and Research</a></li>
-                <li><a href="{% url 'library_department' 'SNSAH' %}">School of Nursing Sciences & Allied Health</a></li>
-                <li><a href="{% url 'library_department' 'SIST' %}">School of Interdisciplinary Sciences & Technology</a></li>
-                <li><a href="{% url 'library_department' 'SMBS' %}">School of Management and Business Studies</a></li>
-                <li><a href="{% url 'library_department' 'SHSS' %}">School of Humanaties and Social Sciences</a></li>
-                <li><a href="{% url 'library_department' 'LAW' %}">School of Law</a></li>
-            </ul>
+{% block content %}
+
+<main class="container my-5">
+    <h1 class="text-center mb-4">Departments</h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="list-group">
+                <a href="{% url 'library_department' 'SEST' %}" class="list-group-item list-group-item-action">
+                    School of Engineering Sciences & Technology
+                </a>
+                <a href="{% url 'library_department' 'HIMSER' %}" class="list-group-item list-group-item-action">
+                    School of Medical Sciences and Research
+                </a>
+                <a href="{% url 'library_department' 'SUMER' %}" class="list-group-item list-group-item-action">
+                    School of Unani Medical Education & Research
+                </a>
+                <a href="{% url 'library_department' 'SCLS' %}" class="list-group-item list-group-item-action">
+                    School of Chemical and Life Sciences
+                </a>
+                <a href="{% url 'library_department' 'SPER' %}" class="list-group-item list-group-item-action">
+                    School of Pharmaceutical Education and Research
+                </a>
+                <a href="{% url 'library_department' 'SNSAH' %}" class="list-group-item list-group-item-action">
+                    School of Nursing Sciences & Allied Health
+                </a>
+                <a href="{% url 'library_department' 'SIST' %}" class="list-group-item list-group-item-action">
+                    School of Interdisciplinary Sciences & Technology
+                </a>
+                <a href="{% url 'library_department' 'SMBS' %}" class="list-group-item list-group-item-action">
+                    School of Management and Business Studies
+                </a>
+                <a href="{% url 'library_department' 'SHSS' %}" class="list-group-item list-group-item-action">
+                    School of Humanities and Social Sciences
+                </a>
+                <a href="{% url 'library_department' 'LAW' %}" class="list-group-item list-group-item-action">
+                    School of Law
+                </a>
+            </div>
         </div>
     </div>
-
 </main>
 
-{%endblock%}
+{% endblock %}

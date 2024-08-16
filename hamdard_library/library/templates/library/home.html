@@ -1,25 +1,47 @@
 {% extends "library/base.html" %}
 
-{%block title%} Home | Library {% endblock %}
+{% block title %}Home | Library{% endblock %}
 
-{%block content%}
+{% block content %}
+<div class="container mt-4">
+  <div class="row">
+    <!-- Main content (70%) -->
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title">Hamdard Library</h1>
+          <hr>
+          <p>Hamdard Library is an online library made by and for the students of Jamia Hamdard University to share resources with each other.</p>
+          <p>Share Notes, Lab files, syllabus and more with other students.</p>
+          <p>You can upload and download files according to your Departments.</p>
+          
+          <div class="lnks">
+            <a href="{% url 'library_departments' %}" class="">Find your department</a><br>
+            <a href="{% url 'library_upload_file' %}" class="">Upload something</a>
+          </div>
 
-<main class="main">
-    <div class="intro-div">
-        <h1>Hamdard Library</h1> 
-        <hr>
-        <p>Hamdard Library is an online library made by and for the students of Jamia Hamdard University to share resources with each other.</p>
-        <p>Share Notes, Lab files, syllabus and more with other students.</p>
-        <p>You can upload and download files according to your Departments.</p>
+          <div class="alert mt-3" role="alert">
+            <strong>Files are approved by the admins before they are accessible</strong>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="lnks" style="list-style-type: none;">
-        <li><a href="{% url 'library_departments' %}">Find your department</a></li>
-        <li><a href="{% url 'library_upload_file' %}">Upload something</a></li>
-    </div>
 
-    <div class="alert alert-info" role="alert">
-        Files are approved by the admins before they are accessible
+    <!-- Recent files (30%) -->
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header recent-files">
+          Recent Files
+        </div>
+        {% if files %}
+        <ul class="list-group list-group-flush">
+            {% for file in files %}
+          <li class="list-group-item">{{ file.file_name }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
     </div>
-</main>
-
-{%endblock%}
+  </div>
+</div>
+{% endblock %}

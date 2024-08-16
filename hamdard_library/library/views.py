@@ -11,7 +11,8 @@ from django.urls import reverse
 
 # home view
 def home(request):
-    return render(request, 'library/home.html')
+    files = File.objects.all().order_by('-uploaded_at')[:5]
+    return render(request, 'library/home.html', {'files':files})
 
 # deparments view
 def departments(request):
