@@ -58,8 +58,9 @@
                     <p class="card-text"><strong>ID:</strong> {{ user.id }}</p>
                     <div class="d-grid gap-2">
                         <a href="{% url 'library_delete_account' %}" class="btn btn-danger">Delete Account</a>
+                        <p></p>
                         {% if user.is_staff %}
-                        <a href="{% url 'library_approve_requests' %}" class="btn btn-primary">Approval Requests</a>
+                        <a href="{% url 'library_approve_requests' %}" class="">Approval Requests</a>
                         <hr>
                         <p class="text-center">Account Status: Admin</p>
                         {% else %}
