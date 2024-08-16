@@ -2,3 +2,4 @@ __pycache__/
 hamdard_library/media
 hamdard_library/staticfiles
 /env
+.idea/

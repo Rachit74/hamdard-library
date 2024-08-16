@@ -12,6 +12,7 @@ def login_user(request):
     if request.method == 'POST':
         form = UserLoginForm(request, data=request.POST)
         if form.is_valid():
+            #checks of username and password for that username in the db
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
@@ -29,6 +30,7 @@ def register_user(request):
         form = RegistartionForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
+            #checks if both the passwords are same
             user.set_password(form.cleaned_data['password1'])
             user.save()
             login(request, user)
@@ -41,7 +43,7 @@ def register_user(request):
         form = RegistartionForm()
     return render(request, 'user/register.html', {'form':form})
 
-#logut user
+#logut user (logs the user out)
 def logout_user(request):
     logout(request)
     messages.success(request,"Logged out!")
@@ -49,13 +51,17 @@ def logout_user(request):
 
 # fake user meta data
 
-#individual user route
+#individual user Profile route
+"""
+Gets the current user and the files uploaded by that user and sends response based on that information
+"""
 @login_required
 def user_profile(request):
     current_user = request.user
     user = current_user
     filter_option = request.GET.get('filter', 'all')
 
+    #gets the files based on filter passed in html (approved, unapproved or all files)
     if filter_option == 'approved':
         user_files = File.objects.filter(uploaded_by=current_user, file_status=True)
     elif filter_option == 'unapproved':
@@ -63,17 +69,27 @@ def user_profile(request):
     else:
         user_files = File.objects.filter(uploaded_by=current_user)
 
+    # counting the number of file uploads a user has
     uploads=0
     for i in user_files:
         uploads += 1
 
-    #filter the user files
-    # user_files = File.objects.filter(uploaded_by=user)
     return render(request, 'user/user_profile.html', {"user" : user, "user_files": user_files, "uploads": uploads})
 
+#delete user function
+"""
+Gets the current user and deletes it from the database
+"""
 @login_required
 def delete_user(request):
+    #gets current user
     user = request.user
+
+    #delets the user
     user.delete()
+
+    #flashes the message of user being deleted
     messages.warning(request, "User Deleted!")
+
+    #redirects to login page after the user is deleted
     return redirect('library_login_user')

@@ -14,6 +14,7 @@ class RegistartionForm(UserCreationForm):
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
+        #if the username already exists then raise an error
         if User.objects.filter(username = username).exists():
             raise forms.ValidationError("This Username is already taken!")
         return username
@@ -23,6 +24,7 @@ class RegistartionForm(UserCreationForm):
         password1 = cleaned_data.get("password1")
         password2 = cleaned_data.get("password2")
 
+        #raise an error if the passwords do not match
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError("Passwords do not match")
 

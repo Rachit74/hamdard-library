@@ -6,10 +6,8 @@ from django.contrib.auth.models import User
 #file post Model
 
 class File(models.Model):
-        # File name field
         file_name = models.CharField(max_length=255)
         
-        # File department field
         file_department = models.CharField(max_length=255)
         
         # File path field (auto-handled by Django's FileField)
