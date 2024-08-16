@@ -1,7 +1,4 @@
-/instance
 __pycache__/
-/env
-.vercel
-media/
-/media
+hamdard_library/media
 hamdard_library/staticfiles
+/env
