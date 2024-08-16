@@ -70,9 +70,10 @@ def user_profile(request):
         user_files = File.objects.filter(uploaded_by=current_user)
 
     # counting the number of file uploads a user has
-    uploads=0
-    for i in user_files:
-        uploads += 1
+    """
+    using files.count() for faster counting instead of using a for loop.
+    """
+    uploads=user_files.count()
 
     return render(request, 'user/user_profile.html', {"user" : user, "user_files": user_files, "uploads": uploads})
 

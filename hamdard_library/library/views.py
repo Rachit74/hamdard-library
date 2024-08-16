@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import File
+from .models import File, Upvote
 from .forms import FileUploadForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -67,20 +67,23 @@ def approve_file(request, file_id):
     
 # departments/<department> page
 
+"""
+using .order_by('-upvotes') to sort the files in decending order by number of upvotes they have
+"""
 def department(request,department_):
     search_query = request.GET.get('search', '')
     filter_status = request.GET.get('filter', 'all')
     user = request.user
     
     if filter_status == 'approved':
-        files = File.objects.filter(file_department=department_, file_status=True)
+        files = File.objects.filter(file_department=department_, file_status=True).order_by('-upvotes')
     elif filter_status == 'unapproved':
-        files = File.objects.filter(file_department=department_, file_status=False)
+        files = File.objects.filter(file_department=department_, file_status=False).order_by('-upvotes')
     else:
-        files = File.objects.filter(file_department=department_)
+        files = File.objects.filter(file_department=department_).order_by('-upvotes')
 
     if search_query:
-        files = files.filter(file_name__icontains=search_query)
+        files = files.filter(file_name__icontains=search_query).order_by('-upvotes')
 
     paginator = Paginator(files, 4)
     page_number = request.GET.get('page')
@@ -110,4 +113,33 @@ def delete_file(request, file_id):
     file.delete()
 
     messages.success(request, "File Deleted!")
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+#file upvote view
+"""
+view to handle file upvotes
+Users can upvote a file but can not upvote their own file
+A user can upvote a file only once
+"""
+
+@login_required
+def upvote(request, file_id):
+    user = request.user
+    file = get_object_or_404(File, id=file_id)
+
+    """
+    checks if the combination of user and file exists in the Upvote model
+    if not then allows the user to upvote the file and saved the combination
+    if yes then raise error.
+    """
+    if not Upvote.objects.filter(user=user, file=file):
+        file.upvotes += 1
+        file.save()
+        upvote = Upvote.objects.create(user=user, file=file)
+        upvote.save()
+        messages.success(request, "Upvoted!")
+        print(file.upvotes)
+    else:
+        messages.success(request,"Can not upvote again")
+
     return redirect(request.META.get('HTTP_REFERER', '/'))
