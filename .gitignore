@@ -3,4 +3,5 @@ __pycache__/
 /env
 .vercel
 media/
-/hamdard_library/media
+/media
+hamdard_library/staticfiles
