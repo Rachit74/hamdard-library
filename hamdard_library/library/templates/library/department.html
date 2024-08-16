@@ -1,18 +1,19 @@
 {% extends "library/base.html" %}
 
-{% block title %} {{ department }} Files {% endblock %}
+{% block title %} {{ department }} Files | Library {% endblock %}
 
 {% block content %}
 <div class="container my-5">
     <h2 class="text-center">{{ department }} Files</h2>
-
     <hr>
+
     <!-- search -->
-        <form class="form-inline" method="GET" action="{% url 'library_department' department %}">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-        <p></p>
+    <form class="form-inline" method="GET" action="{% url 'library_department' department %}">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ request.GET.search }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <p></p>
+
     <!-- files filter -->
     <div class="btn-group">
         <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -26,20 +27,17 @@
     </div>
     <p></p>
 
-    {% if files %}
+    {% if page_object %}
         <ul class="list-group">
-            {% for file in files %}
+            {% for file in page_object %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div>
                         <strong>{{ file.file_name }}</strong><br>
-
-                            <!-- if user is deleted then render Deleted user -->
-                            {% if file.uploaded_by == None %}
-                            <small class="text-muted">Uploaded By: Deleted User</small><br>
-                            {% else %}
+                        {% if file.uploaded_by %}
                             <small class="text-muted">Uploaded By: {{ file.uploaded_by }}</small><br>
-                            {% endif %}
-
+                        {% else %}
+                            <small class="text-muted">Uploaded By: Deleted User</small><br>
+                        {% endif %}
                         <small class="text-muted">Uploaded on: {{ file.uploaded_at|date:"Y-m-d H:i" }}</small>
                     </div>
                     <div>
@@ -55,15 +53,51 @@
                 </li>
             {% endfor %}
         </ul>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if page_object.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_object.previous_page_number }}&filter={{ request.GET.filter }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&laquo;</span>
+                    </li>
+                {% endif %}
+
+                {% for i in page_object.paginator.page_range %}
+                    <li class="page-item {% if page_object.number == i %}active{% endif %}">
+                        <a class="page-link" href="?page={{ i }}&filter={{ request.GET.filter }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if page_object.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_object.next_page_number }}&filter={{ request.GET.filter }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&raquo;</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+
     {% else %}
         <p class="text-center">No files found for this department.</p>
     {% endif %}
 </div>
 
 <script>
-    // Define the base URL
     const baseUrl = "{{ request.scheme }}://{{ request.get_host }}";
-
     function copyLink(filePath) {
         const fullUrl = baseUrl + filePath;
         navigator.clipboard.writeText(fullUrl).then(function() {

@@ -36,6 +36,7 @@
                                     <div>
                                         {% if file.file_status %}
                                             <span class="badge badge-success">Approved</span>
+                                            <a href="{% url 'library_delete_file' file.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
                                         {% else %}
                                             <span class="badge badge-warning">Pending Approval</span>
                                         {% endif %}
@@ -56,8 +57,9 @@
                 <div class="card-body">
                     <h2 class="card-title text-center">{{ user.username }}</h2>
                     <p class="card-text"><strong>ID:</strong> {{ user.id }}</p>
+                    <p class="card-text">Files Uploaded: {{ uploads }}</p>
                     <div class="d-grid gap-2">
-                        <a href="{% url 'library_delete_account' %}" class="btn btn-danger">Delete Account</a>
+                        <a href="{% url 'library_delete_account' %}" class="btn btn-outline-danger btn-sm">Delete Account</a>
                         <p></p>
                         {% if user.is_staff %}
                         <a href="{% url 'library_approve_requests' %}" class="">Approval Requests</a>

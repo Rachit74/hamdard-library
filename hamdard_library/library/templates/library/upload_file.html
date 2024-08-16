@@ -7,7 +7,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card p-4 shadow-lg" style="border-radius: 10px;">
-                <h2 class="card-title text-center mb-4" style="font-family: 'Merriweather', serif; color: #0C4B33;">Upload File</h2>
+                <h2 class="card-title text-center mb-4" style="font-family: 'Merriweather', serif;">Upload File</h2>
                 <form id="uploadForm" method="POST" enctype="multipart/form-data" style="font-family: 'IBM Plex Sans', sans-serif;">
                     {% csrf_token %}
                     
@@ -38,7 +38,7 @@
                     </div>
 
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-success" style="border-radius: 25px; font-family: 'IBM Plex Sans', sans-serif;">Upload</button>
+                        <button type="submit" class="btn btn-dark btn-block w-100 mt-3" style="border-radius: 25px; font-family: 'IBM Plex Sans', sans-serif;">Upload</button>
                     </div>
                 </form>
             </div>

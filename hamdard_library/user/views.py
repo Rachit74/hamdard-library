@@ -63,9 +63,13 @@ def user_profile(request):
     else:
         user_files = File.objects.filter(uploaded_by=current_user)
 
+    uploads=0
+    for i in user_files:
+        uploads += 1
+
     #filter the user files
     # user_files = File.objects.filter(uploaded_by=user)
-    return render(request, 'user/user_profile.html', {"user" : user, "user_files": user_files})
+    return render(request, 'user/user_profile.html', {"user" : user, "user_files": user_files, "uploads": uploads})
 
 @login_required
 def delete_user(request):

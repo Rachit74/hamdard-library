@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 import os
 from django.conf import settings
 from django.urls import reverse
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -69,6 +70,7 @@ def approve_file(request, file_id):
 def department(request,department_):
     search_query = request.GET.get('search', '')
     filter_status = request.GET.get('filter', 'all')
+    user = request.user
     
     if filter_status == 'approved':
         files = File.objects.filter(file_department=department_, file_status=True)
@@ -80,10 +82,15 @@ def department(request,department_):
     if search_query:
         files = files.filter(file_name__icontains=search_query)
 
+    paginator = Paginator(files, 4)
+    page_number = request.GET.get('page')
+    page_object = paginator.get_page(page_number)
 
-    return render(request, 'library/department.html', {'files':files, 'department': department_, 'search_query':search_query})
+
+    return render(request, 'library/department.html', {'page_object':page_object, 'department': department_, 'search_query':search_query, 'user':user})
 
 #delete file
+@login_required
 def delete_file(request, file_id):
 # Retrieve the file object
     file = get_object_or_404(File, id=file_id)

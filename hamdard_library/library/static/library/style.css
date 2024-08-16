@@ -64,3 +64,16 @@
 .text-primary:hover {
     color: #085d40; /* Darker green on hover */
 }
+
+.card-footer {
+    text-align: left;
+  }
+  
+  .card-footer a {
+    color: #085d40; /* Customize the color */
+    text-decoration: none;
+  }
+  
+  .card-footer a:hover {
+    text-decoration: underline;
+  }
