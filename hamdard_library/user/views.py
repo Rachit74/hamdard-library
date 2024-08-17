@@ -73,6 +73,9 @@ def user_profile(request):
     else:
         user_files = File.objects.filter(uploaded_by=current_user)
 
+    #sorting the user_files
+    user_files = user_files.order_by('-uploaded_at')
+
     # counting the number of file uploads a user has
     """
     using files.count() for faster counting instead of using a for loop.

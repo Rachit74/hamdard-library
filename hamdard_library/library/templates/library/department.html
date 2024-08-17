@@ -50,14 +50,16 @@
                                 {% endif %}
                             </div>
                         </div>
+                        {% if file.file_status %}
                         <div class="card-footer d-flex justify-content-between align-items-center">
                             <span class="badge csb">Upvotes: {{ file.upvotes }}</span>
-                            {% if file.file_status %}
+                            
                             <div class="lnks">
                                 <a href="{% url 'library_upvote_file' file.id %}" class="">Upvote</a>
                             </div>
-                            {% endif %}
                         </div>
+                        {% endif %}
+
                     </div>
                 </div>
             {% endfor %}

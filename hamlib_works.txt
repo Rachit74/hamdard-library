@@ -1,13 +1,14 @@
 written in this files are the fixes and works that need to be done on the webapp
 
-1.Reformat user registration form (firstname) & email? (possible forgot password in future?)
+[DONE] 1.Reformat user registration form (firstname)
+& email? (possible forgot password in future?) [maybe]
 
-2.After file upload redirect users to their profile where files will be sorted by latest uploaded
+[DONE] 2.After file upload redirect users to their profile where files will be sorted by latest uploaded
 On user profile show file delete button and files upvotes
 
-3. Only show upvotes if the file is approved
+[DONE] 3. Only show upvotes if the file is approved
 
-4. user login and registration from error handling
+[DONE] 4. user login and registration from error handling
 
 Scaling
 

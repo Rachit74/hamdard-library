@@ -32,7 +32,7 @@ def upload_file(request):
             # Now commit the form to the database
             new_file.save()
             messages.success(request, "File Uploaded!")
-            return redirect(reverse('library_department', args=[new_file.file_department]))
+            return redirect('library_user_profile')
 
     else:
         form = FileUploadForm()
