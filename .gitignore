@@ -4,3 +4,4 @@ hamdard_library/staticfiles
 /env
 .idea/
 hamdard_library/db.sqlite3
+hamdard_library/.env

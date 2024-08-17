@@ -31,7 +31,7 @@ def upload_file(request):
             new_file.uploaded_by = request.user
             # Now commit the form to the database
             new_file.save()
-            messages.success(request, "File Uploaded!")
+            messages.success(request, f"File Uploaded! {new_file.file_path}")
             return redirect('library_user_profile')
 
     else:
@@ -89,8 +89,14 @@ def department(request,department_):
     page_number = request.GET.get('page')
     page_object = paginator.get_page(page_number)
 
+    context = {
+        'page_object':page_object,
+        'department': department_,
+        'search_query':search_query,
+        'user':user
+    }
 
-    return render(request, 'library/department.html', {'page_object':page_object, 'department': department_, 'search_query':search_query, 'user':user})
+    return render(request, 'library/department.html', context)
 
 #delete file
 @login_required
