@@ -7,13 +7,15 @@ Resources can be uploaded and saved on Hamdard Library for any amount of time wh
 
 ### Tech Stack
 ![Django and Bootstrap Image](https://miro.medium.com/v2/resize:fit:767/1*aCfuQraCqZ4HLFhF49b0kQ.png)
-![SQLite Image](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9c6kBo9s2BValtr70Uit6OXMrrh4w3DjKpQ&s)
+![Postgres Image](https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/120px-Postgresql_elephant.svg.png)
 
-Hamdard Library is developed using Python's Django Frame and SQLite Database along with Bootstrap for frontend.
+Hamdard Library is developed using Python's Django Frame and Postgres Database along with Bootstrap for frontend.
 
 ### Contributing
 Anyone Can contribute to Hamdard Library  
 Follow the steps below to run on your local machine
+
+check `hamlib_works.txt` for possible contributions that you can make.
 
 1. Make sure you have python and pip installed.  
 
