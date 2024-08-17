@@ -55,8 +55,9 @@
         <div class="col-md-4">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h2 class="card-title text-center">{{ user.username }}</h2>
-                    <p class="card-text"><strong>ID:</strong> {{ user.id }}</p>
+                    <h2 class="card-title text-center">{{ user.first_name }}</h2>
+                    <p class="card-text">Username: {{ user.username }}</p>
+                    <p class="card-text">ID:{{ user.id }}</p>
                     <p class="card-text">Files Uploaded: {{ uploads }}</p>
                     <div class="d-grid gap-2">
                         <a href="{% url 'library_delete_account' %}" class="btn btn-outline-danger btn-sm">Delete Account</a>

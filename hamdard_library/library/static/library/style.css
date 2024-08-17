@@ -112,3 +112,42 @@
     background-color: #085d40;
     color: #fff;
 }
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: .5rem;
+    font-weight: 600;
+}
+
+.form-control {
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+
+.form-text {
+    margin-top: .25rem;
+    color: #6c757d;
+}
+
+.text-danger {
+    color: #dc3545;
+}
+
+/* Directly apply styles to form fields */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: .375rem .75rem;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}

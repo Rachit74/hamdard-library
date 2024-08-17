@@ -41,7 +41,11 @@ def register_user(request):
             print(form.errors)
     else:
         form = RegistartionForm()
-    return render(request, 'user/register.html', {'form':form})
+    
+    context = {
+        'form': form,
+    }
+    return render(request, 'user/register.html', context)
 
 #logut user (logs the user out)
 def logout_user(request):
@@ -75,7 +79,13 @@ def user_profile(request):
     """
     uploads=user_files.count()
 
-    return render(request, 'user/user_profile.html', {"user" : user, "user_files": user_files, "uploads": uploads})
+    context = {
+        'user':user,
+        'user_files':user_files,
+        'uploads':uploads,
+    }
+
+    return render(request, 'user/user_profile.html', context)
 
 #delete user function
 """

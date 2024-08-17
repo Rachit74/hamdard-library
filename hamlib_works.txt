@@ -1,0 +1,25 @@
+written in this files are the fixes and works that need to be done on the webapp
+
+1.Reformat user registration form (firstname) & email? (possible forgot password in future?)
+
+2.After file upload redirect users to their profile where files will be sorted by latest uploaded
+On user profile show file delete button and files upvotes
+
+3. Only show upvotes if the file is approved
+
+4. user login and registration from error handling
+
+Scaling
+
+1. same file identification and prevent dublicate uploads
+(
+    if user A has uploaded a.pdf and user B is also uploading a.pdf, then we need to stop another upload of the same file
+    file record will be created for both the users but in the storage only one pdf file will be stored that is a.pdf instead
+    of 2 a.pdf files.
+)
+
+2. Possible database switch ?
+
+opitional
+
+Some styling tweaks
