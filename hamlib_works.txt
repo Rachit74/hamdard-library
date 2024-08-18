@@ -11,6 +11,8 @@ Scaling
 
 2. Possible database switch ?
 
+3. File Chunk upload
+
 opitional
 
 Some styling tweaks
