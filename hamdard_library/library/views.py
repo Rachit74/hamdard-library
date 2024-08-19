@@ -27,11 +27,37 @@ def upload_file(request):
         if form.is_valid():
             # Save the form but don't commit to the database yet
             new_file = form.save(commit=False)
-            # Assign the current logged-in user to the uploaded_by field
+            print(new_file.file_path)
+
+            # generate and set a file identifier to the current uploaded file
+            new_file.file_identifier = f"{new_file.file_path}_identifier"
+            print(new_file.file_identifier)
+
             new_file.uploaded_by = request.user
-            # Now commit the form to the database
-            new_file.save()
-            messages.success(request, f"File Uploaded! {new_file.file_path}")
+
+            # checks if the file with the current file identifier exiists in any of the record
+            check_for_file = File.objects.filter(file_identifier=new_file.file_identifier).exists()
+
+
+            # if file exists then __pass__
+            if check_for_file:
+                """
+                if a file with the file_identifier exists then we will set the file_path of current file
+                to the file_path of the file that already exists in the storage.
+                """
+                dublicate_file = File.objects.filter(file_identifier=new_file.file_identifier).first()
+                print("File with the current identifier exists, can't upload dublicate files!")
+                new_file.file_path = dublicate_file.file_path
+                new_file.save()
+                messages.success(request, f"File Uploaded!")
+
+            else:
+                """
+                if a file with the file_identifier does not exists then we will upload the file to database
+                """
+                new_file.save()
+                messages.success(request, f"File Uploaded!")
+
             return redirect('library_user_profile')
 
     else:

@@ -23,6 +23,9 @@ class File(models.Model):
         # Timestamp of when the file was uploaded
         uploaded_at = models.DateTimeField(auto_now_add=True)
 
+        # File Identifier to prevent dublicate uploads
+        file_identifier = models.CharField(max_length=100, default="")
+
         # Number of upvotes a file has
         upvotes = models.IntegerField(default=0)
 

@@ -29,7 +29,7 @@
                             {% for file in user_files %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <strong>{{ file.file_name }}</strong><br>
+                                        <strong>{{ file.file_name }} | {{ file.file_identifier }}</strong><br>
                                         <small class="text-muted">Department: {{ file.file_department }}</small><br>
                                         <small class="text-muted">Uploaded on: {{ file.uploaded_at|date:"Y-m-d H:i" }}</small>
                                     </div>
