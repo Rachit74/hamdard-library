@@ -64,7 +64,9 @@
                         <a href="{% url 'library_delete_account' %}" class="btn btn-outline-danger btn-sm">Delete Account</a>
                         <p></p>
                         {% if user.is_staff %}
+                        <div class="lnks">
                         <a href="{% url 'library_approve_requests' %}" class="">Approval Requests</a>
+                        </div>
                         <hr>
                         <p class="text-center">Account Status: Admin</p>
                         {% else %}

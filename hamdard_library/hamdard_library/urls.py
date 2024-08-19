@@ -20,6 +20,7 @@ from django.urls import path, include
 urlpatterns = [
     path('', include('library.urls')), #mapping library app
     path('user/', include('user.urls')), #user url mapping
+    path('captcha/', include('captcha.urls')),
     path('admin/', admin.site.urls),
 ]
 

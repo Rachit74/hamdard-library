@@ -7,6 +7,8 @@ Sercurity
 
 RECENT WORKS
 ============
+[DONE] Add user captcha
+
 [DONE] Swtich to postgres database
 
 [DONE] dublicate file identification to save storage
