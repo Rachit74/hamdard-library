@@ -135,17 +135,35 @@ def delete_file(request, file_id):
     if not user.is_staff and not user.is_superuser and file.uploaded_by != user:
         messages.warning(request, "You cannot delete this file!")
         return redirect(request.META.get('HTTP_REFERER', '/'))
+    else:
+        #file identifier of the current file (/delete_file/id)
+        current_file_identifier = file.file_identifier
 
-    # Remove file from physical storage
-    file_path = os.path.join(settings.MEDIA_ROOT, str(file.file_path))
-    if os.path.exists(file_path):
-        os.remove(file_path)
+        #check if files with the current identifier exists
 
-    # Delete the file record from the database
-    file.delete()
+        check_for_file = File.objects.filter(file_identifier = current_file_identifier).count()
 
-    messages.success(request, "File Deleted!")
-    return redirect(request.META.get('HTTP_REFERER', '/'))
+        """
+        if more than one file with current_file_identifier exists
+        """
+        if check_for_file>1:
+            """
+            deletes the file data but does not remove the file from the physical storage
+            """
+            file.delete()
+        else:
+            """
+            Removes the file from physical storage if no file with the current_file_identifier exists
+            """
+            file_path = os.path.join(settings.MEDIA_ROOT, str(file.file_path))
+            if os.path.exists(file_path):
+                os.remove(file_path)
+            
+            # Delete the file record from the database
+            file.delete()
+
+        messages.success(request, "File Deleted!")
+        return redirect(request.META.get('HTTP_REFERER', '/'))
 
 #file upvote view
 """
