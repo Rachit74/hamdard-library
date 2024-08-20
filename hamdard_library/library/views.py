@@ -99,12 +99,21 @@ using .order_by('-upvotes') to sort the files in decending order by number of up
 def department(request,department_):
     search_query = request.GET.get('search', '')
     filter_status = request.GET.get('filter', 'all')
+    sem_filter = request.GET.get('sem', 'all')
+    # Check if the sem_filter is a digit before converting
+    if sem_filter.isdigit():
+        sem_filter = int(sem_filter)
+    else:
+        sem_filter = 'all'
+
     user = request.user
     
     if filter_status == 'approved':
         files = File.objects.filter(file_department=department_, file_status=True).order_by('-upvotes')
     elif filter_status == 'unapproved':
         files = File.objects.filter(file_department=department_, file_status=False).order_by('-upvotes')
+    elif type(sem_filter) == int:
+        files = File.objects.filter(file_department=department_, semester=sem_filter).order_by('-upvotes')
     else:
         files = File.objects.filter(file_department=department_).order_by('-upvotes')
 
@@ -121,7 +130,6 @@ def department(request,department_):
         'search_query':search_query,
         'user':user
     }
-
     return render(request, 'library/department.html', context)
 
 #delete file

@@ -14,10 +14,12 @@
         <button class="btn btn-outline-success my-2 my-sm-0 btn-custom" type="submit">Search</button>
     </form>
 
-    <!-- files filter -->
-    <div class="btn-group mb-4">
+<!-- Filter and Semester Dropdowns -->
+<div class="mb-4">
+    <!-- Filter Dropdown -->
+    <div class="btn-group">
         <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Filter
+            Filter
         </button>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="?filter=all">All Files</a>
@@ -26,6 +28,26 @@
         </div>
     </div>
 
+    <!-- Semester Dropdown -->
+    <div class="btn-group">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Semester
+        </button>
+        <div class="dropdown-menu">
+            <a href="?sem=all" class="dropdown-item">All</a>
+            <a href="?sem=1" class="dropdown-item">1</a>
+            <a href="?sem=2" class="dropdown-item">2</a>
+            <a href="?sem=3" class="dropdown-item">3</a>
+            <a href="?sem=4" class="dropdown-item">4</a>
+            <a href="?sem=5" class="dropdown-item">5</a>
+            <a href="?sem=6" class="dropdown-item">6</a>
+            <a href="?sem=7" class="dropdown-item">7</a>
+            <a href="?sem=8" class="dropdown-item">8</a>
+            <a href="?sem=9" class="dropdown-item">9</a>
+            <a href="?sem=10" class="dropdown-item">10</a>
+        </div>
+    </div>
+</div>
     {% if page_object %}
         <div class="row">
             {% for file in page_object %}
@@ -35,11 +57,11 @@
                             <h5 class="card-title">{{ file.file_name }}</h5>
                             <p class="card-text">
                                 {% if file.uploaded_by %}
-                                    Uploaded By: {{ file.uploaded_by }}<br>
+                                    <p class="text-muted">Uploaded By: {{ file.uploaded_by }}</p>
                                 {% else %}
-                                    Uploaded By: Deleted User<br>
+                                    <p class="text-muted">Uploaded By: Deleted User</p>
                                 {% endif %}
-                                Uploaded on: {{ file.uploaded_at|date:"Y-m-d H:i" }}
+                                <p class="text-muted">Semester: {{ file.semester }}</p>
                             </p>
                             <div class="d-flex justify-content-between">
                                 {% if file.file_status %}

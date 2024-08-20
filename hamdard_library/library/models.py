@@ -29,6 +29,9 @@ class File(models.Model):
         # Number of upvotes a file has
         upvotes = models.IntegerField(default=0)
 
+        #semester file belongs to
+        semester = models.IntegerField(default=1)
+
         def __str__(self):
             return self.file_name
         

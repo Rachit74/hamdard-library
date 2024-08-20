@@ -16,7 +16,8 @@
                         <small class="text-muted">Department: {{ file.file_department }}</small><br>
                         <small class="text-muted">Uploaded By: {{ file.uploaded_by }}</small><br>
                         <small class="text-muted">Identifier: {{ file.file_identifier }}</small><br>
-                        <small class="text-muted">Uploaded on: {{ file.uploaded_at|date:"Y-m-d H:i" }}</small>
+                        <small class="text-muted">Semester: {{ file.semester }}</small><br>
+                        <small class="text-muted">Uploaded on: {{ file.uploaded_at|date:"Y-m-d" }}</small>
                     </div>
                     <div>
                         <a href="{{ file.file_path.url }}" class="btn btn-primary btn-sm me-2">View</a>
