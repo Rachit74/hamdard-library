@@ -1,0 +1,23 @@
+{% extends "library/base.html" %}
+
+{% block title %}Home | Library{% endblock %}
+
+{% block content %}
+<!-- Bootstrap container to center the content -->
+<div class="container mt-5">
+    <!-- Bootstrap row for layout -->
+    <div class="row justify-content-center">
+        <!-- Bootstrap column to center the image and text -->
+        <div class="col-md-8 text-center">
+            <!-- Replace 'qr_code.png' with the path to your QR code image -->
+            <img src="https://i.postimg.cc/TwGWyFjh/image.png" alt="UPI QR Code" class="img-fluid mb-4" width="350" height="350">
+            
+            <!-- Heading and Paragraph explaining the need for donations -->
+            <h2 class="mb-3">Support Hamdard Library with Your Donations</h2>
+            <p class="lead">
+                I strive to keep the Hamdard Library running smoothly to provide valuable resources and content to the students of Jamia Hamdard. Your donations will help cover the costs associated with maintaining and improving the website. Thank you for your support!
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

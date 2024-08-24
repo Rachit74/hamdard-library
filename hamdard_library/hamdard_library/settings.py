@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'library.middleware.AuthenticationRedirectMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'hamdard_library.urls'

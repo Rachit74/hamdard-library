@@ -1,15 +1,14 @@
 written in this files are the fixes and works that need to be done on the webapp
 
 1. File downvotes
-2. File filter by semester
-
-Sercurity
-
-1.phone number or email verification on user registration (maybe captcha?)
 
 
 RECENT WORKS
 ============
+[DONE] file filter by semester
+
+[DONE] captcha on user registration
+
 [DONE] Add user captcha
 
 [DONE] Swtich to postgres database

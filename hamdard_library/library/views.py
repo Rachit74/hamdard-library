@@ -232,3 +232,6 @@ def downvote(request, file_id):
         messages.success(request,"Can not downvote again")
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
+def donate(request):
+    return render(request, 'library/donate.html')
