@@ -74,10 +74,12 @@
                         </div>
                         {% if file.file_status %}
                         <div class="card-footer d-flex justify-content-between align-items-center">
-                            <span class="badge csb">Upvotes: {{ file.upvotes }}</span>
+                            <span class="badge csb">Upvotes: {{ file.upvotes }}</span><br>
+                            <span class="badge csb">Downvotes: {{ file.downvotes }}</span>
                             
                             <div class="lnks">
                                 <a href="{% url 'library_upvote_file' file.id %}" class="">Upvote</a>
+                                <a href="{% url 'library_downvote_file' file.id %}" class="">Downvote</a>
                             </div>
                         </div>
                         {% endif %}

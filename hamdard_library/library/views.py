@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import File, Upvote
+from .models import File, Upvote, Downvote
 from .forms import FileUploadForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -7,6 +7,8 @@ import os
 from django.conf import settings
 from django.urls import reverse
 from django.core.paginator import Paginator
+
+from .vote_check import has_upvoted, has_downvoted
 
 # Create your views here.
 
@@ -109,16 +111,16 @@ def department(request,department_):
     user = request.user
     
     if filter_status == 'approved':
-        files = File.objects.filter(file_department=department_, file_status=True).order_by('-upvotes')
+        files = File.objects.filter(file_department=department_, file_status=True).order_by('-votes_ratio')
     elif filter_status == 'unapproved':
-        files = File.objects.filter(file_department=department_, file_status=False).order_by('-upvotes')
+        files = File.objects.filter(file_department=department_, file_status=False).order_by('-votes_ratio')
     elif type(sem_filter) == int:
-        files = File.objects.filter(file_department=department_, semester=sem_filter).order_by('-upvotes')
+        files = File.objects.filter(file_department=department_, semester=sem_filter).order_by('-votes_ratio')
     else:
-        files = File.objects.filter(file_department=department_).order_by('-upvotes')
+        files = File.objects.filter(file_department=department_).order_by('-votes_ratio')
 
     if search_query:
-        files = files.filter(file_name__icontains=search_query).order_by('-upvotes')
+        files = files.filter(file_name__icontains=search_query).order_by('-votes_ratio')
 
     paginator = Paginator(files, 6)
     page_number = request.GET.get('page')
@@ -195,7 +197,9 @@ def upvote(request, file_id):
     if yes then raise error.
     """
     if not Upvote.objects.filter(user=user, file=file):
+        has_downvoted(user,file)
         file.upvotes += 1
+        file.votes_ratio = file.upvotes-file.downvotes
         file.save()
         upvote = Upvote.objects.create(user=user, file=file)
         upvote.save()
@@ -203,5 +207,28 @@ def upvote(request, file_id):
         print(file.upvotes)
     else:
         messages.success(request,"Can not upvote again")
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+@login_required
+def downvote(request, file_id):
+    user = request.user
+    file = get_object_or_404(File, id=file_id)
+
+    if not file.file_status:
+        messages.success(request, "File must be approved to perform operations")
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+    
+    if not Downvote.objects.filter(user=user, file=file):
+        has_upvoted(user,file)
+        file.downvotes += 1
+        file.votes_ratio = file.upvotes-file.downvotes
+        file.save()
+        downvote = Downvote.objects.create(user=user,file=file)
+        downvote.save()
+        messages.success(request, "Downvoted :(")
+        print(file.upvotes)
+    else:
+        messages.success(request,"Can not downvote again")
 
     return redirect(request.META.get('HTTP_REFERER', '/'))

@@ -29,6 +29,12 @@ class File(models.Model):
         # Number of upvotes a file has
         upvotes = models.IntegerField(default=0)
 
+        # Number of downvotes a file has
+        downvotes = models.IntegerField(default=0)
+
+        # upvote to download ration
+        votes_ratio = models.IntegerField(default=0)
+
         #semester file belongs to
         semester = models.IntegerField(default=1)
 
@@ -36,7 +42,7 @@ class File(models.Model):
             return self.file_name
         
 """
-Upvote model which has many to many relationship with the user model as well as the file model to make sure that a
+Upvote model which has one to one relationship with the user model as well as the file model to make sure that a
 user can upvote a particular post only once.
 
 This model will store the record of user_id and file_id for each file that a particular user will upvote
@@ -64,3 +70,17 @@ class Upvote(models.Model):
     
     def __str__(self):
         return f"{self.user.username} upvoted {self.file.file_name}"
+    
+"""
+Downvote model with same logic as the upvote model
+"""
+class Downvote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    file = models.ForeignKey(File, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('user', 'file')
+
+    def __str__(self) -> str:
+         return f"{self.user.username} downvoted {self.file.file_name}"
+         
