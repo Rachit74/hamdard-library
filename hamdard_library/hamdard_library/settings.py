@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -157,7 +157,6 @@ LOGIN_URL = 'library_login_user'
 # URL to use when referring to static files
 STATIC_URL = '/static/'
 
-# If your static files are in app/static/app, you might not need STATICFILES_DIRS
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'library/static/library'),
 ]
