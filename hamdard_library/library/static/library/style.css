@@ -151,3 +151,53 @@ input[type="password"] {
     font-size: 1rem;
     line-height: 1.5;
 }
+
+.card-footer {
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping of content */
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-footer .badge.csb {
+    margin-bottom: 0.5rem;
+}
+
+.card-footer .lnks {
+    margin-left: auto;
+    display: flex;
+    flex-wrap: wrap; /* Wraps links to new lines if needed */
+}
+
+.card-footer .lnks a {
+    margin-left: 0.5rem;
+    white-space: nowrap; /* Prevents text from breaking */
+}
+
+.card-footer a {
+    color: #085d40;
+    text-decoration: none;
+}
+
+.card-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Ensure that the layout is still functional on small screens */
+@media (max-width: 576px) {
+    .card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .card-footer .lnks {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+
+    .card-footer .lnks a {
+        margin-left: 0;
+        margin-right: 0.5rem;
+    }
+}

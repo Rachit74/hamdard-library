@@ -39,7 +39,7 @@
                                             <a href="{% url 'library_delete_file' file.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
                                             <small class="text-muted">Upvotes: {{ file.upvotes }}</small>
                                         {% else %}
-                                            <span class="badge badge-warning">Pending Approval</span>
+                                            <span class="badge badge-warning">Approval Pending</span>
                                         {% endif %}
                                     </div>
                                 </li>
