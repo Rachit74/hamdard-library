@@ -14,7 +14,7 @@ from .vote_check import has_upvoted, has_downvoted
 
 # home view
 def home(request):
-    files = File.objects.all().order_by('-uploaded_at')[:5]
+    files = File.objects.filter(file_status=True).order_by('-uploaded_at')[:5]
     return render(request, 'library/home.html', {'files':files})
 
 # deparments view
