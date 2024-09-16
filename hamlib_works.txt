@@ -1,6 +1,5 @@
 written in this files are the fixes and works that need to be done on the webapp
 
-1. File downvotes
 
 
 RECENT WORKS
@@ -11,6 +10,7 @@ RECENT WORKS
 
 [DONE] Add user captcha
 
+* sqlite db is being used in production because of constraints
 [DONE] Swtich to postgres database
 
 [DONE] dublicate file identification to save storage

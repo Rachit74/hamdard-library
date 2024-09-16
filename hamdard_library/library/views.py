@@ -8,6 +8,8 @@ from django.conf import settings
 from django.urls import reverse
 from django.core.paginator import Paginator
 
+from django.http import HttpResponseNotFound
+
 from .vote_check import has_upvoted, has_downvoted
 
 # Create your views here.
@@ -99,40 +101,45 @@ def approve_file(request, file_id):
 using .order_by('-upvotes') to sort the files in decending order by number of upvotes they have
 """
 def department(request,department_):
-    search_query = request.GET.get('search', '')
-    filter_status = request.GET.get('filter', 'all')
-    sem_filter = request.GET.get('sem', 'all')
-    # Check if the sem_filter is a digit before converting
-    if sem_filter.isdigit():
-        sem_filter = int(sem_filter)
+    department_ = department_.upper()
+    department_list = ['SEST', 'HIMSER', 'SUMER', 'SCLS', 'SPER', 'SNSAH', 'SIST', 'SMBS', 'SHSS', 'LAW']
+    if department_ in department_list:
+        search_query = request.GET.get('search', '')
+        filter_status = request.GET.get('filter', 'all')
+        sem_filter = request.GET.get('sem', 'all')
+        # Check if the sem_filter is a digit before converting
+        if sem_filter.isdigit():
+            sem_filter = int(sem_filter)
+        else:
+            sem_filter = 'all'
+
+        user = request.user
+        
+        if filter_status == 'approved':
+            files = File.objects.filter(file_department=department_, file_status=True).order_by('-votes_ratio')
+        elif filter_status == 'unapproved':
+            files = File.objects.filter(file_department=department_, file_status=False).order_by('-votes_ratio')
+        elif type(sem_filter) == int:
+            files = File.objects.filter(file_department=department_, semester=sem_filter).order_by('-votes_ratio')
+        else:
+            files = File.objects.filter(file_department=department_).order_by('-votes_ratio')
+
+        if search_query:
+            files = files.filter(file_name__icontains=search_query).order_by('-votes_ratio')
+
+        paginator = Paginator(files, 6)
+        page_number = request.GET.get('page')
+        page_object = paginator.get_page(page_number)
+
+        context = {
+            'page_object':page_object,
+            'department': department_,
+            'search_query':search_query,
+            'user':user
+        }
+        return render(request, 'library/department.html', context)
     else:
-        sem_filter = 'all'
-
-    user = request.user
-    
-    if filter_status == 'approved':
-        files = File.objects.filter(file_department=department_, file_status=True).order_by('-votes_ratio')
-    elif filter_status == 'unapproved':
-        files = File.objects.filter(file_department=department_, file_status=False).order_by('-votes_ratio')
-    elif type(sem_filter) == int:
-        files = File.objects.filter(file_department=department_, semester=sem_filter).order_by('-votes_ratio')
-    else:
-        files = File.objects.filter(file_department=department_).order_by('-votes_ratio')
-
-    if search_query:
-        files = files.filter(file_name__icontains=search_query).order_by('-votes_ratio')
-
-    paginator = Paginator(files, 6)
-    page_number = request.GET.get('page')
-    page_object = paginator.get_page(page_number)
-
-    context = {
-        'page_object':page_object,
-        'department': department_,
-        'search_query':search_query,
-        'user':user
-    }
-    return render(request, 'library/department.html', context)
+        return HttpResponseNotFound(f"Department {department_} not found!")
 
 #delete file
 @login_required
