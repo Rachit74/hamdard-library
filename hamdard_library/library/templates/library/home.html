@@ -20,8 +20,34 @@
             <a href="{% url 'library_upload_file' %}" class="">Upload something</a>
           </div>
 
-          <div class="alert mt-3" role="alert">
-            <strong>Files are approved by the admins before they are accessible</strong>
+
+          <div></div>
+
+          <div class="info-modal hidden">
+          <div class="info-modal-overlay"></div>
+
+          <div class="info-modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">File Approval</h5>
+                <button type="button" class="btn-close btn-modal-close">×</button>
+              </div>
+              <div class="modal-body">
+                <p>
+                  All uploaded files are reviewed by the admins before becoming publicly accessible.
+                </p>
+                <ul>
+                  <li>Approval usually takes <strong>up to 12–24 hours</strong>.</li>
+                  <!-- <li>If approval is delayed or you want faster review, <strong>message the admins</strong>.</li> -->
+                  <li>You can check the current status of your files in <strong>My Files</strong>.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+          
+          <div class="info-btn-container">
+            <button type="button" class="btn info-btn">How file approval works</button>
           </div>
         </div>
       </div>

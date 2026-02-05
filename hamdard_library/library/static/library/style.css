@@ -201,3 +201,83 @@ input[type="password"] {
         margin-right: 0.5rem;
     }
 }
+
+
+.hidden {
+    display: none;
+}
+
+.info-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+}
+
+.info-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(2px);
+}
+
+
+.info-modal-dialog {
+    position: relative;
+    z-index: 2001;
+    max-width: 500px;
+    margin: 10vh auto;
+    padding: 0 1rem;
+}
+
+
+.info-modal .modal-content {
+    border-radius: 10px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.25);
+    animation: modalFadeIn 0.25s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.info-btn {
+    margin-top: 7px;
+    border-radius: 5px;
+    color: white;
+    background-color: #0C4B33;
+}
+
+/* .info-btn {
+    background-color: #ffc107;
+    color: #0C4B33;
+    font-weight: 600;
+    border-radius: 6px;
+    padding: 8px 14px;
+}
+
+
+.info-btn:hover {
+    background-color: #e0a800;
+    color: #0C4B33;
+} */
+
+
+.btn-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #666;
+    cursor: pointer;
+}
+
+.btn-modal-close:hover {
+    color: #000;
+}
