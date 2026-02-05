@@ -1,3 +1,6 @@
+### The website is going under few updates right now, the older version is still deployed and functional, updated version will be deployed asap
+#### upcoming updates
+
 # Hamdard Library
 Hamdard library is an open source project which aims to provide the students of Jamia Hamdard an easy and simple way of sharing resources.
 
