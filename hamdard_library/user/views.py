@@ -66,26 +66,26 @@ def user_profile(request):
     filter_option = request.GET.get('filter', 'all')
 
     #gets the files based on filter passed in html (approved, unapproved or all files)
-    if filter_option == 'approved':
-        user_files = File.objects.filter(uploaded_by=current_user, file_status=True)
-    elif filter_option == 'unapproved':
-        user_files = File.objects.filter(uploaded_by=current_user, file_status=False)
-    else:
-        user_files = File.objects.filter(uploaded_by=current_user)
+    # if filter_option == 'approved':
+    #     user_files = File.objects.filter(uploaded_by=current_user, file_status=True)
+    # elif filter_option == 'unapproved':
+    #     user_files = File.objects.filter(uploaded_by=current_user, file_status=False)
+    # else:
+    #     user_files = File.objects.filter(uploaded_by=current_user)
 
     #sorting the user_files
-    user_files = user_files.order_by('-uploaded_at')
+    # user_files = user_files.order_by('-uploaded_at')
 
     # counting the number of file uploads a user has
     """
     using files.count() for faster counting instead of using a for loop.
     """
-    uploads=user_files.count()
+    # uploads=user_files.count()
 
     context = {
         'user':user,
-        'user_files':user_files,
-        'uploads':uploads,
+        # 'user_files':user_files,
+        # 'uploads':uploads,
     }
 
     return render(request, 'user/user_profile.html', context)

@@ -18,13 +18,13 @@ class File(models.Model):
         file_status = models.BooleanField(default=False)
         
         # ForeignKey linking to the User who uploaded the file
-        uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+        # uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
         
         # Timestamp of when the file was uploaded
         uploaded_at = models.DateTimeField(auto_now_add=True)
 
         # File Identifier to prevent dublicate uploads
-        file_identifier = models.CharField(max_length=100, default="")
+        # file_identifier = models.CharField(max_length=100, default="")
 
         # Number of upvotes a file has
         upvotes = models.IntegerField(default=0)
