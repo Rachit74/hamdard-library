@@ -8,4 +8,12 @@ class FileViewSet(ModelViewSet):
     """
     queryset = File.objects.all()
     serializer_class = FileSerializer
-    http_method_names = ["get"]
+
+    def get_queryset(self):
+        queryset = File.objects.filter(file_status=True)
+
+        filename = self.request.query_params.get("filename")
+        if filename:
+            queryset = queryset.filter(file_name__icontains=filename)
+
+        return queryset
