@@ -58,10 +58,9 @@
                 <div class="card-body">
                     <h2 class="card-title text-center">{{ user.first_name }}</h2>
                     <p class="card-text">Username: {{ user.username }}</p>
-                    <p class="card-text">ID:{{ user.id }}</p>
                     <p class="card-text">Files Uploaded: {{ uploads }}</p>
                     <div class="d-grid gap-2">
-                        <a href="{% url 'library_delete_account' %}" class="btn btn-outline-danger btn-sm">Delete Account</a>
+                        <a href="{% url 'library_delete_account' %}" class="btn btn-outline-danger btn-sm" onclick="return confirmDelete()">Delete Account</a>
                         <p></p>
                         {% if user.is_staff %}
                         <div class="lnks">

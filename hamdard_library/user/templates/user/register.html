@@ -30,17 +30,6 @@
                 {% endif %}
             </div>
             <div class="form-group mb-3">
-                <label for="{{ form.first_name.id_for_label }}" class="form-label">Display Name:</label>
-                {{ form.first_name }}
-                {% if form.first_name.errors %}
-                    <div class="text-danger">
-                        {% for error in form.first_name.errors %}
-                            <div>{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-            <div class="form-group mb-3">
                 <label for="{{ form.password1.id_for_label }}" class="form-label">Password:</label>
                 {{ form.password1 }}
                 {% if form.password1.errors %}
@@ -62,17 +51,6 @@
                     </div>
                 {% endif %}
                 <small class="form-text text-muted">Enter the same password as before, for verification.</small>
-            </div>
-            <div class="form-group mb-3">
-                <label for="{{ form.captcha.id_for_label }}" class="form-label">CAPTCHA:</label>
-                {{ form.captcha }}
-                {% if form.captcha.errors %}
-                    <div class="text-danger">
-                        {% for error in form.captcha.errors %}
-                            <div>{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
             </div>
             <button type="submit" class="btn btn-dark btn-block w-100 mt-3" style="border-radius: 25px; font-family: 'IBM Plex Sans', sans-serif;">Register</button>
         </form>
