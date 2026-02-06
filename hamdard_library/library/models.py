@@ -29,6 +29,9 @@ class File(models.Model):
         #semester file belongs to
         semester = models.IntegerField(default=1)
 
+        #file hash
+        file_hash = models.CharField(max_length=64, unique=True)
+
         def __str__(self):
             return self.file_name
          

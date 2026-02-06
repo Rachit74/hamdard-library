@@ -3,16 +3,21 @@ from .models import File
 from .forms import FileUploadForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-import os
+import hashlib
 from django.conf import settings
 from django.urls import reverse
 from django.core.paginator import Paginator
-
+from django.db import IntegrityError, transaction
 from django.http import HttpResponseNotFound
-
 from django_ratelimit.decorators import ratelimit
 
+# file hash function
+def hash_uploaded_file(uploaded_file, chunk_size=8192):
+    hasher = hashlib.sha256()
+    for chunk in uploaded_file.chunks(chunk_size):
+        hasher.update(chunk)
 
+    return hasher.hexdigest()
 
 # home view
 def home(request):
@@ -25,7 +30,6 @@ def departments(request):
     return render(request, 'library/departments.html')
 
 # file upload view
-# @login_required
 @ratelimit(key='ip', rate='5/m')
 def upload_file(request):
     if request.method == 'POST':
@@ -33,14 +37,19 @@ def upload_file(request):
         if form.is_valid():
             # Save the form but don't commit to the database yet
             new_file = form.save(commit=False)
-            print(new_file.file_path)
-            
+            file_hash = hash_uploaded_file(request.FILES['file_path'])
+            new_file.file_hash = file_hash            
             user = request.user
-
             if request.user.is_anonymous:
                 user = None
 
-            new_file.save()
+            try:
+                with transaction.atomic():
+                    new_file.save()
+            except:
+                messages.error(request, "This file already exists.")
+                return redirect('library_home')
+
             
             messages.success(request, "File uploaded!")
             return redirect('library_home')
