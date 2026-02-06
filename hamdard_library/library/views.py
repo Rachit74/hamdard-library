@@ -43,6 +43,8 @@ def upload_file(request):
             if request.user.is_anonymous:
                 user = None
 
+            new_file.uploaded_by = user
+
             try:
                 with transaction.atomic():
                     new_file.save()

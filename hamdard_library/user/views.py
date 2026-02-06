@@ -4,8 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from library.models import File
-# Create your views here.
-
+from django_ratelimit.decorators import ratelimit
 
 #login view
 def login_user(request):
@@ -25,6 +24,7 @@ def login_user(request):
     return render(request, 'user/login.html', {'form': form})
 
 #registation view
+@ratelimit(key='ip', rate='4/m')
 def register_user(request):
     if request.method == 'POST':
         form = RegistartionForm(request.POST)
@@ -65,27 +65,27 @@ def user_profile(request):
     user = current_user
     filter_option = request.GET.get('filter', 'all')
 
-    #gets the files based on filter passed in html (approved, unapproved or all files)
-    # if filter_option == 'approved':
-    #     user_files = File.objects.filter(uploaded_by=current_user, file_status=True)
-    # elif filter_option == 'unapproved':
-    #     user_files = File.objects.filter(uploaded_by=current_user, file_status=False)
-    # else:
-    #     user_files = File.objects.filter(uploaded_by=current_user)
+    # gets the files based on filter passed in html (approved, unapproved or all files)
+    if filter_option == 'approved':
+        user_files = File.objects.filter(uploaded_by=current_user, file_status=True)
+    elif filter_option == 'unapproved':
+        user_files = File.objects.filter(uploaded_by=current_user, file_status=False)
+    else:
+        user_files = File.objects.filter(uploaded_by=current_user)
 
-    #sorting the user_files
-    # user_files = user_files.order_by('-uploaded_at')
+    # sorting the user_files
+    user_files = user_files.order_by('-uploaded_at')
 
     # counting the number of file uploads a user has
     """
     using files.count() for faster counting instead of using a for loop.
     """
-    # uploads=user_files.count()
+    uploads=user_files.count()
 
     context = {
         'user':user,
-        # 'user_files':user_files,
-        # 'uploads':uploads,
+        'user_files':user_files,
+        'uploads':uploads,
     }
 
     return render(request, 'user/user_profile.html', context)
