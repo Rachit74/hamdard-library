@@ -9,7 +9,5 @@ urlpatterns = [
     path("approve_file/<int:file_id>", views.approve_file, name='library_approve_file'),
     path("department/<str:department_>", views.department, name='library_department'),
     path("delete_file/<int:file_id>", views.delete_file, name='library_delete_file'),
-    path("upvote_file/<int:file_id>", views.upvote, name='library_upvote_file'),
-    path("downvote_file/<int:file_id>", views.downvote, name='library_downvote_file'),
     path("donate/", views.donate, name='library_donate'),
 ]

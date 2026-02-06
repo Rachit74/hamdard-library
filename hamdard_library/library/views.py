@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import File, Upvote, Downvote
+from .models import File
 from .forms import FileUploadForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -10,15 +10,14 @@ from django.core.paginator import Paginator
 
 from django.http import HttpResponseNotFound
 
-from .vote_check import has_upvoted, has_downvoted
-
 from django_ratelimit.decorators import ratelimit
 
-# Create your views here.
+
 
 # home view
 def home(request):
     files = File.objects.filter(file_status=True).order_by('-uploaded_at')[:5]
+    print(request.user)
     return render(request, 'library/home.html', {'files':files})
 
 # deparments view
@@ -27,7 +26,7 @@ def departments(request):
 
 # file upload view
 # @login_required
-@ratelimit(key='ip', rate='2/m')
+@ratelimit(key='ip', rate='5/m')
 def upload_file(request):
     if request.method == 'POST':
         form = FileUploadForm(request.POST, request.FILES)
@@ -35,35 +34,11 @@ def upload_file(request):
             # Save the form but don't commit to the database yet
             new_file = form.save(commit=False)
             print(new_file.file_path)
+            
+            user = request.user
 
-            # generate and set a file identifier to the current uploaded file
-            # new_file.file_identifier = f"{new_file.file_path}_identifier"
-            # print(new_file.file_identifier)
-
-            # new_file.uploaded_by = request.user
-
-            # checks if the file with the current file identifier exiists in any of the record
-            # check_for_file = File.objects.filter(file_identifier=new_file.file_identifier).exists()
-
-
-            # if file exists then __pass__
-            # if check_for_file:
-            #     """
-            #     if a file with the file_identifier exists then we will set the file_path of current file
-            #     to the file_path of the file that already exists in the storage.
-            #     """
-            #     dublicate_file = File.objects.filter(file_identifier=new_file.file_identifier).first()
-            #     print("File with the current identifier exists, can't upload dublicate files!")
-            #     new_file.file_path = dublicate_file.file_path
-            #     new_file.save()
-            #     messages.success(request, f"File Uploaded!")
-
-            # else:
-            #     """
-            #     if a file with the file_identifier does not exists then we will upload the file to database
-            #     """
-            #     new_file.save()
-            #     messages.success(request, f"File Uploaded!")
+            if request.user.is_anonymous:
+                user = None
 
             new_file.save()
             
@@ -122,16 +97,16 @@ def department(request,department_):
         user = request.user
         
         if filter_status == 'approved':
-            files = File.objects.filter(file_department=department_, file_status=True).order_by('-votes_ratio')
+            files = File.objects.filter(file_department=department_, file_status=True)
         elif filter_status == 'unapproved':
-            files = File.objects.filter(file_department=department_, file_status=False).order_by('-votes_ratio')
+            files = File.objects.filter(file_department=department_, file_status=False)
         elif type(sem_filter) == int:
-            files = File.objects.filter(file_department=department_, semester=sem_filter).order_by('-votes_ratio')
+            files = File.objects.filter(file_department=department_, semester=sem_filter)
         else:
-            files = File.objects.filter(file_department=department_).order_by('-votes_ratio')
+            files = File.objects.filter(file_department=department_)
 
         if search_query:
-            files = files.filter(file_name__icontains=search_query).order_by('-votes_ratio')
+            files = files.filter(file_name__icontains=search_query)
 
         paginator = Paginator(files, 6)
         page_number = request.GET.get('page')
@@ -158,93 +133,12 @@ def delete_file(request, file_id):
     if not user.is_staff and not user.is_superuser and file.uploaded_by != user:
         messages.warning(request, "You cannot delete this file!")
         return redirect(request.META.get('HTTP_REFERER', '/'))
-    else:
-        #file identifier of the current file (/delete_file/id)
-        current_file_identifier = file.file_identifier
-
-        #check if files with the current identifier exists
-
-        check_for_file = File.objects.filter(file_identifier = current_file_identifier).count()
-
-        """
-        if more than one file with current_file_identifier exists
-        """
-        if check_for_file>1:
-            """
-            deletes the file data but does not remove the file from the physical storage
-            """
-            file.delete()
-        else:
-            """
-            Removes the file from physical storage if no file with the current_file_identifier exists
-            """
-            file_path = os.path.join(settings.MEDIA_ROOT, str(file.file_path))
-            if os.path.exists(file_path):
-                os.remove(file_path)
-            
-            # Delete the file record from the database
-            file.delete()
+    else:        
+        file.delete()
 
         messages.success(request, "File Deleted!")
         return redirect(request.META.get('HTTP_REFERER', '/'))
 
-#file upvote view
-"""
-view to handle file upvotes
-Users can upvote a file but can not upvote their own file
-A user can upvote a file only once
-"""
-
-@login_required
-def upvote(request, file_id):
-    user = request.user
-    file = get_object_or_404(File, id=file_id)
-
-    if not file.file_status:
-        messages.success(request, "File must be approved to perform operations")
-        return redirect(request.META.get('HTTP_REFERER', '/'))
-    
-    """
-    checks if the combination of user and file exists in the Upvote model
-    if not then allows the user to upvote the file and saved the combination
-    if yes then raise error.
-    """
-    if not Upvote.objects.filter(user=user, file=file):
-        has_downvoted(user,file)
-        file.upvotes += 1
-        file.votes_ratio = file.upvotes-file.downvotes
-        file.save()
-        upvote = Upvote.objects.create(user=user, file=file)
-        upvote.save()
-        messages.success(request, "Upvoted!")
-        print(file.upvotes)
-    else:
-        messages.success(request,"Can not upvote again")
-
-    return redirect(request.META.get('HTTP_REFERER', '/'))
-
-@login_required
-def downvote(request, file_id):
-    user = request.user
-    file = get_object_or_404(File, id=file_id)
-
-    if not file.file_status:
-        messages.success(request, "File must be approved to perform operations")
-        return redirect(request.META.get('HTTP_REFERER', '/'))
-    
-    if not Downvote.objects.filter(user=user, file=file):
-        has_upvoted(user,file)
-        file.downvotes += 1
-        file.votes_ratio = file.upvotes-file.downvotes
-        file.save()
-        downvote = Downvote.objects.create(user=user,file=file)
-        downvote.save()
-        messages.success(request, "Downvoted :(")
-        print(file.upvotes)
-    else:
-        messages.success(request,"Can not downvote again")
-
-    return redirect(request.META.get('HTTP_REFERER', '/'))
 
 def donate(request):
     return render(request, 'library/donate.html')
