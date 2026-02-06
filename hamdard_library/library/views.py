@@ -78,7 +78,7 @@ def approve_file(request, file_id):
         messages.info(request, "You do not have access!")
         return redirect('library_home')
     
-    file = File.objects.filter(id=file_id).first()
+    file = get_object_or_404(File, id=file_id)
     if file:
         file.file_status = True
         file.save()
