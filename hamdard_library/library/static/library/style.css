@@ -26,6 +26,7 @@
 .home-links {
     display: flex;
     gap: 12px;
+    flex-wrap: wrap;
 }
 
 .navbar-toggler-icon {
