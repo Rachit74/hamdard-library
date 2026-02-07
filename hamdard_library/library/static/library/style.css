@@ -23,13 +23,9 @@
     color: white;
 }
 
-.lnks a{
-    color: #0C4B33;
-    text-decoration: underline;
-}
-
-.lnks a:hover{
-    text-decoration: none;
+.home-links {
+    display: flex;
+    gap: 12px;
 }
 
 .navbar-toggler-icon {
@@ -247,12 +243,12 @@ input[type="password"] {
     }
 }
 
-.info-btn {
+/* .info-btn {
     margin-top: 7px;
     border-radius: 5px;
     color: white;
     background-color: #0C4B33;
-}
+} */
 
 
 .btn-modal-close {

@@ -14,11 +14,20 @@
           <p>Hamdard Library is an online library made by and for the students of Jamia Hamdard University to share resources with each other.</p>
           <p>Share Notes, Lab files, syllabus and more with other students.</p>
           <p>You can upload and download files according to your Departments.</p>
+        
+            <div class="home-links">
+              <a href="{% url 'library_upload_file' %}" class="btn btn-primary">
+                Upload File
+              </a>
+
+              <a href="{% url 'library_departments' %}" class="btn btn-secondary">
+                Find your department
+              </a><br><br>
+
+              <button type="button" class="btn btn-secondary info-btn">How file approval works</button>
+            </div>
           
-          <div class="lnks">
-            <a href="{% url 'library_departments' %}" class="">Find your department</a><br>
-            <a href="{% url 'library_upload_file' %}" class="">Upload something</a>
-          </div>
+            <hr>
 
 
           <div></div>
@@ -46,9 +55,6 @@
           </div>
         </div>
           
-          <div class="info-btn-container">
-            <button type="button" class="btn info-btn">How file approval works</button>
-          </div>
         </div>
       </div>
     </div>
@@ -62,7 +68,7 @@
         {% if files %}
         <ul class="list-group list-group-flush">
             {% for file in files %}
-                <li class="list-group-item"><a href="{{ file.file_path.url }}" style="color: #0c4b33;">{{ file.file_name }}</a> </li>
+                <li class="list-group-item"><a href="{{ file.file_path.url }}" style="color: #0c4b33;">{{ file.file_name }}</a> | {{ file.file_department }} </li>
             {% endfor %}
         </ul>
         {% endif %}
@@ -72,6 +78,33 @@
         <a href="{% url 'library_user_profile' %}">My Files</a>
       </div>
       {% endif %}
+    </div>
+
+     <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header recent-files">
+          Departments
+        </div>
+          <a href="{% url 'library_department' 'SEST' %}" class="list-group-item list-group-item-action">
+                School of Engineering Sciences & Technology
+          </a>
+          <a href="{% url 'library_department' 'LAW' %}" class="list-group-item list-group-item-action">
+                School of Law
+          </a>
+          <a href="{% url 'library_department' 'SPER' %}" class="list-group-item list-group-item-action">
+                School of Pharmaceutical Education and Research
+          </a>
+          <a href="{% url 'library_department' 'SNSAH' %}" class="list-group-item list-group-item-action">
+                School of Nursing Sciences & Allied Health
+          </a>
+          <a href="{% url 'library_department' 'SMBS' %}" class="list-group-item list-group-item-action">
+                School of Management and Business Studies
+          </a>
+          <a href="{% url 'library_departments' %}" class="list-group-item list-group-item-action">
+                More...
+          </a>
+
+      </div>
     </div>
   </div>
 </div>

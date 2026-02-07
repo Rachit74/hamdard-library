@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.conf import settings
 import uuid
 
-# Create your models here.
 
 #file post Model
 
