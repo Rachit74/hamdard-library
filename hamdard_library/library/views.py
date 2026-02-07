@@ -39,6 +39,7 @@ def upload_file(request):
 
             # hash
             file_hash = hash_uploaded_file(uploaded_file)
+            uploaded_file.seek(0)
 
             # block dublicates
             if File.objects.filter(file_hash=file_hash).exists():
