@@ -14,6 +14,12 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.ERROR: "danger",
+}
+
 #loading env vars
 # load_dotenv()
 

@@ -18,10 +18,10 @@
     color: white;
 }
 
-.alert {
+/* .alert {
     background: #0C4B33;
     color: white;
-}
+} */
 
 .home-links {
     display: flex;
@@ -242,13 +242,6 @@ input[type="password"] {
         transform: translateY(0) scale(1);
     }
 }
-
-/* .info-btn {
-    margin-top: 7px;
-    border-radius: 5px;
-    color: white;
-    background-color: #0C4B33;
-} */
 
 
 .btn-modal-close {
