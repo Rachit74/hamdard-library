@@ -21,7 +21,7 @@
     <!-- bootstrap navbar -->
 
     <nav class="navbar navbar-expand-lg custom-navbar">
-        <a class="navbar-brand" href="{% url 'library_home' %}" style="font-family: 'Merriweather', serif;">Hamdard Library</a>
+        <a class="navbar-brand" href="{% url 'home' %}" style="font-family: 'Merriweather', serif;">Hamdard Library</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
       </button>
@@ -30,16 +30,16 @@
           <ul class="navbar-nav mr-auto">
               <!-- Left-aligned Links -->
               <li class="nav-item active">
-                  <a class="nav-link" href="{% url 'library_home' %}">Home <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item active">
-                  <a class="nav-link" href="{% url 'library_departments' %}">Departments</a>
+                  <a class="nav-link" href="{% url 'departments' %}">Departments</a>
               </li>
               <li class="nav-item active">
-                  <a class="nav-link" href="{% url 'library_upload_file' %}">Upload</a>
+                  <a class="nav-link" href="{% url 'upload-file' %}">Upload</a>
               </li>
               <li class="nav-item active">
-                <a class="nav-link" href="{% url 'library_donate' %}">Donate</a>
+                <a class="nav-link" href="{% url 'donate' %}">Donate</a>
             </li>
           </ul>
   
@@ -47,17 +47,17 @@
               <!-- Right-aligned Links -->
               {% if user.is_authenticated %}
               <li class="nav-item active">
-                  <a class="nav-link" href="{% url 'library_user_profile' %}">Profile</a>
+                  <a class="nav-link" href="{% url 'profile' %}">Profile</a>
               </li>
               <li class="nav-item active">
-                  <a class="nav-link" href="{% url 'library_logout_user' %}">Logout</a>
+                  <a class="nav-link" href="{% url 'logout' %}">Logout</a>
               </li>
               {% else %}
               <li class="nav-item active">
-                  <a class="nav-link" href="{% url 'library_login_user' %}">Login</a>
+                  <a class="nav-link" href="{% url 'login' %}">Login</a>
               </li>
               <li class="nav-item active">
-                  <a class="nav-link" href="{% url 'library_register_user' %}">Register</a>
+                  <a class="nav-link" href="{% url 'register' %}">Register</a>
               </li>
               {% endif %}
           </ul>

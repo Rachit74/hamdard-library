@@ -21,8 +21,8 @@
                     </div>
                     <div>
                         <a href="{{ file.file_path.url }}" class="btn btn-primary btn-sm me-2">View</a>
-                        <a href="{% url 'library_delete_file' file.id %}" class="btn btn-danger btn-sm me-2">Delete</a>
-                        <a href="{% url 'library_approve_file' file.id %}" class="btn btn-success btn-sm">Approve</a>
+                        <a href="{% url 'delete-file' file.id %}" class="btn btn-danger btn-sm me-2">Delete</a>
+                        <a href="{% url 'approve-file' file.id %}" class="btn btn-success btn-sm">Approve</a>
                     </div>
                 </li>
             {% endfor %}

@@ -21,7 +21,9 @@ MESSAGE_TAGS = {
 }
 
 #loading env vars
-# load_dotenv()
+load_dotenv()
+
+print(os.getenv('TEST_VAR'))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,7 +40,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-# CORS_ALLOWED_ORIGINS = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
 
 # no authentication in current api
@@ -168,7 +169,7 @@ MEDIA_URL = '/media/'
 # flash message storage
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
-LOGIN_URL = 'library_login_user'
+LOGIN_URL = 'login'
 
 # URL to use when referring to static files
 STATIC_URL = '/static/'

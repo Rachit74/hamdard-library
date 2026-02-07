@@ -16,11 +16,11 @@
           <p>You can upload and download files according to your Departments.</p>
         
             <div class="home-links">
-              <a href="{% url 'library_upload_file' %}" class="btn btn-primary">
+              <a href="{% url 'upload-file' %}" class="btn btn-primary">
                 Upload File
               </a>
 
-              <a href="{% url 'library_departments' %}" class="btn btn-secondary">
+              <a href="{% url 'departments' %}" class="btn btn-secondary">
                 Find your department
               </a><br><br>
 
@@ -97,11 +97,11 @@
       </div>
       {% if user.is_authenticated %}
       <div class="card-footer">
-        <a href="{% url 'library_user_profile' %}">My Files</a>
+        <a href="{% url 'profile' %}">My Files</a>
       </div>
       {% else %}
       <div class="card-footer">
-        <a href="{% url 'library_login_user' %}">Login to Manage your files</a>
+        <a href="{% url 'login' %}">Login to Manage your files</a>
       </div>
       {% endif %}
 
@@ -112,22 +112,22 @@
         <div class="card-header recent-files">
           Departments
         </div>
-          <a href="{% url 'library_department' 'SEST' %}" class="list-group-item list-group-item-action">
+          <a href="{% url 'department' 'SEST' %}" class="list-group-item list-group-item-action">
                 School of Engineering Sciences & Technology
           </a>
-          <a href="{% url 'library_department' 'LAW' %}" class="list-group-item list-group-item-action">
+          <a href="{% url 'department' 'LAW' %}" class="list-group-item list-group-item-action">
                 School of Law
           </a>
-          <a href="{% url 'library_department' 'SPER' %}" class="list-group-item list-group-item-action">
+          <a href="{% url 'department' 'SPER' %}" class="list-group-item list-group-item-action">
                 School of Pharmaceutical Education and Research
           </a>
-          <a href="{% url 'library_department' 'SNSAH' %}" class="list-group-item list-group-item-action">
+          <a href="{% url 'department' 'SNSAH' %}" class="list-group-item list-group-item-action">
                 School of Nursing Sciences & Allied Health
           </a>
-          <a href="{% url 'library_department' 'SMBS' %}" class="list-group-item list-group-item-action">
+          <a href="{% url 'department' 'SMBS' %}" class="list-group-item list-group-item-action">
                 School of Management and Business Studies
           </a>
-          <a href="{% url 'library_departments' %}" class="list-group-item list-group-item-action">
+          <a href="{% url 'departments' %}" class="list-group-item list-group-item-action">
                 More...
           </a>
 

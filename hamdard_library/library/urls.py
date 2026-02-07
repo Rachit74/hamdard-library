@@ -2,14 +2,14 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("", views.home, name="library_home"),
-    path("upload_file/", views.upload_file, name="library_upload_file"),
-    path("departments/", views.departments, name="library_departments"),
-    path("approve_requests/", views.file_approve_requests, name="library_approve_requests"),
+    path("", views.home, name="home"),
+    path("upload/", views.upload_file, name="upload-file"),
+    path("departments/", views.departments, name="departments"),
+    path("approval/", views.file_approve_requests, name="approval-requests"),
 
-    path("approve_file/<uuid:file_id>/", views.approve_file, name="library_approve_file"),
-    path("delete_file/<uuid:file_id>/", views.delete_file, name="library_delete_file"),
+    path("approve/<uuid:file_id>/", views.approve_file, name="approve-file"),
+    path("delete/<uuid:file_id>/", views.delete_file, name="delete-file"),
 
-    path("department/<str:department_>/", views.department, name="library_department"),
-    path("donate/", views.donate, name="library_donate"),
+    path("department/<str:department_>/", views.department, name="department"),
+    path("donate/", views.donate, name="donate"),
 ]

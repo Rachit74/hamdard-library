@@ -18,7 +18,7 @@ def login_user(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, 'Login successful!')
-                return redirect('library_home')
+                return redirect('home')
     else:
         form = UserLoginForm()
     return render(request, 'user/login.html', {'form': form})
@@ -35,7 +35,7 @@ def register_user(request):
             user.save()
             login(request, user)
             messages.success(request, "User Registration Successful!")
-            return redirect('library_home')  # Redirect to a safe page
+            return redirect('home')  # Redirect to a safe page
         else:
             messages.warning(request, "Please correct the errors below.")
             print(form.errors)
@@ -50,8 +50,8 @@ def register_user(request):
 #logut user (logs the user out)
 def logout_user(request):
     logout(request)
-    messages.success(request,"Logged out!")
-    return redirect('library_login_user')
+    messages.warning(request,"Logged out!")
+    return redirect('login')
 
 # fake user meta data
 
@@ -106,4 +106,4 @@ def delete_user(request):
     messages.warning(request, "User Deleted!")
 
     #redirects to login page after the user is deleted
-    return redirect('library_login_user')
+    return redirect('login')

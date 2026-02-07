@@ -23,7 +23,6 @@ def hash_uploaded_file(uploaded_file, chunk_size=8192):
 # home view
 def home(request):
     files = File.objects.filter(file_status=True).order_by('-uploaded_at')[:5]
-    print(request.user)
     return render(request, 'library/home.html', {'files':files})
 
 # deparments view
@@ -51,11 +50,11 @@ def upload_file(request):
                     new_file.save()
             except:
                 messages.error(request, "This file already exists.")
-                return redirect('library_home')
+                return redirect('home')
 
             
             messages.success(request, "File uploaded!")
-            return redirect('library_home')
+            return redirect('home')
 
     else:
         form = FileUploadForm()
@@ -69,7 +68,7 @@ def file_approve_requests(request):
     user = request.user
     if not user.is_staff:
         messages.info(request, "You do not have access!")
-        return redirect('library_home')
+        return redirect('home')
     
     unapproved_files = File.objects.filter(file_status=False)
     return render(request, 'library/requests.html', {'unapproved_files': unapproved_files})
@@ -79,14 +78,14 @@ def approve_file(request, file_id):
     user = request.user
     if not user.is_staff:
         messages.info(request, "You do not have access!")
-        return redirect('library_home')
+        return redirect('home')
     
     file = get_object_or_404(File, id=file_id)
     if file:
         file.file_status = True
         file.save()
         messages.success(request, "File Approved!")
-        return redirect('library_approve_requests')
+        return redirect('approval-requests')
     
 # departments/<department> page
 
