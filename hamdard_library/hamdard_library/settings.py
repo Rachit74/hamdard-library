@@ -33,7 +33,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "DORA"
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -44,6 +44,15 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 # no authentication in current api
 CORS_ALLOW_CREDENTIALS = False
+
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
+}
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 
 
@@ -60,20 +69,24 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',  # must be HIGH
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'library.middleware.AuthenticationRedirectMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = 'hamdard_library.urls'
@@ -168,11 +181,15 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Path where uploaded files are stored
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-# URL to access media files
-MEDIA_URL = '/media/'
+"""
+using cloudinary so don't need it now
+"""
+# Path where uploaded files are stored
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+# # URL to access media files
+# MEDIA_URL = '/media/'
 
 # flash message storage
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

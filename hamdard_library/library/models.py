@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 import uuid
+from cloudinary.models import CloudinaryField
 
 
 #file post Model
@@ -18,7 +19,11 @@ class File(models.Model):
         file_department = models.CharField(max_length=255)
         
         # File path field (auto-handled by Django's FileField)
-        file_path = models.FileField(upload_to='uploads/')
+        file_path = CloudinaryField(
+            resource_type="raw",
+            folder="uploads/hl_storage",
+            type="upload"
+            )
 
         #file approve status
         file_status = models.BooleanField(default=False)
