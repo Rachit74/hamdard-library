@@ -41,6 +41,14 @@
             </div>
             <button type="submit" class="btn btn-dark btn-block w-100 mt-3" style="border-radius: 25px; font-family: 'IBM Plex Sans', sans-serif;">Login</button>
         </form>
+            <div class="text-center mt-3">
+            <small class="text-muted">
+                Don’t have an account?
+                <a href="{% url 'library_register_user' %}" class="text-decoration-none">
+                Register here
+                </a>
+            </small>
+            </div>
     </div>
 </div>
 {% endblock %}

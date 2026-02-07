@@ -26,6 +26,18 @@
 
               <button type="button" class="btn btn-secondary info-btn">How file approval works</button>
             </div>
+
+            <div class="mb-3"></div>
+
+          <div class="mb-3">
+            <h6 class="text-muted mb-2">How it works</h6>
+            <ol class="mb-0 ps-3">
+              <li>Choose your department</li>
+              <li>Upload or download files</li>
+              <li>Files are approved within <strong>24 hours</strong></li>
+            </ol>
+          </div>
+
           
             <hr>
 
@@ -68,7 +80,17 @@
         {% if files %}
         <ul class="list-group list-group-flush">
             {% for file in files %}
-                <li class="list-group-item"><a href="{{ file.file_path.url }}" style="color: #0c4b33;">{{ file.file_name }}</a> | {{ file.file_department }} </li>
+                <li class="list-group-item">
+                  <div class="fw-semibold">
+                    <a href="{{ file.file_path.url }}" class="text-decoration-none" style="color:#0c4b33;">
+                      📄 {{ file.file_name }}
+                    </a>
+                  </div>
+                  <small class="text-muted">
+                    {{ file.file_department }}
+                    {% if file.uploaded_at %} • {{ file.uploaded_at|timesince }} ago{% endif %}
+                  </small>
+                </li>
             {% endfor %}
         </ul>
         {% endif %}
@@ -77,10 +99,15 @@
       <div class="card-footer">
         <a href="{% url 'library_user_profile' %}">My Files</a>
       </div>
+      {% else %}
+      <div class="card-footer">
+        <a href="{% url 'library_login_user' %}">Login to Manage your files</a>
+      </div>
       {% endif %}
-    </div>
 
-     <div class="col-lg-4">
+      <div class="card mb-3"></div>
+
+
       <div class="card">
         <div class="card-header recent-files">
           Departments
@@ -105,7 +132,10 @@
           </a>
 
       </div>
+
     </div>
+
+
   </div>
 </div>
 {% endblock %}
