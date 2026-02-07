@@ -29,36 +29,37 @@ def home(request):
 def departments(request):
     return render(request, 'library/departments.html')
 
-# file upload view
 @ratelimit(key='ip', rate='5/m')
 def upload_file(request):
     if request.method == 'POST':
         form = FileUploadForm(request.POST, request.FILES)
+
         if form.is_valid():
-            # Save the form but don't commit to the database yet
-            new_file = form.save(commit=False)
-            file_hash = hash_uploaded_file(request.FILES['file_path'])
-            new_file.file_hash = file_hash            
-            user = request.user
-            if request.user.is_anonymous:
-                user = None
+            uploaded_file = request.FILES['file_path']
 
-            new_file.uploaded_by = user
+            # hash
+            file_hash = hash_uploaded_file(uploaded_file)
 
-            try:
-                with transaction.atomic():
-                    new_file.save()
-            except:
+            # block dublicates
+            if File.objects.filter(file_hash=file_hash).exists():
                 messages.error(request, "This file already exists.")
                 return redirect('home')
 
-            
+            # save
+            new_file = form.save(commit=False)
+            new_file.file_hash = file_hash
+
+            if request.user.is_authenticated:
+                new_file.uploaded_by = request.user
+
+            new_file.save()
+
             messages.success(request, "File uploaded!")
             return redirect('home')
 
     else:
         form = FileUploadForm()
-    
+
     return render(request, 'library/upload_file.html', {'form': form})
 
 #file approval page
