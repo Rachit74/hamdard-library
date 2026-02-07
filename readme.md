@@ -1,46 +1,68 @@
-### The website is going under few updates right now, the older version is still deployed and functional, updated version will be deployed asap
-#### upcoming updates
-
 # Hamdard Library
-Hamdard library is an open source project which aims to provide the students of Jamia Hamdard an easy and simple way of sharing resources.
 
-## Goal of Hamdard Library
-Sole purpose of working on hamdard library is to make an platform where students can share resources like notes and lab files, it aims to cut down the hassle of trying to find resources by contacting other people frequently on platforms like whatsapp.  
-Resources can be uploaded and saved on Hamdard Library for any amount of time which makes it easier to share them.  
+## About Hamdard Library
 
-### Tech Stack
-![Django and Bootstrap Image](https://miro.medium.com/v2/resize:fit:767/1*aCfuQraCqZ4HLFhF49b0kQ.png)
-![Postgres Image](https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/120px-Postgresql_elephant.svg.png)
+**Hamdard Library** is an open-source project aimed at providing students of **Jamia Hamdard** with a simple and reliable platform to share academic resources such as notes, lab files, and study material.
 
-Hamdard Library is developed using Python's Django Frame and Postgres Database along with Bootstrap for frontend.
+The project focuses on eliminating the friction of repeatedly requesting files over messaging platforms like WhatsApp by providing a centralized, persistent, and searchable repository of resources.
 
-### Contributing
-Anyone Can contribute to Hamdard Library  
-Follow the steps below to run on your local machine
+---
 
-check `hamlib_works.txt` for possible contributions that you can make.
+## Goals
 
-1. Make sure you have python and pip installed.  
+- Centralized resource sharing for students
+- Easy uploads and downloads of notes and lab files
+- Department- and semester-based organization
+- Long-term availability of shared resources
+- Secure and abuse-resistant system design
 
-Clone the repo using  
-```
-git clone https://github.com/Rachit74/hamdard-library.git
-```
-Start a python virtual env
-```
-python3 -m venv env
-source /env/bin/activate
-```
+---
 
-Now install the requirements using
-```
-pip3 install -r requirements.txt
-```
+## Key Features
 
-Switch to `hamdard_library` and run
-```
-python3 manage.py runserver
-```
-Now you will have Django app running on `localhost:8000`  
+- 📁 **File uploads with hashing** (duplicate file prevention)
+- ⏱️ **Rate limiting** on uploads to prevent spam/abuse
+- 🔐 **Secure file access** using signed URLs
+- 🧾 **Approval workflow** for uploaded resources
+- 📊 **Download tracking**
+- 🔑 **Authentication & authorization**
+- 🌐 **Server-side rendered frontend**
+- 🔌 **REST API support** using Django REST Framework (DRF)
 
-Further Read the [Django Docs](https://docs.djangoproject.com/en/5.1/)
+---
+
+## Tech Stack
+
+### Backend
+- **Django** (core framework)
+- **Django REST Framework (DRF)** for APIs
+- **PostgreSQL** (hosted on Neon)
+- **Gunicorn** (production WSGI server)
+
+### Storage
+- **Cloudinary** for file storage (PDFs and documents)
+- File hashing (SHA-256) for deduplication
+
+### Frontend
+- **Django Templates (SSR)**
+- **Bootstrap** for styling
+- Custom CSS & JavaScript
+
+### Infrastructure
+- **Neon** – serverless PostgreSQL
+- **Cloudinary** – cloud file storage
+- **WhiteNoise** – static file serving
+- **Rate limiting** via middleware/decorators
+- **Environment-based configuration**
+
+---
+
+## Project Structure Highlights
+
+- `library/` – core app (models, views, templates)
+- `user/` – authentication and user management
+- `static/` – custom CSS & JavaScript
+- `templates/` – server-rendered HTML
+- REST APIs exposed alongside SSR views
+
+---
