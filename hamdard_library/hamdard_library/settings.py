@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+from urllib.parse import urlparse
 
 from django.contrib.messages import constants as messages
 
@@ -23,7 +24,6 @@ MESSAGE_TAGS = {
 #loading env vars
 load_dotenv()
 
-print(os.getenv('TEST_VAR'))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -100,22 +100,30 @@ WSGI_APPLICATION = 'hamdard_library.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+DATABASE_URL = os.getenv('DATABASE_URL');
+db = urlparse(DATABASE_URL)
+
 DATABASES = {
 
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    # sqlite connection for testing
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 
     # Connection to postgres sql server
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': os.getenv('DB_NAME'),
-    #     'USER': os.getenv('DB_USER'),
-    #     'PASSWORD': os.getenv('DB_PASSWORD'),
-    #     'HOST': os.getenv('DB_HOST'),
-    #     'PORT': os.getenv('DB_PORT'),
-    # }
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": db.path.lstrip("/"),
+        "USER": db.username,
+        "PASSWORD": db.password,
+        "HOST": db.hostname,
+        "PORT": db.port or 5432,
+        "OPTIONS": {
+            "sslmode": "require",
+            "channel_binding": "require",
+        },
+    }
 }
 
 
