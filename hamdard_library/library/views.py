@@ -96,7 +96,7 @@ using .order_by('-upvotes') to sort the files in decending order by number of up
 """
 def department(request,department_):
     department_ = department_.upper()
-    department_list = ['SEST', 'HIMSER', 'SUMER', 'SCLS', 'SPER', 'SNSAH', 'SIST', 'SMBS', 'SHSS', 'LAW']
+    department_list = ['SEST', 'SAHSR', 'HIMSER', 'SUMER', 'SCLS', 'SPER', 'SNSAH', 'SIST', 'SMBS', 'SHSS', 'LAW']
     if department_ in department_list:
         search_query = request.GET.get('search', '')
         filter_status = request.GET.get('filter', 'all')

@@ -25,6 +25,7 @@
                         <label for="id_file_department" class="form-label" style="font-family: 'IBM Plex Sans', sans-serif;">Department:</label>
                         <select name="file_department" id="id_file_department" class="form-select" required>
                             <option value="SEST" {% if form.file_department.value == "SEST" %}selected{% endif %}>SEST</option>
+                            <option value="SAHSR" {% if form.file_department.value == "SAHSR" %}selected{% endif %}>SAHSR</option>
                             <option value="HIMSER" {% if form.file_department.value == "HIMSER" %}selected{% endif %}>HIMSER</option>
                             <option value="SUMER" {% if form.file_department.value == "SUMER" %}selected{% endif %}>SUMER</option>
                             <option value="SCLS" {% if form.file_department.value == "SCLS" %}selected{% endif %}>SCLS</option>

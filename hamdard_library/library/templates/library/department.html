@@ -9,7 +9,7 @@
       
 
     <!-- search -->
-    <form class="form-inline mb-4" method="GET" action="{% url 'library_department' department %}">
+    <form class="form-inline mb-4" method="GET" action="{% url 'department' department %}">
         <input class="form-control mr-sm-2 search-bar" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ request.GET.search }}">
         <button class="btn btn-outline-success my-2 my-sm-0 btn-custom" type="submit">Search</button>
     </form>
