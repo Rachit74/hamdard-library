@@ -6,7 +6,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .serializers import UserLoginSerializer
+from .serializers import UserLoginSerializer, UserRegisterSerializer
+
 
 # helper function to generate tokens for a user
 def get_tokens_for_user(user):
@@ -35,6 +36,17 @@ def login_user(request):
         return Response(tokens, status=status.HTTP_200_OK)
 
         
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def register_user(request):
+    serializer = UserRegisterSerializer(data=request.data)
+
+    if serializer.is_valid():        
+        serializer.save()
+        return Response({'message': "user created"}, status=status.HTTP_200_OK)
+        
+
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])

@@ -15,6 +15,9 @@ from dotenv import load_dotenv
 import os
 from urllib.parse import urlparse
 
+from datetime import timedelta
+
+
 from django.contrib.messages import constants as messages
 
 MESSAGE_TAGS = {
@@ -76,7 +79,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
-    'corsheaders.middleware.CorsMiddleware',  # must be HIGH
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
 
@@ -116,6 +119,11 @@ REST_FRAMEWORK = {
     ),
 }
 
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
