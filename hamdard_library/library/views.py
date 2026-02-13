@@ -155,3 +155,6 @@ def delete_file(request, file_id):
 
 def donate(request):
     return render(request, 'library/donate.html')
+
+def api_docs(request):
+    return render(request, 'library/api_docs.html')

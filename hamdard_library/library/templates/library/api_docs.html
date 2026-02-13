@@ -1,0 +1,71 @@
+{% extends "library/base.html" %}
+
+{% block title %} API Docs {% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+  <h1 class="mb-1">API Reference</h1>
+  <p class="text-muted mb-5">Base URL: <code>https://hamdardlibrary.onrender.com/</code></p>
+
+  <!-- AUTH -->
+  <h4 class="mb-3 border-bottom pb-2">🔐 Authentication <small class="text-muted fs-6">/api/auth/</small></h4>
+
+  <div class="mb-3 p-3 border rounded">
+    <span class="badge bg-success me-2">POST</span>
+    <code>/api/auth/register/</code>
+    <p class="text-muted mt-2 mb-1 small">Register a new user account.</p>
+    <strong class="small">Body:</strong> <code class="small">username, email, password</code>
+  </div>
+
+  <div class="mb-3 p-3 border rounded">
+    <span class="badge bg-success me-2">POST</span>
+    <code>/api/auth/login/</code>
+    <p class="text-muted mt-2 mb-1 small">Login and receive an auth token.</p>
+    <strong class="small">Body:</strong> <code class="small">username, password</code>
+  </div>
+
+  <div class="mb-5 p-3 border rounded">
+    <span class="badge bg-danger me-2">DELETE</span>
+    <code>/api/auth/delete/</code>
+    <p class="text-muted mt-2 mb-0 small">Delete the authenticated user's account. Requires auth token.</p>
+  </div>
+
+  <!-- LIBRARY -->
+  <h4 class="mb-3 border-bottom pb-2">📁 Library <small class="text-muted fs-6">/api/files/</small></h4>
+
+  <div class="mb-3 p-3 border rounded">
+    <span class="badge bg-primary me-2">GET</span>
+    <code>/api/files/</code>
+    <p class="text-muted mt-2 mb-0 small">Returns all approved files.</p>
+  </div>
+
+  <div class="mb-3 p-3 border rounded">
+    <span class="badge bg-success me-2">POST</span>
+    <code>/api/files/create/</code>
+    <p class="text-muted mt-2 mb-1 small">Upload a new file. Requires auth token.</p>
+    <strong class="small">Body:</strong> <code class="small">title, file, description (optional)</code>
+  </div>
+
+  <div class="mb-3 p-3 border rounded">
+    <span class="badge bg-danger me-2">DELETE</span>
+    <code>/api/files/delete/<span class="text-warning">{file_id}</span>/</code>
+    <p class="text-muted mt-2 mb-0 small">Delete a file by ID. Requires auth token and ownership.</p>
+  </div>
+
+  <div class="mb-3 p-3 border rounded">
+    <span class="badge bg-primary me-2">GET</span>
+    <code>/api/files/unapproved/</code>
+    <p class="text-muted mt-2 mb-0 small">Returns all unapproved files. Admin only.</p>
+  </div>
+
+  <div class="mb-3 p-3 border rounded">
+    <span class="badge bg-success me-2">POST</span>
+    <code>/api/files/approve/<span class="text-warning">{file_id}</span>/</code>
+    <p class="text-muted mt-2 mb-0 small">Approve a file to make it publicly visible. Admin only.</p>
+  </div>
+
+</div>
+
+{% endblock %}

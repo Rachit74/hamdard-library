@@ -11,5 +11,7 @@ urlpatterns = [
     path("delete/<uuid:file_id>/", views.delete_file, name="delete-file"),
 
     path("department/<str:department_>/", views.department, name="department"),
+
     path("donate/", views.donate, name="donate"),
+    path("api_docs/", views.api_docs, name="api-docs")
 ]
