@@ -5,6 +5,7 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.db import IntegrityError
 
 from .serializers import UserLoginSerializer, UserRegisterSerializer
 
@@ -42,14 +43,38 @@ def login_user(request):
 def register_user(request):
     serializer = UserRegisterSerializer(data=request.data)
 
-    if serializer.is_valid():        
-        serializer.save()
-        return Response({'message': "user created"}, status=status.HTTP_200_OK)
+    if serializer.is_valid():
+        try:
+            serializer.save()
+            return Response({'message': "user created"}, status=status.HTTP_200_OK)
+        except IntegrityError:
+            return Response(
+                {"error": "User already exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# special view just for testing purposes
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def protected_view(request):
     return Response({'message': f'Hello {request.user.username}, you are authenticated!'})
+
+# User Logout view
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_user(request):
+    user = request.user
+    refresh = request.data.get("refresh")
+    if refresh:
+        token = RefreshToken(refresh)
+        token.blacklist()
+
+    user.delete()
+
+    return Response(
+        {"message": "User deleted and logged out"},
+        status=status.HTTP_204_NO_CONTENT
+    )
