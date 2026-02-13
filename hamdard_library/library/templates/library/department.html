@@ -66,7 +66,6 @@
                             <div class="d-flex justify-content-between">
                                 {% if file.file_status %}
                                     <a href="{{ file.file_path.url }}" class="btn btn-outline-primary btn-sm">Open</a>
-                                    <a href="#" class="btn btn-outline-secondary btn-sm" onclick="copyLink('{{ file.file_path.url }}')">Copy Link</a>
                                 {% else %}
                                     <span class="badge badge-warning">Pending Approval</span>
                                 {% endif %}
@@ -118,17 +117,5 @@
         <p class="text-center">No files found for this department.</p>
     {% endif %}
 </div>
-
-<script>
-    const baseUrl = "{{ request.scheme }}://{{ request.get_host }}";
-    function copyLink(filePath) {
-        const fullUrl = baseUrl + filePath;
-        navigator.clipboard.writeText(fullUrl).then(function() {
-            alert('Link copied to clipboard!');
-        }, function(err) {
-            alert('Could not copy link: ', err);
-        });
-    }
-</script>
 
 {% endblock %}
