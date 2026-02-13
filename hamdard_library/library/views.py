@@ -91,9 +91,6 @@ def approve_file(request, file_id):
     
 # departments/<department> page
 
-"""
-using .order_by('-upvotes') to sort the files in decending order by number of upvotes they have
-"""
 def department(request,department_):
     department_ = department_.upper()
     department_list = ['SEST', 'SAHSR', 'HIMSER', 'SUMER', 'SCLS', 'SPER', 'SNSAH', 'SIST', 'SMBS', 'SHSS', 'LAW']
@@ -110,13 +107,13 @@ def department(request,department_):
         user = request.user
         
         if filter_status == 'approved':
-            files = File.objects.filter(file_department=department_, file_status=True)
+            files = File.objects.filter(file_department=department_, file_status=True).order_by('-uploaded_at')
         elif filter_status == 'unapproved':
-            files = File.objects.filter(file_department=department_, file_status=False)
+            files = File.objects.filter(file_department=department_, file_status=False).order_by('-uploaded_at')
         elif type(sem_filter) == int:
-            files = File.objects.filter(file_department=department_, semester=sem_filter)
+            files = File.objects.filter(file_department=department_, semester=sem_filter).order_by('-uploaded_at')
         else:
-            files = File.objects.filter(file_department=department_)
+            files = File.objects.filter(file_department=department_).order_by('-uploaded_at')
 
         if search_query:
             files = files.filter(file_name__icontains=search_query)
