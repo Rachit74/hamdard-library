@@ -18,10 +18,13 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('', include('library.urls')), #mapping library app
-    path('user/', include('user.urls')), #user url mapping
     path('admin/', admin.site.urls),
-    # api include
+
+    #app urls
+    path('', include('library.urls')),
+    path('user/', include('user.urls')),
+
+    # api urls
     path('api/', include("library.api.urls")),
     path('api/', include("user.api.urls")),
 ]

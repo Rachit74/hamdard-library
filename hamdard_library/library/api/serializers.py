@@ -10,4 +10,16 @@ class FileSerializer(serializers.ModelSerializer):
             "file_department",
             "file_path",
             "semester",
+            "uploaded_by",
+        ]
+
+
+class FileCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = File
+        fields = [
+            "file_name",
+            "file_path",
+            "file_department",
+            "semester",
         ]

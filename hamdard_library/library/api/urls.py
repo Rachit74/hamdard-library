@@ -1,7 +1,7 @@
-from rest_framework.routers import DefaultRouter
-from .views import FileViewSet
+from django.urls import path
+from .views import create_file, get_files
 
-router = DefaultRouter()
-router.register(r"files", FileViewSet, basename="file")
-
-urlpatterns = router.urls
+urlpatterns = [
+    path("files/", get_files),
+    path("files/create/", create_file),
+]
