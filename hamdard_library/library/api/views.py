@@ -13,16 +13,20 @@ from library.models import File
 def get_files(request):
     queryset = File.objects.filter(file_status=True)
 
-    dept = request.GET.get('dept')
-    if dept:
+    deparment = request.GET.get('department')
+    semester = request.GET.get('semester')
+    if semester:
+        queryset = queryset.filter(semester=semester)
+
+    if deparment:
         valid_departments = dict(File.DEPARTMENT_CHOICES)
-        if dept not in valid_departments:
+        if deparment not in valid_departments:
             return Response(
                 {'error': 'Invalid department'},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-    queryset = queryset.filter(file_department=dept)
+    queryset = queryset.filter(file_department=deparment)
     
     serializer = FileSerializer(queryset, many=True)
 
