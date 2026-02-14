@@ -26,7 +26,7 @@ def get_files(request):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-    queryset = queryset.filter(file_department=deparment)
+        queryset = queryset.filter(file_department=deparment)
     
     serializer = FileSerializer(queryset, many=True)
 
