@@ -1,0 +1,15 @@
+name: Keep Render Apps Awake
+
+on:
+  schedule:
+    - cron: "*/2 * * * *"   # every 2 minutes
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render apps
+        run: |
+          curl -s -o /dev/null -w "deepscientific.in -> %{http_code}\n" https://deepscientific.in
+          curl -s -o /dev/null -w "hamdardlibrary -> %{http_code}\n" https://hamdardlibrary.onrender.com
