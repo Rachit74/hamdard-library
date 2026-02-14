@@ -8,6 +8,20 @@ from cloudinary.models import CloudinaryField
 #file post Model
 
 class File(models.Model):
+        DEPARTMENT_CHOICES = [
+        ('SEST', 'SEST'),
+        ('SAHSR', 'SAHSR'),
+        ('HIMSER', 'HIMSER'),
+        ('SUMER', 'SUMER'),
+        ('SCLS', 'SCLS'),
+        ('SPER', 'SPER'),
+        ('SNSAH', 'SNSAH'),
+        ('SIST', 'SIST'),
+        ('SMBS', 'SMBS'),
+        ('SHSS', 'SHSS'),
+        ('LAW', 'LAW'),
+    ]
+
         id = models.UUIDField(
               primary_key=True,
               default=uuid.uuid4,
@@ -16,7 +30,7 @@ class File(models.Model):
 
         file_name = models.CharField(max_length=255)
         
-        file_department = models.CharField(max_length=255)
+        file_department = models.CharField(max_length=10, choices=DEPARTMENT_CHOICES)
         
         # File path field (auto-handled by Django's FileField)
         file_path = CloudinaryField(

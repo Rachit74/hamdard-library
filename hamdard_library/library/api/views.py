@@ -11,9 +11,24 @@ from library.models import File
 # get all approved files
 @api_view(['GET'])
 def get_files(request):
-    # Filter files that are approved by the admin
-    files = File.objects.filter(file_status=True)
-    serializer = FileSerializer(files, many=True)
+    queryset = File.objects.filter(file_status=True)
+
+    deparment = request.GET.get('department')
+    semester = request.GET.get('semester')
+    if semester:
+        queryset = queryset.filter(semester=semester)
+
+    if deparment:
+        valid_departments = dict(File.DEPARTMENT_CHOICES)
+        if deparment not in valid_departments:
+            return Response(
+                {'error': 'Invalid department'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        queryset = queryset.filter(file_department=deparment)
+    
+    serializer = FileSerializer(queryset, many=True)
 
     return Response(serializer.data, status=status.HTTP_200_OK)
 

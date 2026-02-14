@@ -39,7 +39,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -134,24 +134,24 @@ db = urlparse(DATABASE_URL)
 DATABASES = {
 
     # sqlite connection for testing
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 
     # Connection to postgres sql server
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": db.path.lstrip("/"),
-        "USER": db.username,
-        "PASSWORD": db.password,
-        "HOST": db.hostname,
-        "PORT": db.port or 5432,
-        "OPTIONS": {
-            "sslmode": "require",
-            "channel_binding": "require",
-        },
-    }
+    # "default": {
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     "NAME": db.path.lstrip("/"),
+    #     "USER": db.username,
+    #     "PASSWORD": db.password,
+    #     "HOST": db.hostname,
+    #     "PORT": db.port or 5432,
+    #     "OPTIONS": {
+    #         "sslmode": "require",
+    #         "channel_binding": "require",
+    #     },
+    # }
 }
 
 
