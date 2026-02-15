@@ -81,6 +81,17 @@ def delete_file(request, id):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_unapproved_files(request):
+    user = request.user
+    print(user)
+    
+    if not user.is_staff:
+        return Response(
+            {
+                'detail': 'Access Denied'
+            },
+            status=status.HTTP_403_FORBIDDEN
+        )
+
     files = File.objects.filter(file_status=False)
     serializer = FileSerializer(files, many=True)
 
