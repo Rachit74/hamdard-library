@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import login_user, protected_view, register_user, delete_user
+from .views import login_user, protected_view, register_user, delete_user, logout_user
 from rest_framework_simplejwt.views import TokenRefreshView
 from django.views.decorators.csrf import csrf_exempt
 
@@ -7,6 +7,7 @@ urlpatterns = [
     path("auth/login/", csrf_exempt(login_user)),
     path("auth/register/", csrf_exempt(register_user)),
     path("auth/delete/", csrf_exempt(delete_user)),
+    path("auth/logout/", logout_user),
     path("auth/special/", protected_view),
 
     path('auth/token/refresh/', TokenRefreshView.as_view()),  # refreshes access token

@@ -56,13 +56,29 @@ def register_user(request):
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# User Logout View
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def logout_user(request):
+    refresh = request.data.get("refresh")
+
+    if not refresh:
+        return Response({"detail": "Refresh token required"}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        token = RefreshToken(refresh)
+        token.blacklist()
+        return Response({"detail": "Successfully logged out"}, status=status.HTTP_205_RESET_CONTENT)
+    except Exception:
+        return Response({"detail": "Invalid or expired token"}, status=status.HTTP_400_BAD_REQUEST)
+
 # special view just for testing purposes
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def protected_view(request):
     return Response({'detail': f'Hello {request.user.username}, you are authenticated!'})
 
-# User Logout view
+# User Delete View
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def delete_user(request):
