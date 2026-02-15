@@ -31,7 +31,7 @@ def login_user(request):
         user = authenticate(username=username, password=password)
 
         if user is None:
-            return Response({'message': 'User Not Found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'detail': 'User Not Found'}, status=status.HTTP_404_NOT_FOUND)
         
         tokens = get_tokens_for_user(user=user)
         return Response(tokens, status=status.HTTP_200_OK)
@@ -46,7 +46,7 @@ def register_user(request):
     if serializer.is_valid():
         try:
             serializer.save()
-            return Response({'message': "user created"}, status=status.HTTP_200_OK)
+            return Response({'detail': "user created"}, status=status.HTTP_200_OK)
         except IntegrityError:
             return Response(
                 {"error": "User already exists"},
@@ -60,7 +60,7 @@ def register_user(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def protected_view(request):
-    return Response({'message': f'Hello {request.user.username}, you are authenticated!'})
+    return Response({'detail': f'Hello {request.user.username}, you are authenticated!'})
 
 # User Logout view
 @api_view(['DELETE'])
@@ -75,6 +75,6 @@ def delete_user(request):
     user.delete()
 
     return Response(
-        {"message": "User deleted and logged out"},
+        {"detail": "User deleted and logged out"},
         status=status.HTTP_204_NO_CONTENT
     )

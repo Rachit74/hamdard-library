@@ -11,7 +11,7 @@ from library.models import File
 # get all approved files
 @api_view(['GET'])
 def get_files(request):
-    queryset = File.objects.filter(file_status=True)
+    queryset = File.objects.filter(file_status=True).order_by('-uploaded_at')
 
     deparment = request.GET.get('department')
     semester = request.GET.get('semester')
@@ -22,7 +22,7 @@ def get_files(request):
         valid_departments = dict(File.DEPARTMENT_CHOICES)
         if deparment not in valid_departments:
             return Response(
-                {'error': 'Invalid department'},
+                {'detail': 'Invalid department'},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -46,13 +46,13 @@ def create_file(request):
 
         return Response(
             {
-                "message": "File uploaded successfully",
+                "detail": "File uploaded successfully",
                 "id": file_obj.id
             },
             status=status.HTTP_201_CREATED
         )
     except IntegrityError:
-        return Response({'message': "File Already Exists"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'detail': "File Already Exists"}, status=status.HTTP_400_BAD_REQUEST)
 
 # delete file
 """
@@ -66,13 +66,13 @@ def delete_file(request, id):
 
     if not (request.user.is_staff or file.uploaded_by == request.user):
         return Response(
-            {"error": "Permission denied"},
+            {"detail": "Permission denied"},
             status=status.HTTP_403_FORBIDDEN
         )
 
     file.delete()
     return Response(
-        {"message": "File deleted"},
+        {"detail": "File deleted"},
         status=status.HTTP_204_NO_CONTENT
     )
 
@@ -96,13 +96,13 @@ def approve_file(request, id):
 
     if not user.is_staff:
         return Response(
-            {"Error": "Permission Denied"},
+            {"detail": "Permission Denied"},
             status=status.HTTP_403_FORBIDDEN
         )
     
     file.file_status = True
     file.save()
     return Response(
-        {"message": "File Approved!"},
+        {"detail": "File Approved!"},
         status=status.HTTP_200_OK
     )
