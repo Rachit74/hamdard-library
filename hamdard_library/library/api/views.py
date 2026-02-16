@@ -7,11 +7,12 @@ from django.db import IntegrityError
 from .serializers import FileCreateSerializer, FileSerializer
 from library.models import File
 
+from django_ratelimit.decorators import ratelimit
 
 # get all approved files
 @api_view(['GET'])
 def get_files(request):
-    queryset = File.objects.filter(file_status=True).order_by('-uploaded_at')
+    queryset = File.objects.all().order_by('-uploaded_at')
 
     deparment = request.GET.get('department')
     semester = request.GET.get('semester')
@@ -35,6 +36,7 @@ def get_files(request):
 # create file view
 @api_view(['POST'])
 @permission_classes([AllowAny])
+@ratelimit(key='ip', rate='5/m')
 def create_file(request):
     serializer = FileCreateSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)

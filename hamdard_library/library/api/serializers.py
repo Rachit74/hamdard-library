@@ -11,6 +11,7 @@ class FileSerializer(serializers.ModelSerializer):
             "file_path",
             "semester",
             "uploaded_by",
+            "file_status"
         ]
 
 
