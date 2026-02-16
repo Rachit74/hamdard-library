@@ -26,7 +26,7 @@ urlpatterns = [
 
     # api urls
     path('api/', include("library.api.urls")),
-    path('api/', include("user.api.urls")),
+    # path('api/', include("user.api.urls")),
 ]
 
 from django.conf import settings

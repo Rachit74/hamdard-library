@@ -9,6 +9,6 @@ urlpatterns = [
     path("files/create/", csrf_exempt(create_file)),
     path("files/delete/<uuid:id>/", csrf_exempt(delete_file)),
 
-    path("files/unapproved/", get_unapproved_files),
-    path("files/approve/<uuid:id>/", approve_file)
+    # path("files/unapproved/", get_unapproved_files),
+    # path("files/approve/<uuid:id>/", approve_file)
 ]
