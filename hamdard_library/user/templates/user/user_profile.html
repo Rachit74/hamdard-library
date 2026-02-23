@@ -51,26 +51,49 @@
             </div>
         </div>
 
-        <!-- User Profile Section -->
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h2 class="card-title text-center">{{ user.first_name }}</h2>
-                    <p class="card-text">Username: {{ user.username }}</p>
-                    <p class="card-text">Files Uploaded: {{ uploads }}</p>
-                    <div class="d-grid gap-2">
-                        <a href="{% url 'delete-account' %}" class="btn btn-outline-danger btn-sm" onclick="return confirmDelete()">Delete Account</a>
-                        <p></p>
-                        {% if user.is_staff %}
-                        <div class="lnks">
-                        <a href="{% url 'approval-requests' %}" class="">Approval Requests</a>
+                    <!-- User Profile Section -->
+            <div class="col-md-4">
+                <div class="card shadow border-0 rounded-4">
+                    <div class="card-body p-4">
+
+                        <!-- Avatar + Name -->
+                        <div class="text-center mb-4">
+                            <h4 class="fw-bold mb-0">{{ user.username }}</h4>
+                            <p class="text-muted small mb-0">@{{ user.username }}</p>
                         </div>
-                        <hr>
-                        <p class="text-center">Account Status: Admin</p>
-                        {% else %}
-                        <hr>
-                        <p class="text-center">Account Status: Normal</p>
+
+                        <!-- Stats -->
+                        <div class="bg-light rounded-3 p-3 mb-4 text-center">
+                            <div class="fs-4 fw-bold text-primary">{{ uploads }}</div>
+                            <div class="text-muted small">Files Uploaded</div>
+                        </div>
+
+                        <!-- Account Status Badge -->
+                        <div class="text-center mb-4">
+                            {% if user.is_staff %}
+                            <span>
+                                ⭐ Admin
+                            </span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Admin Link -->
+                        {% if user.is_staff %}
+                        <div class="d-grid mb-3">
+                            <a href="{% url 'approval-requests' %}" class="btn btn-outline-warning btn-sm rounded-3">
+                                Approval Requests
+                            </a>
+                        </div>
                         {% endif %}
+
+                        <!-- Danger Zone -->
+                        <hr class="my-3">
+                        <div class="d-grid">
+                            <a href="{% url 'delete-account' %}" class="btn btn-outline-danger btn-sm rounded-3" onclick="return confirmDelete()">
+                                Delete Account
+                            </a>
+                        </div>
+
                     </div>
                 </div>
             </div>
