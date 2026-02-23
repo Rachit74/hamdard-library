@@ -118,7 +118,7 @@ def department(request,department_):
         if search_query:
             files = files.filter(file_name__icontains=search_query)
 
-        paginator = Paginator(files, 6)
+        paginator = Paginator(files, 9)
         page_number = request.GET.get('page')
         page_object = paginator.get_page(page_number)
 

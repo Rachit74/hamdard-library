@@ -4,118 +4,142 @@
 
 {% block content %}
 <div class="container my-5">
-    <h2 class="text-center">{{ department }} Files</h2>
+
+    <h2 class="text-center mb-4">{{ department }} Files</h2>
     <hr>
-      
 
-    <!-- search -->
-    <form class="form-inline mb-4" method="GET" action="{% url 'department' department %}">
-        <input class="form-control mr-sm-2 search-bar" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ request.GET.search }}">
-        <button class="btn btn-outline-success my-2 my-sm-0 btn-custom" type="submit">Search</button>
-    </form>
+    <!-- Search + Filters Row -->
+    <form method="GET" action="{% url 'department' department %}" class="mb-4">
+        <div class="form-row align-items-center">
 
-<!-- Filter and Semester Dropdowns -->
-<div class="mb-4">
-    <!-- Filter Dropdown -->
-    <div class="btn-group">
-        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Filter
-        </button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="?filter=all">All Files</a>
-            <a class="dropdown-item" href="?filter=approved">Approved Files</a>
-            <a class="dropdown-item" href="?filter=unapproved">Unapproved Files</a>
-        </div>
-    </div>
-
-    <!-- Semester Dropdown -->
-    <div class="btn-group">
-        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Semester
-        </button>
-        <div class="dropdown-menu">
-            <a href="?sem=all" class="dropdown-item">All</a>
-            <a href="?sem=1" class="dropdown-item">1</a>
-            <a href="?sem=2" class="dropdown-item">2</a>
-            <a href="?sem=3" class="dropdown-item">3</a>
-            <a href="?sem=4" class="dropdown-item">4</a>
-            <a href="?sem=5" class="dropdown-item">5</a>
-            <a href="?sem=6" class="dropdown-item">6</a>
-            <a href="?sem=7" class="dropdown-item">7</a>
-            <a href="?sem=8" class="dropdown-item">8</a>
-            <a href="?sem=9" class="dropdown-item">9</a>
-            <a href="?sem=10" class="dropdown-item">10</a>
-        </div>
-    </div>
-</div>
-    {% if page_object %}
-        <div class="row">
-            {% for file in page_object %}
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ file.file_name }}</h5>
-                            <p class="card-text">
-                                {% if file.uploaded_by %}
-                                    <p class="text-muted">Uploaded By: {{ file.uploaded_by }}</p>
-                                {% else %}
-                                    <p class="text-muted">Uploaded By: Deleted User</p>
-                                {% endif %}
-                                <p class="text-muted">Semester: {{ file.semester }}</p>
-                            </p>
-                            <div class="d-flex justify-content-between">
-                                {% if file.file_status %}
-                                    <a href="{{ file.file_path.url }}" class="btn btn-outline-primary btn-sm">Open</a>
-                                {% else %}
-                                    <span class="badge badge-warning">Pending Approval</span>
-                                {% endif %}
-                            </div>
-                        </div>
+            <!-- Search Bar -->
+            <div class="col-md-6 mb-2">
+                <div class="input-group">
+                    <input 
+                        type="search" 
+                        name="search" 
+                        class="form-control" 
+                        placeholder="Search files..."
+                        value="{{ request.GET.search }}"
+                    >
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-success" type="submit">
+                            Search
+                        </button>
                     </div>
                 </div>
-            {% endfor %}
+            </div>
+
+            <!-- Filters -->
+            <div class="col-md-6 text-md-right mb-2">
+
+                <!-- Status Filter -->
+                <div class="btn-group mr-2">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                        Filter
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="?filter=all&search={{ request.GET.search }}&sem={{ request.GET.sem }}">All Files</a>
+                        <a class="dropdown-item" href="?filter=approved&search={{ request.GET.search }}&sem={{ request.GET.sem }}">Approved</a>
+                        <a class="dropdown-item" href="?filter=unapproved&search={{ request.GET.search }}&sem={{ request.GET.sem }}">Unapproved</a>
+                    </div>
+                </div>
+
+                <!-- Semester Filter -->
+                <div class="btn-group">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                        Semester
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="?sem=all&search={{ request.GET.search }}&filter={{ request.GET.filter }}">All</a>
+                        {% for i in "12345678910"|make_list %}
+                            <a class="dropdown-item" href="?sem={{ i }}&search={{ request.GET.search }}&filter={{ request.GET.filter }}">{{ i }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
         </div>
+    </form>
 
-        <!-- Pagination -->
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                {% if page_object.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_object.previous_page_number }}&filter={{ request.GET.filter }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <span class="page-link">&laquo;</span>
-                    </li>
-                {% endif %}
+    {% if page_object %}
+    <div class="row">
+        {% for file in page_object %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ file.file_name }}</h5>
 
-                {% for i in page_object.paginator.page_range %}
-                    <li class="page-item {% if page_object.number == i %}active{% endif %}">
-                        <a class="page-link" href="?page={{ i }}&filter={{ request.GET.filter }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ i }}</a>
-                    </li>
-                {% endfor %}
+                    <p class="text-muted mb-1">
+                        Uploaded By: {{ file.uploaded_by|default:"Anonymous" }}
+                    </p>
+                    <p class="text-muted">
+                        Semester: {{ file.semester }}
+                    </p>
 
-                {% if page_object.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_object.next_page_number }}&filter={{ request.GET.filter }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <span class="page-link">&raquo;</span>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
+                    <div class="mt-auto">
+                        {% if file.file_status %}
+                            <a href="{{ file.file_path.url }}" 
+                               class="btn btn-outline-primary btn-sm btn-block">
+                                Open
+                            </a>
+                        {% else %}
+                            <span class="badge badge-warning p-2 w-100 text-center">
+                                Pending Approval
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination justify-content-center">
+
+            {% if page_object.has_previous %}
+            <li class="page-item">
+                <a class="page-link"
+                   href="?page={{ page_object.previous_page_number }}&search={{ request.GET.search }}&filter={{ request.GET.filter }}&sem={{ request.GET.sem }}">
+                   &laquo;
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&laquo;</span>
+            </li>
+            {% endif %}
+
+            {% for i in page_object.paginator.page_range %}
+            <li class="page-item {% if page_object.number == i %}active{% endif %}">
+                <a class="page-link"
+                   href="?page={{ i }}&search={{ request.GET.search }}&filter={{ request.GET.filter }}&sem={{ request.GET.sem }}">
+                   {{ i }}
+                </a>
+            </li>
+            {% endfor %}
+
+            {% if page_object.has_next %}
+            <li class="page-item">
+                <a class="page-link"
+                   href="?page={{ page_object.next_page_number }}&search={{ request.GET.search }}&filter={{ request.GET.filter }}&sem={{ request.GET.sem }}">
+                   &raquo;
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&raquo;</span>
+            </li>
+            {% endif %}
+
+        </ul>
+    </nav>
 
     {% else %}
-        <p class="text-center">No files found for this department.</p>
+        <p class="text-center text-muted">No files found for this department.</p>
     {% endif %}
-</div>
 
+</div>
 {% endblock %}
