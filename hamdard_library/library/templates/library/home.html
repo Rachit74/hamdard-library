@@ -5,31 +5,42 @@
 {% block content %}
 <div class="container mt-4">
   <div class="row">
+
     <!-- Main content (70%) -->
     <div class="col-lg-8">
-      <div class="card">
+
+      <div class="card mb-4">
         <div class="card-body">
+
+          <!-- Title -->
           <h1 class="card-title">Hamdard Library</h1>
           <hr>
-          <p>Hamdard Library is an online library made by and for the students of Jamia Hamdard University to share resources with each other.</p>
+
+          <!-- Description -->
+          <p>
+            Hamdard Library is an online library made by and for the students 
+            of Jamia Hamdard University to share resources with each other.
+          </p>
           <p>Share Notes, Lab files, syllabus and more with other students.</p>
           <p>You can upload and download files according to your Departments.</p>
-        
-            <div class="home-links">
-              <a href="{% url 'upload-file' %}" class="btn btn-primary">
-                Upload File
-              </a><br><br>
 
-              <a href="{% url 'departments' %}" class="btn btn-secondary">
-                Find your department
-              </a><br><br>
+          <!-- Buttons -->
+          <div class="home-links mb-4">
+            <a href="{% url 'upload-file' %}" class="btn btn-primary me-2 mb-2">
+              Upload File
+            </a>
 
-              <button type="button" class="btn btn-secondary info-btn">How file approval works</button>
-            </div>
+            <a href="{% url 'departments' %}" class="btn btn-secondary me-2 mb-2">
+              Find your department
+            </a>
 
-            <div class="mb-3"></div>
+            <button type="button" class="btn btn-secondary mb-2 info-btn">
+              How file approval works
+            </button>
+          </div>
 
-          <div class="mb-3">
+          <!-- How it works -->
+          <div class="mb-4">
             <h6 class="text-muted mb-2">How it works</h6>
             <ol class="mb-0 ps-3">
               <li>Choose your department</li>
@@ -38,103 +49,104 @@
             </ol>
           </div>
 
-          
-            <hr>
+          <hr>
 
+          <!-- Departments Section -->
+          <!-- <h5 class="mb-3">Departments</h5>
 
-          <div></div>
+          <div class="mb-3">
+            <a href="{% url 'department' 'SEST' %}" class="d-block mb-2 text-decoration-none">
+              School of Engineering Sciences & Technology
+            </a>
 
-          <div class="info-modal hidden">
-          <div class="info-modal-overlay"></div>
+            <a href="{% url 'department' 'LAW' %}" class="d-block mb-2 text-decoration-none">
+              School of Law
+            </a>
 
-          <div class="info-modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">File Approval</h5>
-                <button type="button" class="btn-close btn-modal-close">×</button>
-              </div>
-              <div class="modal-body">
-                <p>
-                  All uploaded files are reviewed by the admins before becoming publicly accessible.
-                </p>
-                <ul>
-                  <li>Approval usually takes <strong>up to 12–24 hours</strong>.</li>
-                  <!-- <li>If approval is delayed or you want faster review, <strong>message the admins</strong>.</li> -->
-                  <li>You can check the current status of your files in <strong>My Files</strong>.</li>
-                </ul>
-              </div>
+            <a href="{% url 'department' 'SPER' %}" class="d-block mb-2 text-decoration-none">
+              School of Pharmaceutical Education and Research
+            </a>
+
+            <a href="{% url 'department' 'SNSAH' %}" class="d-block mb-2 text-decoration-none">
+              School of Nursing Sciences & Allied Health
+            </a>
+
+            <a href="{% url 'department' 'SMBS' %}" class="d-block mb-2 text-decoration-none">
+              School of Management and Business Studies
+            </a>
+
+            <a href="{% url 'departments' %}" class="d-block fw-semibold">
+              More...
+            </a>
+          </div> -->
+
+        </div>
+      </div>
+
+      <!-- Info Modal -->
+      <div class="info-modal hidden">
+        <div class="info-modal-overlay"></div>
+
+        <div class="info-modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">File Approval</h5>
+              <button type="button" class="btn-close btn-modal-close">×</button>
+            </div>
+            <div class="modal-body">
+              <p>
+                All uploaded files are reviewed by the admins before becoming publicly accessible.
+              </p>
+              <ul>
+                <li>Approval usually takes <strong>up to 12–24 hours</strong>.</li>
+                <li>You can check the current status of your files in <strong>My Files</strong>.</li>
+              </ul>
             </div>
           </div>
         </div>
-          
-        </div>
       </div>
+
     </div>
 
     <!-- Recent files (30%) -->
     <div class="col-lg-4">
-      <div class="card">
+      <div class="card mb-3">
         <div class="card-header recent-files">
           Recent Files
         </div>
+
         {% if files %}
         <ul class="list-group list-group-flush">
-            {% for file in files %}
-                <li class="list-group-item">
-                  <div class="fw-semibold">
-                    <a href="{{ file.file_path.url }}" class="text-decoration-none" style="color:#0c4b33;">
-                      📄 {{ file.file_name }}
-                    </a>
-                  </div>
-                  <small class="text-muted">
-                    {{ file.file_department }}
-                    {% if file.uploaded_at %} • {{ file.uploaded_at|timesince }} ago{% endif %}
-                  </small>
-                </li>
-            {% endfor %}
+          {% for file in files %}
+          <li class="list-group-item">
+            <div class="fw-semibold">
+              <a href="{{ file.file_path.url }}" 
+                 class="text-decoration-none" 
+                 style="color:#0c4b33;">
+                📄 {{ file.file_name }}
+              </a>
+            </div>
+            <small class="text-muted">
+              {{ file.file_department }}
+              {% if file.uploaded_at %}
+                • {{ file.uploaded_at|timesince }} ago
+              {% endif %}
+            </small>
+          </li>
+          {% endfor %}
         </ul>
         {% endif %}
       </div>
-      {% if user.is_authenticated %}
+
       <div class="card-footer">
-        <a href="{% url 'profile' %}">My Files</a>
-      </div>
-      {% else %}
-      <div class="card-footer">
-        <a href="{% url 'login' %}">Login to Manage your files</a>
-      </div>
-      {% endif %}
-
-      <div class="card mb-3"></div>
-
-
-      <div class="card">
-        <div class="card-header recent-files">
-          Departments
-        </div>
-          <a href="{% url 'department' 'SEST' %}" class="list-group-item list-group-item-action">
-                School of Engineering Sciences & Technology
-          </a>
-          <a href="{% url 'department' 'LAW' %}" class="list-group-item list-group-item-action">
-                School of Law
-          </a>
-          <a href="{% url 'department' 'SPER' %}" class="list-group-item list-group-item-action">
-                School of Pharmaceutical Education and Research
-          </a>
-          <a href="{% url 'department' 'SNSAH' %}" class="list-group-item list-group-item-action">
-                School of Nursing Sciences & Allied Health
-          </a>
-          <a href="{% url 'department' 'SMBS' %}" class="list-group-item list-group-item-action">
-                School of Management and Business Studies
-          </a>
-          <a href="{% url 'departments' %}" class="list-group-item list-group-item-action">
-                More...
-          </a>
-
+        {% if user.is_authenticated %}
+          <a href="{% url 'profile' %}">My Files</a>
+        {% else %}
+          <a href="{% url 'login' %}">Login to Manage your files</a>
+        {% endif %}
       </div>
 
     </div>
-
 
   </div>
 </div>
