@@ -39,6 +39,7 @@
                                             <a href="{% url 'delete-file' file.id %}" class="btn btn-outline-danger btn-sm" onclick="return confirmDelete()">Delete</a>
                                         {% else %}
                                             <span class="badge badge-warning">Approval Pending</span>
+                                            <a href="{% url 'delete-file' file.id %}" class="btn btn-outline-danger btn-sm" onclick="return confirmDelete()">Delete</a>
                                         {% endif %}
                                     </div>
                                 </li>
