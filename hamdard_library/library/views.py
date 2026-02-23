@@ -23,7 +23,12 @@ def hash_uploaded_file(uploaded_file, chunk_size=8192):
 # home view
 def home(request):
     files = File.objects.filter(file_status=True).order_by('-uploaded_at')[:5]
-    return render(request, 'library/home.html', {'files':files})
+    unapproved_files = File.objects.filter(file_status=False).count()
+    context = {
+        'files':files,
+        'unapproved_files': unapproved_files,
+    }
+    return render(request, 'library/home.html', context=context)
 
 # deparments view
 def departments(request):

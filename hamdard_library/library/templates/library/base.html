@@ -46,9 +46,9 @@
           <ul class="navbar-nav ml-auto">
               <!-- Right-aligned Links -->
               {% if user.is_authenticated %}
-                {% if user.is_staff %}
+                {% if user.is_staff and unapproved_files > 0 %}
                     <li class="nav-item active">
-                         <a class="nav-link" href="{% url 'approval-requests' %}">Approval Requests</a>
+                         <a class="nav-link" href="{% url 'approval-requests' %}" style="color: goldenrod;">{{ unapproved_files }} Approval Requests</a>
                     </li>
                 {% endif %}
               <li class="nav-item active">
