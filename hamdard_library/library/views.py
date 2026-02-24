@@ -168,3 +168,6 @@ def api_docs(request):
 
 def developers(request):
     return render(request, 'library/for-developers.html')
+
+def contribution(request):
+    return render(request, 'library/contribute.html')

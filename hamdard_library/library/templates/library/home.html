@@ -3,177 +3,140 @@
 {% block title %}Home | Library{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <div class="row">
+<div class="row mt-4">
 
-    <!-- Main content (70%) -->
-    <div class="col-lg-8">
+  <!-- Main Content -->
+  <div class="col-lg-8">
+    <div class="card mb-4">
+      <div class="card-body">
 
-      <div class="card mb-4">
-        <div class="card-body">
+        <h1 class="card-title">Hamdard Library</h1>
+        <hr>
 
-          <!-- Title -->
-          <h1 class="card-title">Hamdard Library</h1>
-          <hr>
+        <p>
+          Hamdard Library is an online platform built by and for students of
+          Jamia Hamdard University to share academic resources.
+        </p>
+        <p>Upload notes, lab files, syllabus and more within your department.</p>
 
-          <!-- Description -->
-          <p>
-            Hamdard Library is an online library made by and for the students 
-            of Jamia Hamdard University to share resources with each other.
-          </p>
-          <p>Share Notes, Lab files, syllabus and more with other students.</p>
-          <p>You can upload and download files according to your Departments.</p>
+        <!-- Action Buttons -->
+        <div class="mb-4">
+          <a href="{% url 'upload-file' %}" class="btn btn-primary mb-2">
+            Upload File
+          </a>
+          <a href="{% url 'departments' %}" class="btn btn-secondary mb-2">
+            Find Your Department
+          </a>
+          <button type="button" class="btn btn-secondary mb-2 info-btn">
+            How File Approval Works
+          </button>
+        </div>
 
-          <!-- Buttons -->
-          <div class="home-links mb-4">
-            <a href="{% url 'upload-file' %}" class="btn btn-primary me-2 mb-2">
-              Upload File
-            </a>
+        <!-- How It Works -->
+        <div class="my-4">
+          <h5 class="mb-3">How It Works</h5>
+          <div class="row text-center">
 
-            <a href="{% url 'departments' %}" class="btn btn-secondary me-2 mb-2">
-              Find your department
-            </a>
-
-            <button type="button" class="btn btn-secondary mb-2 info-btn">
-              How file approval works
-            </button>
-          </div>
-
-          <!-- How it works -->
-            <div class="my-5">
-              <h5 class="mb-3">How It Works</h5>
-
-              <div class="row text-center">
-                <div class="col-md-4 mb-3">
-                  <div class="p-3 border rounded h-100">
-                    <div class="mb-2 fs-4">📂</div>
-                    <strong>Choose</strong>
-                    <p class="small text-muted mt-2 mb-0">
-                      Select your department to browse available resources.
-                    </p>
-                  </div>
-                </div>
-
-                <div class="col-md-4 mb-3">
-                  <div class="p-3 border rounded h-100">
-                    <div class="mb-2 fs-4">📤</div>
-                    <strong>Share or Download</strong>
-                    <p class="small text-muted mt-2 mb-0">
-                      Upload your notes or download materials shared by others.
-                    </p>
-                  </div>
-                </div>
-
-                <div class="col-md-4 mb-3">
-                  <div class="p-3 border rounded h-100">
-                    <div class="mb-2 fs-4">✅</div>
-                    <strong>Approval</strong>
-                    <p class="small text-muted mt-2 mb-0">
-                      All uploads are reviewed and approved within 24 hours.
-                    </p>
-                  </div>
-                </div>
+            <div class="col-md-4 mb-3">
+              <div class="p-3 border rounded h-100">
+                <div class="mb-2">📂</div>
+                <strong>Choose</strong>
+                <p class="small text-muted mt-2 mb-0">
+                  Select your department to browse resources.
+                </p>
               </div>
             </div>
-          <hr>
 
-          <!-- Departments Section -->
-          <!-- <h5 class="mb-3">Departments</h5>
+            <div class="col-md-4 mb-3">
+              <div class="p-3 border rounded h-100">
+                <div class="mb-2">📤</div>
+                <strong>Share or Download</strong>
+                <p class="small text-muted mt-2 mb-0">
+                  Upload your notes or download materials.
+                </p>
+              </div>
+            </div>
 
-          <div class="mb-3">
-            <a href="{% url 'department' 'SEST' %}" class="d-block mb-2 text-decoration-none">
-              School of Engineering Sciences & Technology
-            </a>
+            <div class="col-md-4 mb-3">
+              <div class="p-3 border rounded h-100">
+                <div class="mb-2">✅</div>
+                <strong>Approval</strong>
+                <p class="small text-muted mt-2 mb-0">
+                  Uploads are reviewed within 12–24 hours.
+                </p>
+              </div>
+            </div>
 
-            <a href="{% url 'department' 'LAW' %}" class="d-block mb-2 text-decoration-none">
-              School of Law
-            </a>
-
-            <a href="{% url 'department' 'SPER' %}" class="d-block mb-2 text-decoration-none">
-              School of Pharmaceutical Education and Research
-            </a>
-
-            <a href="{% url 'department' 'SNSAH' %}" class="d-block mb-2 text-decoration-none">
-              School of Nursing Sciences & Allied Health
-            </a>
-
-            <a href="{% url 'department' 'SMBS' %}" class="d-block mb-2 text-decoration-none">
-              School of Management and Business Studies
-            </a>
-
-            <a href="{% url 'departments' %}" class="d-block fw-semibold">
-              More...
-            </a>
-          </div> -->
-
+          </div>
         </div>
+
       </div>
+    </div>
 
-      <!-- Info Modal -->
-      <div class="info-modal hidden">
-        <div class="info-modal-overlay"></div>
-
-        <div class="info-modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">File Approval</h5>
-              <button type="button" class="btn-close btn-modal-close">×</button>
-            </div>
-            <div class="modal-body">
-              <p>
-                All uploaded files are reviewed by the admins before becoming publicly accessible.
-              </p>
-              <ul>
-                <li>Approval usually takes <strong>up to 12–24 hours</strong>.</li>
-                <li>You can check the current status of your files in <strong>My Files</strong>.</li>
-              </ul>
-            </div>
+    <!-- Info Modal -->
+    <div class="info-modal hidden">
+      <div class="info-modal-overlay"></div>
+      <div class="info-modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">File Approval</h5>
+            <button type="button" class="close btn-modal-close">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p>All uploaded files are reviewed before becoming public.</p>
+            <ul class="mb-0">
+              <li>Approval takes up to <strong>12–24 hours</strong>.</li>
+              <li>Track status in <strong>My Files</strong>.</li>
+            </ul>
           </div>
         </div>
       </div>
-
     </div>
 
-    <!-- Recent files (30%) -->
-    <div class="col-lg-4">
-      <div class="card mb-3">
-        <div class="card-header recent-files">
-          Recent Files
-        </div>
+  </div>
 
-        {% if files %}
-        <ul class="list-group list-group-flush">
-          {% for file in files %}
-          <li class="list-group-item">
-            <div class="fw-semibold">
-              <a href="{{ file.file_path.url }}" 
-                 class="text-decoration-none" 
-                 style="color:#0c4b33;">
-                📄 {{ file.file_name }}
-              </a>
-            </div>
-            <small class="text-muted">
-              {{ file.file_department }}
-              {% if file.uploaded_at %}
-                • {{ file.uploaded_at|timesince }} ago
-              {% endif %}
-            </small>
-          </li>
-          {% endfor %}
-        </ul>
-        {% endif %}
+  <!-- Recent Files -->
+  <div class="col-lg-4">
+    <div class="card mb-4">
+
+      <div class="card-header">
+        Recent Files
       </div>
+
+      {% if files %}
+      <ul class="list-group list-group-flush">
+        {% for file in files %}
+        <li class="list-group-item">
+          <div>
+            <a href="{{ file.file_path.url }}" class="text-dark text-decoration-none">
+              📄 {{ file.file_name }}
+            </a>
+          </div>
+          <small class="text-muted">
+            {{ file.file_department }}
+            {% if file.uploaded_at %}
+              • {{ file.uploaded_at|timesince }} ago
+            {% endif %}
+          </small>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <div class="card-body text-muted">
+        No recent files available.
+      </div>
+      {% endif %}
 
       <div class="card-footer">
         {% if user.is_authenticated %}
           <a href="{% url 'profile' %}">My Files</a>
         {% else %}
-          <a href="{% url 'login' %}">Login to Manage your files</a>
+          <a href="{% url 'login' %}">Login to manage your files</a>
         {% endif %}
       </div>
 
     </div>
-
   </div>
+
 </div>
 {% endblock %}

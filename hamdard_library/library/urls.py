@@ -15,6 +15,7 @@ urlpatterns = [
 
     # url for informational views
     path("donate/", views.donate, name="donate"),
-    path("api_docs/", views.api_docs, name="api-docs"),
+    path("developers/api_docs/", views.api_docs, name="api-docs"),
     path("developers/", views.developers, name="for-developers"),
+    path("developers/contribute/", views.contribution, name="contribution"),
 ]

@@ -3,63 +3,81 @@
 {% block title %}Upload | Library{% endblock %}
 
 {% block content %}
-<main class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card p-4 shadow-lg" style="border-radius: 10px;">
-                <h2 class="card-title text-center mb-4" style="font-family: 'Merriweather', serif;">Upload File</h2>
-                <form id="uploadForm" method="POST" enctype="multipart/form-data" style="font-family: 'IBM Plex Sans', sans-serif;">
-                    {% csrf_token %}
-                    
-                    <div class="mb-3">
-                        <label for="id_file_name" class="form-label" style="font-family: 'IBM Plex Sans', sans-serif;">File Title:</label>
-                        <input type="text" name="file_name" id="id_file_name" class="form-control" value="{{ form.file_name.value|stringformat:"s" }}" required>
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="id_file_path" class="form-label" style="font-family: 'IBM Plex Sans', sans-serif;">File:</label>
-                        <input type="file" name="file_path" id="id_file_path" accept="application/pdf" class="form-control" required>
-                    </div>
+<div class="row justify-content-center mt-4">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
 
-                    <div class="mb-3">
-                        <label for="id_file_department" class="form-label" style="font-family: 'IBM Plex Sans', sans-serif;">Department:</label>
-                        <select name="file_department" id="id_file_department" class="form-select" required>
-                            <option value="SEST" {% if form.file_department.value == "SEST" %}selected{% endif %}>SEST</option>
-                            <option value="SAHSR" {% if form.file_department.value == "SAHSR" %}selected{% endif %}>SAHSR</option>
-                            <option value="HIMSER" {% if form.file_department.value == "HIMSER" %}selected{% endif %}>HIMSER</option>
-                            <option value="SUMER" {% if form.file_department.value == "SUMER" %}selected{% endif %}>SUMER</option>
-                            <option value="SCLS" {% if form.file_department.value == "SCLS" %}selected{% endif %}>SCLS</option>
-                            <option value="SPER" {% if form.file_department.value == "SPER" %}selected{% endif %}>SPER</option>
-                            <option value="SNSAH" {% if form.file_department.value == "SNSAH" %}selected{% endif %}>SNSAH</option>
-                            <option value="SIST" {% if form.file_department.value == "SIST" %}selected{% endif %}>SIST</option>
-                            <option value="SMBS" {% if form.file_department.value == "SMBS" %}selected{% endif %}>SMBS</option>
-                            <option value="SHSS" {% if form.file_department.value == "SHSS" %}selected{% endif %}>SHSS</option>
-                            <option value="LAW" {% if form.file_department.value == "LAW" %}selected{% endif %}>School of Law</option>
-                        </select>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="semester" class="form-label" style="font-family: 'IBM Plex Sans', sans-serif;">Semester:</label>
-                        <select name="semester" id="semester" class="form-select" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
-                    </div>
+        <h2 class="text-center mb-4">Upload File</h2>
 
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-dark btn-block w-100 mt-3" style="border-radius: 25px; font-family: 'IBM Plex Sans', sans-serif;">Upload</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <!-- File Title -->
+          <div class="form-group">
+            <label for="id_file_name">File Title</label>
+            <input type="text"
+                   name="file_name"
+                   id="id_file_name"
+                   class="form-control"
+                   value="{{ form.file_name.value|stringformat:'s' }}"
+                   required>
+          </div>
+
+          <!-- File Upload -->
+          <div class="form-group">
+            <label for="id_file_path">File (PDF only)</label>
+            <input type="file"
+                   name="file_path"
+                   id="id_file_path"
+                   accept="application/pdf"
+                   class="form-control-file"
+                   required>
+          </div>
+
+          <!-- Department -->
+          <div class="form-group">
+            <label for="id_file_department">Department</label>
+            <select name="file_department"
+                    id="id_file_department"
+                    class="form-control"
+                    required>
+              {% for code, name in departments %}
+                <option value="{{ code }}"
+                  {% if form.file_department.value == code %}selected{% endif %}>
+                  {{ name }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Semester -->
+          <div class="form-group">
+            <label for="id_semester">Semester</label>
+            <select name="semester"
+                    id="id_semester"
+                    class="form-control"
+                    required>
+              {% for i in semesters %}
+                <option value="{{ i }}"
+                  {% if form.semester.value == i|stringformat:"s" %}selected{% endif %}>
+                  {{ i }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn btn-dark btn-block mt-3">
+            Upload
+          </button>
+
+        </form>
+
+      </div>
     </div>
-</main>
+  </div>
+</div>
+
 {% endblock %}
