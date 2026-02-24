@@ -64,6 +64,7 @@ DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 INSTALLED_APPS = [
     'user.apps.UserConfig',
     'library.apps.LibraryConfig',
+    'developers.apps.DevelopersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

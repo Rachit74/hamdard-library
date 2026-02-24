@@ -23,6 +23,7 @@ urlpatterns = [
     #app urls
     path('', include('library.urls')),
     path('user/', include('user.urls')),
+    path('developers/', include('developers.urls')),
 
     # api urls
     path('api/', include("library.api.urls")),

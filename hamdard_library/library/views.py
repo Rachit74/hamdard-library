@@ -210,11 +210,4 @@ No application logic is controlled by these views
 def donate(request):
     return render(request, 'library/donate.html')
 
-def api_docs(request):
-    return render(request, 'library/api_docs.html')
-
-def developers(request):
-    return render(request, 'library/for-developers.html')
-
-def contribution(request):
-    return render(request, 'library/contribute.html')
+# Developer Related info views moved to developers app
