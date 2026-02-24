@@ -12,8 +12,9 @@ urlpatterns = [
 
     path("department/<str:department_>/", views.department, name="department"),
 
-    path("donate/", views.donate, name="donate"),
 
-    # api docs disabled for now
-    # path("api_docs/", views.api_docs, name="api-docs")
+    # url for informational views
+    path("donate/", views.donate, name="donate"),
+    path("api_docs/", views.api_docs, name="api-docs"),
+    path("developers/", views.developers, name="for-developers"),
 ]
