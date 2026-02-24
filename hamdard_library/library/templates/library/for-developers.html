@@ -1,7 +1,85 @@
 {% extends "library/base.html" %}
 
 {% block content %}
+<div class="container py-4">
 
-<h1>For Developers</h1>
+    <h1 class="mb-4">For Developers</h1>
 
+    <!-- Purpose -->
+    <section class="mb-5">
+        <h3>1. Purpose of Hamdard Library</h3>
+        <p>
+            The main goal of Hamdard Library is to provide a simple and easy-to-use platform
+            for students of Jamia Hamdard to share academic resources among each other.
+        </p>
+        <p>
+            The core functional goals are to avoid over-engineering, keep the platform minimal,
+            and focus on functionality and usability.
+        </p>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="mb-5">
+        <h3>2. Tech Stack Used</h3>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Django</li>
+            <li class="list-group-item">PostgreSQL (Neon DB)</li>
+            <li class="list-group-item">Bootstrap</li>
+            <li class="list-group-item">Jinja Server-Side Rendered Templates</li>
+            <li class="list-group-item">Django REST Framework (API)</li>
+            <li class="list-group-item">Deployment on Render</li>
+        </ul>
+    </section>
+
+    <!-- Contribution -->
+    <section class="mb-5">
+        <h3>3. How to Contribute</h3>
+        <p>
+            You can contribute to the project at
+            <a href="https://github.com/Rachit74/hamdard-library" target="_blank">
+                https://github.com/Rachit74/hamdard-library
+            </a>.
+        </p>
+        <p>Contribution steps:</p>
+        <ol>
+            <li>Fork the repository</li>
+            <li>Create a separate branch</li>
+            <li>Work on features or fixes</li>
+            <li>Open a pull request</li>
+        </ol>
+
+        <p class="mb-2">Basic contribution guidelines:</p>
+        <ul>
+            <li>Comment your code clearly</li>
+            <li>Follow Django and Python conventions</li>
+        </ul>
+
+        <p class="text-muted">
+            Proper documentation for contribution will be available soon.
+            More details will be added to the
+            <a href="#">Contribution Guide</a> page.
+        </p>
+    </section>
+
+    <!-- API -->
+    <section>
+        <h3>API</h3>
+        <p>
+            The API endpoints are available at the
+            <a href="{% url 'api-docs' %}">API documentation</a>.
+        </p>
+        <p>
+            The current API supports fetching and uploading files.
+            A Vue.js frontend is already available at
+            <a href="https://hamdardlibrary.vercel.app/" target="_blank">
+                https://hamdardlibrary.vercel.app/
+            </a>.
+        </p>
+        <p>
+            If you want to build your own frontend using any framework,
+            feel free to do so using the provided API.
+        </p>
+    </section>
+
+</div>
 {% endblock %}

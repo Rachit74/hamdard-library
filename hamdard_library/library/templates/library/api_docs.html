@@ -10,6 +10,7 @@
   <p class="text-muted mb-5">Base URL: <code>https://hamdardlibrary.onrender.com/</code></p>
 
   <!-- AUTH -->
+   <!-- 
   <h4 class="mb-3 border-bottom pb-2">🔐 Authentication <small class="text-muted fs-6">/api/auth/</small></h4>
 
   <div class="mb-3 p-3 border rounded">
@@ -32,13 +33,22 @@
     <p class="text-muted mt-2 mb-0 small">Delete the authenticated user's account. Requires auth token.</p>
   </div>
 
+  -->
+
   <!-- LIBRARY -->
   <h4 class="mb-3 border-bottom pb-2">📁 Library <small class="text-muted fs-6">/api/files/</small></h4>
 
   <div class="mb-3 p-3 border rounded">
     <span class="badge bg-primary me-2">GET</span>
     <code>/api/files/</code>
-    <p class="text-muted mt-2 mb-0 small">Returns all approved files.</p>
+    <p class="text-muted mt-2 mb-1 small">Returns all approved files.</p>
+    <p class="text-muted mb-0 small">
+      Optional query parameters can be used to filter files:
+    </p>
+    <ul class="small mb-0">
+      <li><code>?department=</code> – Filter files by department</li>
+      <li><code>?semester=</code> – Filter files by semester</li>
+    </ul>
   </div>
 
   <div class="mb-3 p-3 border rounded">
@@ -48,6 +58,7 @@
     <strong class="small">Body:</strong> <code class="small">title, file, description (optional)</code>
   </div>
 
+  <!-- 
   <div class="mb-3 p-3 border rounded">
     <span class="badge bg-danger me-2">DELETE</span>
     <code>/api/files/delete/<span class="text-warning">{file_id}</span>/</code>
@@ -65,6 +76,7 @@
     <code>/api/files/approve/<span class="text-warning">{file_id}</span>/</code>
     <p class="text-muted mt-2 mb-0 small">Approve a file to make it publicly visible. Admin only.</p>
   </div>
+   -->
 
 </div>
 
