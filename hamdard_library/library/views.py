@@ -13,6 +13,9 @@ from django_ratelimit.decorators import ratelimit
 
 
 # file hash function
+"""
+hashes the contents of the uploaded files
+"""
 def hash_uploaded_file(uploaded_file, chunk_size=8192):
     hasher = hashlib.sha256()
     for chunk in uploaded_file.chunks(chunk_size):
@@ -31,27 +34,36 @@ def home(request):
     return render(request, 'library/home.html', context=context)
 
 # deparments view
+"""
+renders departments template with all the departments
+"""
 def departments(request):
     return render(request, 'library/departments.html')
 
+"""
+File upload view
+rate limited to 5 request per minute by ip, becuase login is not requried
+validates the foem and upload the file, after hashing it to prevent dublication
+"""
 @ratelimit(key='ip', rate='5/m')
 def upload_file(request):
+    # POST block, if the form is submitted and there is a POST request
     if request.method == 'POST':
         form = FileUploadForm(request.POST, request.FILES)
 
         if form.is_valid():
             uploaded_file = request.FILES['file_path']
 
-            # hash
+            # hash the file
             file_hash = hash_uploaded_file(uploaded_file)
             uploaded_file.seek(0)
 
-            # block dublicates
+            # block dublicates, if an file with the same hash exists, then prevent upload and redirect
             if File.objects.filter(file_hash=file_hash).exists():
                 messages.error(request, "This file already exists.")
                 return redirect('home')
 
-            # save
+            # save file if all above valid
             new_file = form.save(commit=False)
             new_file.file_hash = file_hash
 
@@ -63,6 +75,7 @@ def upload_file(request):
             messages.success(request, "File uploaded!")
             return redirect('home')
 
+    # GET block, if we are rendering form on the page and there is GET request to get the form
     else:
         form = FileUploadForm()
 
@@ -70,6 +83,11 @@ def upload_file(request):
 
 #file approval page
 
+"""
+Approval request page
+renders approval requests pages
+passes the unapprvoed files in the context
+"""
 @login_required
 def file_approve_requests(request):
     user = request.user
@@ -80,6 +98,12 @@ def file_approve_requests(request):
     unapproved_files = File.objects.filter(file_status=False)
     return render(request, 'library/requests.html', {'unapproved_files': unapproved_files})
 
+"""
+approve file view
+login required to hit this view
+checks if user is staff
+gets the file by file_id and changes the file_status to True (which is approved)
+"""
 @login_required
 def approve_file(request, file_id):
     user = request.user
@@ -96,20 +120,28 @@ def approve_file(request, file_id):
     
 # departments/<department> page
 
+"""
+Specific Department view
+gets department from path parameter
+checks if Department is a Valid department from department_list
+return files according to departments and filters
+"""
 def department(request,department_):
     department_ = department_.upper()
     department_list = ['SEST', 'SAHSR', 'HIMSER', 'SUMER', 'SCLS', 'SPER', 'SNSAH', 'SIST', 'SMBS', 'SHSS', 'LAW']
+
+    # check if it is a valid department
     if department_ in department_list:
         search_query = request.GET.get('search', '')
         filter_status = request.GET.get('filter', 'all')
         sem_filter = request.GET.get('sem', 'all')
+
         # Check if the sem_filter is a digit before converting
         if sem_filter.isdigit():
             sem_filter = int(sem_filter)
         else:
             sem_filter = 'all'
 
-        user = request.user
         
         if filter_status == 'approved':
             files = File.objects.filter(file_department=department_, file_status=True).order_by('-uploaded_at')
@@ -127,6 +159,8 @@ def department(request,department_):
         page_number = request.GET.get('page')
         page_object = paginator.get_page(page_number)
 
+        user = request.user
+
         context = {
             'page_object':page_object,
             'department': department_,
@@ -137,14 +171,27 @@ def department(request,department_):
     else:
         return HttpResponseNotFound(f"Department {department_} not found!")
 
-#delete file
+"""
+Delete file by id passed in path parameter
+"""
 @login_required
 def delete_file(request, file_id):
 # Retrieve the file object
+    # Try to find file by id or return 404
     file = get_object_or_404(File, id=file_id)
     user = request.user
 
     # Correct permission check
+    """
+    if not staff or owner:
+    Only Super users, Admins and File Owner can delete the file
+    if the current users deleting the file is not any one of 3
+    he is redirected to home page with a warning message
+
+    else:
+    if the user is authorized, the file is deleted
+    Redirect to home page after delete
+    """
     if not user.is_staff and not user.is_superuser and file.uploaded_by != user:
         messages.warning(request, "You cannot delete this file!")
         return redirect(request.META.get('HTTP_REFERER', '/'))

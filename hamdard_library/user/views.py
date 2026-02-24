@@ -24,6 +24,7 @@ def login_user(request):
     return render(request, 'user/login.html', {'form': form})
 
 #registation view
+# Rate limited to 4 req per minute by ip
 @ratelimit(key='ip', rate='4/m')
 def register_user(request):
     if request.method == 'POST':
@@ -53,7 +54,6 @@ def logout_user(request):
     messages.warning(request,"Logged out!")
     return redirect('login')
 
-# fake user meta data
 
 #individual user Profile route
 """
